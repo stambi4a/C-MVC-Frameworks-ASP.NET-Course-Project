@@ -1,0 +1,56 @@
+body {background-color:#000d11}
+.scrollToTop{background-color:#003366; color:#fff}
+.scrollToTop:hover, .scrollToTop:focus{background-color:#fff; color:#003366; border-color:1px solid #003366}
+#header{background:none repeat scroll 0 0 #003366}
+/*.navbar-default{background-color:#003366; border-color:#003366}*/
+.navbar-default{background-color:#000d1a; border-color:#000d1a}
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus{color:#33bbff}
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus{color:#99ccff}
+.dropdown-menu{background-color:#000d1a}
+.dropdown-menu li a:hover, .dropdown-menu li a:focus{ color: #33bbff;background-color:#003366}
+/*.dropdown-menu li a:hover, .dropdown-menu li a:focus{color:#003366}*/
+.search_icon i{color:#003366}
+.search_bar{border:2px solid #99ccff}
+.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus{background-color:#003366}
+.single_widget > h2{background-color:#003366}
+.post_nav figcaption a:hover{color:#33ddff}
+.catg_title:hover{color:#33bbff}
+.middle_content > h2, .featured_title{background-color:#003366}
+.slick-prev, .slick-next{background-color:#003366}
+.slick-prev:hover, .slick-next:hover{opacity:0.55}
+.featured_article{border-top:6px solid #003366}
+.article_category > a:hover{color:#003366}
+.article_titile a:hover{color:#33bbff}
+.pagination > li > a { background-color: #002244; border-color: #003366}
+.pagination > li > a:hover, .pagination > li > span:hover, .pagination > li > a:focus, .pagination > li > span:focus{background-color:#003366; color:#33ddff; border-color:#003366}
+.custom-tabs li a{ background-color: #003366;color: #99ccff;}
+.custom-tabs li a:hover{background-color:#003366; color: #99ccff;text-decoration: none !important; }
+.cat-item a:hover{color:#003366}
+.single_widget ul li > a:hover{color:#33bbff}
+.single_widget ul li.active > a:hover{color:#003366 !important; text-decoration:none}
+.catgArchive{background-color:#003366}
+.catgArchive option{color:#003366}
+.footer_top{border-top:5px solid #003366}
+.footer_widget > h2:before{color:#33ddff}
+.footer_widget > h2:hover{color:#33ddff}
+.labels_nav li a:hover{color:#2299ff}
+.footer_widget .media a:hover{color:#2299ff}
+#subscribe-submit input{background-color:#003366}
+#subscribe-submit input:hover{color:#003366}
+.breadcrumb{background-color:#003366}
+.single_content blockquote{border-left:5px solid #003366}
+.single_content ul li:before{background-color:#003366}
+.single_content h1, .single_content h2, .single_content h3, .single_content h4, .single_content h5, .single_content h6{color:#003366}
+.nav-growpop .icon-wrap{border:0px solid #003366; background:#003366}
+.nav-growpop div{border:1px solid #003366}
+.nav-growpop div p{color:#003366}
+.related_post > h2 i{color:#003366}
+.contact_area > h3:before{color:#003366}
+.contact_form input[type="submit"]:hover{background-color:#003366; border-color:#003366}
+.contact_address > h3:before{color:#003366}
+.contact_address > h4:before{color:#003366}
+.copyright a:hover{color:#2277ff}
+.erropr_recentpost > h2:before{color:#003366}
+.post_commentbox a:hover, .post_commentbox span:hover{color:#003366}
+.single_page_area > h1{color:#003366}
+.error_page p > span{color:#003366}
