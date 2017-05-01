@@ -58,7 +58,25 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationUser.cs" />
+    <Compile Include="Article.cs" />
+    <Compile Include="Enums\MapSize.cs" />
+    <Compile Include="Enums\TierType.cs" />
+    <Compile Include="Enums\TournamentType.cs" />
+    <Compile Include="Enums\Winner.cs" />
+    <Compile Include="Event.cs" />
+    <Compile Include="Game.cs" />
+    <Compile Include="Images\ArticleImage.cs" />
+    <Compile Include="Images\Image.cs" />
+    <Compile Include="Images\MapImage.cs" />
+    <Compile Include="Images\PlayerImage.cs" />
+    <Compile Include="Map.cs" />
+    <Compile Include="Match.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sponsor.cs" />
+    <Compile Include="Player.cs" />
+    <Compile Include="Videos\ArticleVideo.cs" />
+    <Compile Include="Videos\MatchVideo.cs" />
+    <Compile Include="Videos\Video.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -2,7 +2,7 @@
 {
     using System.Data.Entity;
 
-    using Data.Migrations;
+    using Migrations;
 
     using Microsoft.AspNet.Identity.EntityFramework;
 

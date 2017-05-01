@@ -9,13 +9,24 @@ using ESportsEventsApp.Models;
 
 namespace ESportsEventsApp
 {
+    using System.Linq;
+
+    using Data;
+
+    using global::Models;
+
+    using Microsoft.AspNet.Identity.EntityFramework;
+    using Microsoft.Owin.Security.Google;
+
+    using Owin.Security.Providers.BattleNet;
+
     public partial class Startup
     {
         // For more information on configuring authentication, please visit http://go.microsoft.com/fwlink/?LinkId=301864
         public void ConfigureAuth(IAppBuilder app)
         {
             // Configure the db context, user manager and signin manager to use a single instance per request
-            app.CreatePerOwinContext(ApplicationDbContext.Create);
+            app.CreatePerOwinContext(ESportsEventsContext.Create);
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
             app.CreatePerOwinContext<ApplicationSignInManager>(ApplicationSignInManager.Create);
 
@@ -54,15 +65,92 @@ namespace ESportsEventsApp
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+            app.UseFacebookAuthentication(
+               appId: "1987190211511464",
+               appSecret: "d2fd380a0a0e92f4956b2035f5cd0efb");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "803784889632-4uftia21btlie62op53u13kg1bs59kc2.apps.googleusercontent.com",
+                ClientSecret = "fj9o51PW58xJauuzhKRlO_SS"
+            });
+            app.UseBattleNetAuthentication(new BattleNetAuthenticationOptions
+            {
+                ClientId = "ezfm5tcnjcdqj4vr9xfgubs9z4h3rm2v",
+                ClientSecret = "ET9ep88BH8hkeeG3B7U86uQ2BQA8Vwcy"
+            });
+            //app.UseSteamAuthentication(applicationKey: "");
+        }
+
+        public void ConfigureRoles()
+        {
+            var context = new ESportsEventsContext();
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
+            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+            if (!roleManager.RoleExists("Admin"))
+            {
+                var role = new IdentityRole("Admin");
+                roleManager.Create(role);
+                this.CreateAdministrator(context, userManager);
+            }
+
+            if (!roleManager.RoleExists("EventAdmin"))
+            {
+                var role = new IdentityRole("EventAdmin");
+                roleManager.Create(role);
+            }
+
+            if (!roleManager.RoleExists("Player"))
+            {
+                var role = new IdentityRole("Player");
+                roleManager.Create(role);
+            }
+            if (!roleManager.RoleExists("Buyer"))
+            {
+                var role = new IdentityRole("Student");
+                roleManager.Create(role);
+            }
+            if (!roleManager.RoleExists("ArticleAuthor"))
+            {
+                var role = new IdentityRole("ArticleAuthor");
+                roleManager.Create(role);
+            }
+            if (!roleManager.RoleExists("Volunteer"))
+            {
+                var role = new IdentityRole("Volunteer");
+                roleManager.Create(role);
+            }
+            if (!roleManager.RoleExists("Guest"))
+            {
+                var role = new IdentityRole("Guest");
+                roleManager.Create(role);
+            }
+        }
+
+        private void CreateAdministrator(ESportsEventsContext context, UserManager<ApplicationUser> userManager)
+        {
+            var user = new ApplicationUser()
+            {
+                UserName = "stambi4a",
+                Name = "Stanimir Todorov",
+                Email = "stambi4a@softuni.bg"
+            };
+            var pass = "Str18.";
+            var createResult = userManager.Create(user, pass);
+            if (createResult.Succeeded)
+            {
+                var result = userManager.AddToRole(user.Id, "Admin");
+            }
+
+        }
+
+        private void CreateUserInRole(string roleName, string username, UserManager<ApplicationUser> userManager)
+        {
+            var user = userManager.Users.FirstOrDefault(u => u.UserName == username);
+            if (user != null)
+            {
+                userManager.AddToRole(user.Id, roleName);
+            }
         }
     }
 }
