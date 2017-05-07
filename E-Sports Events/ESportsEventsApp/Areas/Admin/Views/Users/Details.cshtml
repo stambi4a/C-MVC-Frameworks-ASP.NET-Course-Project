@@ -1,0 +1,110 @@
+﻿@using ViewModels;
+@model RegisteredUserDetailsViewModel
+
+@{
+    ViewBag.Title = $"Details for {Model.UserName}";
+}
+
+<div>
+    <h3>@ViewBag.Title</h3>
+    <div class="row">
+        <div class="col-lg-5 col-md-5 col-sm-5">
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.UserName)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.UserName)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Name)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Email)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Email)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.PhoneNumber)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.PhoneNumber)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Roles)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Roles)
+                </dd>
+                <dt>
+                    @Html.Name("Date Added")
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.DateAdded)
+                </dd>
+                @if (Model.Events.Any())
+                {
+                    <dd>
+                        @Html.DisplayFor(model => model.Events)
+                    </dd>
+                    <dt>
+                        @{
+                            var count = 0;
+                        }
+                        @foreach (var ev in Model.Events)
+                        {
+                            if (count > 0)
+                            {
+                                @Html.Display(", ")
+                            }
+                            @Html.ActionLink(ev.Name, "Details", "Events", new { Area = "Events" }, new { id = ev.Id })
+                            count++;
+                        }
+
+                    </dt>
+                }
+                @if (Model.Articles.Any())
+                {
+                    <dd>
+                        @Html.DisplayFor(model => model.Articles)
+                    </dd>
+                    <dt>
+                        @{
+                            var count = 0;
+                        }
+                        @foreach (var ev in Model.Articles)
+                        {
+                            if (count > 0)
+                            {
+                                @Html.Display(", ")
+                            }
+                            @Html.ActionLink(ev.Name, "Details", "Articles", new { Area = "Articles" }, new { id = ev.Id })
+                            count++;
+                        }
+
+                    </dt>
+                }
+                <dt>
+                    @Html.Name("Options")
+                </dt>
+                <dd>
+                    @Html.ActionLink("Associate Role", "AssociateRole", "Users", new { Area = "Admin", id = Model.Id }, null) |
+                    @Html.ActionLink("DissociateRole", "DissociateRole", "Users", new { Area = "Admin", id = Model.Id }, null) |
+                    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+                    @Html.ActionLink("Delete", "Delete", "Users", new { Area = "Admin", id = Model.Id }, null)
+                </dd>
+            </dl>
+            <p>
+                @Html.ActionLink("Back to List", "Index")
+            </p>
+        </div>
+    </div>
+</div>

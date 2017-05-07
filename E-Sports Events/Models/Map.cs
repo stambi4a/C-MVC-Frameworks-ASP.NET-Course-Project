@@ -2,7 +2,8 @@
 {
     using System.Collections.Generic;
 
-    using Models.Enums;
+    using Helpers.Enums;
+
     using Models.Images;
 
     public class Map

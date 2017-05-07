@@ -58,15 +58,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationUser.cs" />
+    <Compile Include="Images\MatchImage.cs" />
+    <Compile Include="RegisteredUser.cs" />
     <Compile Include="Article.cs" />
-    <Compile Include="Enums\MapSize.cs" />
-    <Compile Include="Enums\TierType.cs" />
-    <Compile Include="Enums\TournamentType.cs" />
-    <Compile Include="Enums\Winner.cs" />
     <Compile Include="Event.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Images\ArticleImage.cs" />
     <Compile Include="Images\Image.cs" />
+    <Compile Include="Images\Logo.cs" />
     <Compile Include="Images\MapImage.cs" />
     <Compile Include="Images\PlayerImage.cs" />
     <Compile Include="Map.cs" />
@@ -81,6 +80,12 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Helpers\Helpers.csproj">
+      <Project>{77896ed0-f90a-4e90-b596-24df33e21104}</Project>
+      <Name>Helpers</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

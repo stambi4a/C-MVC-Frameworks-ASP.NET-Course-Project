@@ -1,5 +1,6 @@
-﻿@using ESportsEventsApp.Models
-@model LoginViewModel
+﻿@using BindingModels
+@using ESportsEventsApp.Models
+@model LoginBindingModel
 @{
     ViewBag.Title = "Log in";
 }
@@ -15,14 +16,14 @@
                 <hr/>
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="form-group">
-                    @Html.LabelFor(m => m.Username, new { @class = "col-lg-4 col-md-4 col-sm-4 control-label" })
+                    @Html.LabelFor(m => m.Username, new { @class = "col-lg-4 col-md-4 col-sm-8 control-label" })
                     <div class="col-lg-8 col-md-8 col-sm-8">
                         @Html.TextBoxFor(m => m.Username, new { @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.Username, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(m => m.Password, new { @class = "col-lg-4 col-md-4 col-sm-4 control-label" })
+                    @Html.LabelFor(m => m.Password, new { @class = "col-lg-4 col-md-4 col-sm-8 control-label" })
                     <div class="col-lg-8 col-md-8 col-sm-8">
                         @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })

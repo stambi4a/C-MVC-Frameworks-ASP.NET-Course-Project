@@ -1,16 +1,11 @@
 ﻿namespace Models.Videos
 {
-    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations.Schema;
 
+    [Table("MatchVideo")]
     public class MatchVideo : Video
     {
-        private ICollection<Match> matches;
-
-        public MatchVideo()
-        {
-            this.matches = new HashSet<Match>();
-        }
-
-        public virtual ICollection<Match> Matches => this.matches;
+        public int MatchId { get; set; }
+        public virtual Match Match { get; set; }
     }
 }

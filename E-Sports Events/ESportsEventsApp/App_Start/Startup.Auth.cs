@@ -41,7 +41,7 @@ namespace ESportsEventsApp
                 {
                     // Enables the application to validate the security stamp when the user logs in.
                     // This is a security feature which is used when you change a password or add an external login to your account.  
-                    OnValidateIdentity = SecurityStampValidator.OnValidateIdentity<ApplicationUserManager, ApplicationUser>(
+                    OnValidateIdentity = SecurityStampValidator.OnValidateIdentity<ApplicationUserManager, RegisteredUser>(
                         validateInterval: TimeSpan.FromMinutes(30),
                         regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager))
                 }
@@ -86,12 +86,12 @@ namespace ESportsEventsApp
         {
             var context = new ESportsEventsContext();
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
-            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+            var userManager = new UserManager<RegisteredUser>(new UserStore<RegisteredUser>(context));
             if (!roleManager.RoleExists("Admin"))
             {
                 var role = new IdentityRole("Admin");
                 roleManager.Create(role);
-                this.CreateAdministrator(context, userManager);
+                this.CreateAdministrator(userManager);
             }
 
             if (!roleManager.RoleExists("EventAdmin"))
@@ -100,14 +100,14 @@ namespace ESportsEventsApp
                 roleManager.Create(role);
             }
 
-            if (!roleManager.RoleExists("Player"))
-            {
-                var role = new IdentityRole("Player");
-                roleManager.Create(role);
-            }
+            //if (!roleManager.RoleExists("Player"))
+            //{
+            //    var role = new IdentityRole("Player");
+            //    roleManager.Create(role);
+            //}
             if (!roleManager.RoleExists("Buyer"))
             {
-                var role = new IdentityRole("Student");
+                var role = new IdentityRole("Buyer");
                 roleManager.Create(role);
             }
             if (!roleManager.RoleExists("ArticleAuthor"))
@@ -127,13 +127,14 @@ namespace ESportsEventsApp
             }
         }
 
-        private void CreateAdministrator(ESportsEventsContext context, UserManager<ApplicationUser> userManager)
+        private void CreateAdministrator(UserManager<RegisteredUser> userManager)
         {
-            var user = new ApplicationUser()
+            var user = new RegisteredUser()
             {
                 UserName = "stambi4a",
                 Name = "Stanimir Todorov",
-                Email = "stambi4a@softuni.bg"
+                Email = "stambi4a@softuni.bg",
+                DateAdded = DateTime.Now
             };
             var pass = "Str18.";
             var createResult = userManager.Create(user, pass);
@@ -141,10 +142,9 @@ namespace ESportsEventsApp
             {
                 var result = userManager.AddToRole(user.Id, "Admin");
             }
-
         }
 
-        private void CreateUserInRole(string roleName, string username, UserManager<ApplicationUser> userManager)
+        private void CreateUserInRole(string roleName, string username, UserManager<RegisteredUser> userManager)
         {
             var user = userManager.Users.FirstOrDefault(u => u.UserName == username);
             if (user != null)

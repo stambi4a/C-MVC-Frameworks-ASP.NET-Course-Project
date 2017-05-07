@@ -1,16 +1,11 @@
 ﻿namespace Models.Videos
 {
-    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations.Schema;
 
+    [Table("ArticleVideo")]
     public class ArticleVideo: Video
     {
-        private ICollection<Article> articles;
-
-        public ArticleVideo()
-        {
-            this.articles = new HashSet<Article>();
-        }
-
-        public virtual ICollection<Article> Type => this.articles;
+        public int ArticleId { get; set; }
+        public virtual Article Article { get; set; }
     }
 }

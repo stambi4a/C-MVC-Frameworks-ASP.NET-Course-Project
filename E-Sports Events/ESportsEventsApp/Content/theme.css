@@ -13,7 +13,7 @@ body {background-color:#000d11}
 .search_bar{border:2px solid #99ccff}
 .navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus{background-color:#003366}
 .single_widget > h2{background-color:#003366}
-.post_nav figcaption a:hover{color:#33ddff}
+.post_nav figcaption a:hover{color:#00b3b3}
 .catg_title:hover{color:#33bbff}
 .middle_content > h2, .featured_title{background-color:#003366}
 .slick-prev, .slick-next{background-color:#003366}

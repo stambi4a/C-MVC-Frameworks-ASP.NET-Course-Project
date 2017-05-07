@@ -1,16 +1,12 @@
 ﻿namespace Models.Images
 {
-    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations.Schema;
 
+    [Table("ArticleImage")]
     public class ArticleImage :Image
     {
-        private ICollection<Article> articles;
+        public int ArticleId { get; set; }
 
-        public ArticleImage()
-        {
-            this.articles = new HashSet<Article>();
-        }
-
-        public virtual ICollection<Article> Articles => this.articles;
+        public virtual Article Article{ get; set; }
     }
 }

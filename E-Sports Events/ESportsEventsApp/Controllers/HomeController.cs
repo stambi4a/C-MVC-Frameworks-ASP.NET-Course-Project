@@ -6,8 +6,13 @@ using System.Web.Mvc;
 
 namespace ESportsEventsApp.Controllers
 {
+    [RoutePrefix("home")]
     public class HomeController : Controller
     {
+        [Route("~/")]
+        [Route("")]
+        [Route("all")]
+        [Route("index")]
         public ActionResult Index()
         {
             return View();

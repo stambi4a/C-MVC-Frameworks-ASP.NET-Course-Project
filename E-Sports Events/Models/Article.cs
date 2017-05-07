@@ -9,13 +9,12 @@
     public class Article
     {
         private ICollection<ArticleImage> images;
-
-        private ICollection<Video> videos;
+        private ICollection<ArticleVideo> videos;
 
         public Article()
         {
             this.images = new HashSet<ArticleImage>();
-            this.videos = new HashSet<Video>();
+            this.videos = new HashSet<ArticleVideo>();
         }
 
         public int Id { get; set; }
@@ -28,10 +27,10 @@
 
         public DateTime PublishDate { get; set; }
 
-        public virtual ApplicationUser Author { get; set; }
+        public virtual RegisteredUser Author { get; set; }
 
         public virtual ICollection<ArticleImage> Images => this.images;
 
-        public ICollection<Video> Videos => this.videos;
+        public ICollection<ArticleVideo> Videos => this.videos;
     }
 }

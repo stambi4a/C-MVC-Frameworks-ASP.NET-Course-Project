@@ -1,6 +1,6 @@
 ﻿namespace Models
 {
-    using Models.Enums;
+    using Helpers.Enums;
 
     public class Game
     {
@@ -16,11 +16,11 @@
 
         public int FirstPlayerId { get; set; }
 
-        public virtual ApplicationUser FirstPlayer { get; set; }
+        public virtual RegisteredUser FirstPlayer { get; set; }
 
         public int SecondPlayerId { get; set; }
 
-        public virtual ApplicationUser SecondPlayer { get; set; }
+        public virtual RegisteredUser SecondPlayer { get; set; }
 
         public Winner Winner { get; set; }
     }
