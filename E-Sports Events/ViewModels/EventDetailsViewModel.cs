@@ -4,7 +4,7 @@
 
     using Helpers.Enums;
 
-    public class EventViewModel
+    public class EventDetailsViewModel
     {
         public int Id { get; set; }
 

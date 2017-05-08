@@ -450,6 +450,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Extensions\HtmlHelperExtensions.cs" />
     <Compile Include="Extensions\RoleExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -463,22 +464,30 @@
     <Content Include="Content\animate.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\font-awesome.min.css" />
-    <Content Include="Content\images\270x150x4.jpg" />
-    <Content Include="Content\images\300x250.jpg" />
-    <Content Include="Content\images\300x250x2.jpg" />
-    <Content Include="Content\images\300x250x3.jpg" />
-    <Content Include="Content\images\300x250x4.jpg" />
-    <Content Include="Content\images\300x250x5.jpg" />
-    <Content Include="Content\images\300x250x6.jpg" />
-    <Content Include="Content\images\550x400.jpg" />
-    <Content Include="Content\images\70x70.jpg" />
-    <Content Include="Content\images\addbanner_728x90_V1.jpg" />
-    <Content Include="Content\images\error-img.png" />
-    <Content Include="Content\images\logo.png" />
-    <Content Include="Content\images\sidebar-bullet.png" />
-    <Content Include="Content\images\slider_next.png" />
-    <Content Include="Content\images\slider_prev.png" />
-    <Content Include="Content\images\status.gif" />
+    <Content Include="Content\Images\270x150x4.jpg" />
+    <Content Include="Content\Images\300x250.jpg" />
+    <Content Include="Content\Images\300x250x2.jpg" />
+    <Content Include="Content\Images\300x250x3.jpg" />
+    <Content Include="Content\Images\300x250x4.jpg" />
+    <Content Include="Content\Images\300x250x5.jpg" />
+    <Content Include="Content\Images\300x250x6.jpg" />
+    <Content Include="Content\Images\550x400.jpg" />
+    <Content Include="Content\Images\70x70.jpg" />
+    <Content Include="Content\Images\addbanner_728x90_V1.jpg" />
+    <Content Include="Content\Images\BESPA3Copy.png" />
+    <Content Include="Content\Images\error-img.png" />
+    <Content Include="Content\Images\logo.png" />
+    <Content Include="Content\Images\Logos\GROTL.jpg" />
+    <Content Include="Content\Images\Logos\index.png" />
+    <Content Include="Content\Images\Logos\national-cup-logo.png" />
+    <Content Include="Content\Images\Logos\ROTNationalFinals.png" />
+    <Content Include="Content\Images\Logos\ROTSL.jpg" />
+    <Content Include="Content\Images\Logos\ROTSuperLeague.jpg" />
+    <Content Include="Content\Images\Logos\SuperTournament.png" />
+    <Content Include="Content\Images\sidebar-bullet.png" />
+    <Content Include="Content\Images\slider_next.png" />
+    <Content Include="Content\Images\slider_prev.png" />
+    <Content Include="Content\Images\status.gif" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\slick.css" />
     <Content Include="Content\style.css" />
@@ -554,6 +563,11 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Content\Images\Articles\" />
+    <Folder Include="Content\Images\Events\" />
+    <Folder Include="Content\Images\Maps\" />
+    <Folder Include="Content\Images\Matches\" />
+    <Folder Include="Content\Images\Players\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

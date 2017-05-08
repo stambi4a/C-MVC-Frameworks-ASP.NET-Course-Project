@@ -54,7 +54,7 @@
                     @if (User.IsInRole("Admin"))
                     {
                         <li class="dropdown">
-                            @Html.ActionLink("Admin Panel", "#", "Home", null, htmlAttributes: new { @class = "dropdown-toggle", @datatoggle = "toggle", @role = "button", @ariaexpanded = "false" })
+                            @Html.ActionLink("Admin Panel", "", null, htmlAttributes: new { @class = "dropdown-toggle", @datatoggle = "toggle", @role = "button", @ariaexpanded = "false" })
                             <ul class="dropdown-menu" role="menu">
                                 <li>@Html.ActionLink("Users", "Index", "Users", new { Area = "Admin" }, null)</li>
                                 <li>@Html.ActionLink("Events", "Index", "Events", new { Area = "Admin" }, null)</li>

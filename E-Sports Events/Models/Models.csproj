@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationUser.cs" />
+    <Compile Include="Images\EventImage.cs" />
     <Compile Include="Images\MatchImage.cs" />
     <Compile Include="RegisteredUser.cs" />
     <Compile Include="Article.cs" />

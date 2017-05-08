@@ -9,7 +9,8 @@ namespace Data.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = true;
+            this.AutomaticMigrationDataLossAllowed = true;
+            this.AutomaticMigrationsEnabled = true;
         }
 
         protected override void Seed(Data.ESportsEventsContext context)

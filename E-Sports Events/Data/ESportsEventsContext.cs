@@ -53,10 +53,9 @@
             return new ESportsEventsContext();
         }
 
-
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Event>().HasOptional(e => e.Logo).WithRequired(l => l.Event);
+            modelBuilder.Entity<Event>().HasOptional(e => e.Logo).WithRequired(l => l.Event).WillCascadeOnDelete(true);
             modelBuilder.Entity<Player>().HasOptional(e => e.PlayerImage).WithRequired(l => l.Player);
             modelBuilder.Entity<Match>().HasRequired(p => p.FirstPlayer).WithMany(e => e.MatchesAsFirstPlayer).WillCascadeOnDelete(false);
             modelBuilder.Entity<Match>().HasRequired(p => p.FirstPlayer).WithMany(e => e.MatchesAsSecondPlayer).WillCascadeOnDelete(false);

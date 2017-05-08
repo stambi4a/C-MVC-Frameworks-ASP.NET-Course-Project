@@ -144,37 +144,42 @@
         [Route("edit/{id}")]
         public ActionResult Edit([Bind(Include = "Id, Name, Email, PasswordHash, PhoneNumber, DateAdded, UserName")] EditUserBindingModel bind)
         {
-            var registeredUser = Mapper.Map<EditUserBindingModel, RegisteredUser>(bind);
             if (ModelState.IsValid)
             {
+                var registeredUser = Mapper.Map<EditUserBindingModel, RegisteredUser>(bind);
                 db.Entry(registeredUser).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(registeredUser);
+            return View(bind);
         }
 
         // GET: Admin/Users/Delete/5
+        [Authorize(Roles = "Admin")]
+        [Route("delete/{id}")]
         public ActionResult Delete(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            RegisteredUser registeredUser = db.Users.Find(id);
+            var registeredUser = db.Users.Find(id);
             if (registeredUser == null)
             {
                 return HttpNotFound();
             }
-            return View(registeredUser);
+            var model = Mapper.Map<RegisteredUser, RegisteredUserViewModel>(registeredUser);
+            return View(model);
         }
 
         // POST: Admin/Users/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        [Route("delete/{id}")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
         {
-            RegisteredUser registeredUser = db.Users.Find(id);
+            var registeredUser = db.Users.Find(id);
             db.Users.Remove(registeredUser);
             db.SaveChanges();
             return RedirectToAction("Index");

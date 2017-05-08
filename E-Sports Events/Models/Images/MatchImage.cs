@@ -2,7 +2,7 @@
 {
     using System.ComponentModel.DataAnnotations.Schema;
 
-    [Table("MatchImage")]
+    [Table("MatchImages")]
     public class MatchImage: Image
     {
         public int MatchId { get; set; }

@@ -13,6 +13,7 @@ namespace ESportsEventsApp
     using ESportsEventsApp.Extensions;
 
     using global::Models;
+    using global::Models.Images;
 
     using Microsoft.AspNet.Identity.EntityFramework;
 
@@ -46,6 +47,16 @@ namespace ESportsEventsApp
                         .ForMember(dest => dest.Roles, src => src.MapFrom(s => s.GetRoles()));
                         expression.CreateMap<RegisterBindingModel, RegisteredUser>();
                         expression.CreateMap<Event, EventViewModel>();
+                        //.ForMember(dest => dest.Logo, src => src.Ignore());
+                        expression.CreateMap<Event, EventDetailsViewModel>();
+                        expression.CreateMap<Event, EventDetailsBindingModel>();
+                        expression.CreateMap<Logo, LogoBindingModel>();
+                        expression.CreateMap<Event, EventBindingModel>();
+                        //.ForMember(dest=>dest.Logo, src=>src.Ignore());
+                        expression.CreateMap<LogoBindingModel, Logo>();
+                        expression.CreateMap<EventBindingModel, Event>();
+                        //.ForMember(dest=>dest.Logo, src=>src.Ignore());
+                        expression.CreateMap<Logo, LogoViewModel>();
                     });
         }
     }

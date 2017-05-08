@@ -2,7 +2,7 @@
 {
     using System.ComponentModel.DataAnnotations.Schema;
 
-    [Table("PlayerImage")]
+    [Table("PlayerImages")]
     public class PlayerImage : Image
     {
         public int PlayerId { get; set; }

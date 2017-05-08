@@ -1,13 +1,11 @@
-﻿@using ViewModels;
+﻿@using ESportsEventsApp.Extensions
+@using ViewModels;
 @using Helpers;
 @model IEnumerable<EventViewModel>
 
 @{
     ViewBag.Title = "Index";
 }
-
-<h2>Index</h2>
-
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
@@ -42,7 +40,7 @@
         @Html.HiddenFor(model => item.Id)
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.LogoUrl)
+                @Html.Image(item.Logo.Url, string.Empty, "width:50px; height:auto;")
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
@@ -51,16 +49,15 @@
                 @Html.DisplayFor(modelItem => item.Location)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PrizePool)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.TierType)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.StartDate)
+                @Html.DateFor(item.StartDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.EndDate)
+                @Html.DateFor(item.EndDate)
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |

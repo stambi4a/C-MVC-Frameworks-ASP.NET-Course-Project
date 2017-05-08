@@ -11,16 +11,19 @@
     public class RegisteredUser : IdentityUser
     {
         private ICollection<Event> events;
+        private ICollection<Event> administratedEvents;
         private ICollection<Article> articles;
         public RegisteredUser()
         {
             this.events = new HashSet<Event>();
             this.articles = new HashSet<Article>();
+            this.administratedEvents = new HashSet<Event>();
         }
 
         public string Name { get; set; }
 
         public virtual ICollection<Event> Events => this.events;
+        public virtual ICollection<Event> AdministratedEvents => this.administratedEvents;
 
         public ICollection<Article> Articles => this.articles;
 

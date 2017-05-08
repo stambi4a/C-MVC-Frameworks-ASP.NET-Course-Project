@@ -1,11 +1,13 @@
 ﻿namespace Models.Images
 {
+    using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    [Table("Logo")]
+    [Table("Logos")]
     public class Logo : Image
     {
-        public int EventId { get; set; }
+        [Key, ForeignKey("Event")]
+        public new int Id { get; set; }
 
         public virtual Event Event{ get; set; }
     }

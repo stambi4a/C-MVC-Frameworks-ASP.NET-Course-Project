@@ -43,10 +43,21 @@
   <ItemGroup>
     <Compile Include="AssociateRoleBindingModel.cs" />
     <Compile Include="DissociateRoleBindingModel.cs" />
+    <Compile Include="EventBindingModel.cs" />
+    <Compile Include="EventDetailsBindingModel.cs" />
     <Compile Include="LoginBindingModel.cs" />
+    <Compile Include="LogoBindingModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="EditUserBindingModel.cs" />
     <Compile Include="RegisterBindingModel.cs" />
+    <Compile Include="ValidationAttributes\EndDateAttribute.cs" />
+    <Compile Include="ValidationAttributes\StartDateAttribute.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Helpers\Helpers.csproj">
+      <Project>{77896ed0-f90a-4e90-b596-24df33e21104}</Project>
+      <Name>Helpers</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
