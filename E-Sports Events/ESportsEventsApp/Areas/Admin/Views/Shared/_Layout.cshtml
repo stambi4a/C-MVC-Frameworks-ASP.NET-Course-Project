@@ -20,7 +20,19 @@
                 @Html.ActionLink("ESports Events", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav"></ul>
+                <ul class="nav navbar-nav custom_nav">
+                    <li class="dropdown">
+                        @Html.ActionLink("Admin Panel", "", null, htmlAttributes: new { @class = "dropdown-toggle", @datatoggle = "toggle", @role = "button", @ariaexpanded = "false", style = "font-weight:bold" })
+                        <ul class="dropdown-menu" role="menu">
+                            <li>@Html.ActionLink("Users", "Index", "Users", new { Area = "Admin" }, new { style = "font-weight:bold" })</li>
+                            <li>@Html.ActionLink("Events", "Index", "Events", new { Area = "Admin" }, new { style = "font-weight:bold" })</li>
+                        </ul>
+                    </li>   
+                    @if (User.IsInRole("EventAdmin"))
+                    {
+                        <li>@Html.ActionLink("My Events", "Index", "Events", new { Area = "EventAdmin" }, new { style = "font-weight:bold" })</li>
+                    }                    
+                </ul>
             </div>
         </div>
     </div>

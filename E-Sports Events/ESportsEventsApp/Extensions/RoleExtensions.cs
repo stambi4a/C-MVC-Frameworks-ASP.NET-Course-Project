@@ -31,11 +31,20 @@
         public static bool IsInGivenRole(this RegisteredUser user, string roleName)
         {
             var context = new ESportsEventsContext();
-            //var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
-            var userRoles = Roles.GetRolesForUser(user.UserName);
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
+            var userRoles = user.Roles.Select(r => roleManager.FindById(r.RoleId).Name);
 
             return userRoles.Contains(roleName);
         }
+
+        //public static bool IsInGivenRole(this RegisteredUser user, string roleName)
+        //{
+        //    var context = new ESportsEventsContext();
+        //    //var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
+        //    var userRoles = Roles.GetRolesForUser(user.UserName);
+
+        //    return userRoles.Contains(roleName);
+        //}
 
         public static string GetRoles(this RegisteredUser user)
         {

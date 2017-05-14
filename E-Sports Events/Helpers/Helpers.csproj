@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants.cs" />
     <Compile Include="Enums\MapSize.cs" />
     <Compile Include="Enums\TierType.cs" />
     <Compile Include="Enums\Winner.cs" />

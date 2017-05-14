@@ -207,10 +207,15 @@
             var context = new ESportsEventsContext();
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
             var allRoles = roleManager.Roles.ToList();
-            var AssociatedRoles = user.Roles.Select(r => allRoles.FirstOrDefault(ar => ar.Id == r.RoleId).Name);
+            var associatedRoles = user.Roles.Select(r => allRoles.FirstOrDefault(ar => ar.Id == r.RoleId).Name).ToList();
+            if (associatedRoles.Count == allRoles.Count)
+            {
+                return this.RedirectToAction("Index", "Users");
+            }
+
             var model = new AssociateRoleBindingModel()
             {
-                AssociatedRoles = AssociatedRoles,
+                AssociatedRoles = associatedRoles,
                 Id = user.Id,
                 Username = user.UserName
             };
@@ -275,10 +280,15 @@
             var context = new ESportsEventsContext();
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
             var allRoles = roleManager.Roles.ToList();
-            var AssociatedRoles = user.Roles.Select(r => allRoles.FirstOrDefault(ar => ar.Id == r.RoleId).Name);
+            var associatedRoles = user.Roles.Select(r => allRoles.FirstOrDefault(ar => ar.Id == r.RoleId).Name);
+            if (!associatedRoles.Any())
+            {
+                return this.RedirectToAction("Index", "Users");
+            }
+
             var model = new DissociateRoleBindingModel
             {
-                AssociatedRoles = AssociatedRoles,
+                AssociatedRoles = associatedRoles,
                 Id = id,
                 Username = user.UserName
             };

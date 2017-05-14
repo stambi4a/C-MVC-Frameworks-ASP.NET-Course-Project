@@ -210,6 +210,25 @@ figure.effect-lily a:hover img{-webkit-transform:translate3d(0,0,0); transform:t
 .erropr_recentpost .ppost_nav li{width:32%; text-align:left; margin-right:22px}
 .erropr_recentpost .ppost_nav li:last-child{margin-right:0px}
 
+/*this is for file name change added by S.T.*/
+/*.browse-button {
+    background: url("../Content/Images/Buttons/button_select-file.png");
+    height: 34px;
+    width: 112px;
+    color: #99ccff;
+    background-color: #000d2a;
+    border: 1px solid #003366;
+    border-radius: 4px;
+    position: absolute;
+}
+
+input[type="file"] {
+    position:relative;  
+    opacity:0;  
+    z-index:99;
+    width: 100px;
+}*/
+
 @media(max-width:1199px ){
 .navbar-collapse{width:82%}
 .single_widget > h2{width:111%}

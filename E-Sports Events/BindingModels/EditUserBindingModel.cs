@@ -16,6 +16,8 @@
 
         public string PasswordHash { get; set; }
 
+        public string SecurityStamp { get; set; }
+
         public DateTime? DateAdded { get; set; }
     }
 }

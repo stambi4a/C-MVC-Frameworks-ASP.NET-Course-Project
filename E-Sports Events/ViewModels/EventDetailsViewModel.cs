@@ -21,5 +21,9 @@
         public DateTime EndDate { get; set; }
 
         public LogoViewModel Logo { get; set; }
+
+        public string PrizePoolToString => this.PrizePool + " лв.";
+
+        public string Description { get; set; }
     }
 }

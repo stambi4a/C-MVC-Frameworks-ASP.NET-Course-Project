@@ -12,17 +12,17 @@
         public int Id { get; set; }
 
         [Required]
-        [StringLength(20, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 3)]
+        [StringLength(20, ErrorMessage = "The {0} must be between {2} and {1} characters long.", MinimumLength = 3)]
         [Display(Name = "Name")]
         public string Name { get; set; }
 
         [Required]
-        [StringLength(20, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 3)]
+        [StringLength(20, ErrorMessage = "The {0} must be between {2} and {1} characters long.", MinimumLength = 3)]
         [Display(Name = "Location")]
         public string Location { get; set; }
 
         [Required]
-        [Range(100,100000, ErrorMessage = "The {0} must be between {1} and {2}")]
+        [Range(100,100000, ErrorMessage = "The {0} must be between {1} and {2} лв.")]
         [Display(Name = "Prize Pool")]
         public double PrizePool { get; set; }
 
@@ -42,5 +42,9 @@
 
         [Display(Name = "Logo Url")]
         public LogoBindingModel Logo { get; set; }
+
+        [StringLength(250, ErrorMessage = "The {0} must be between {2} and {1} characters long.", MinimumLength = 3)]
+        [Display(Name = "Description")]
+        public string Description { get; set; }
     }
 }

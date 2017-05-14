@@ -98,7 +98,13 @@
             modelBuilder.Entity<Article>().HasMany(p => p.Videos).WithRequired(e => e.Article);
             modelBuilder.Entity<Match>().HasMany(p => p.Images).WithRequired(e => e.Match);
             modelBuilder.Entity<Match>().HasMany(p => p.Videos).WithRequired(e => e.Match);
-
+            modelBuilder.Entity<Event>().HasMany(p => p.EventAdmins).WithMany(e => e.AdministratedEvents).Map(
+               e =>
+               {
+                   e.MapLeftKey("AdministratedEventId");
+                   e.MapRightKey("EventAdminId");
+                   e.ToTable("AdministratedEventsEventAdmins");
+               });
             base.OnModelCreating(modelBuilder);
         }
     }

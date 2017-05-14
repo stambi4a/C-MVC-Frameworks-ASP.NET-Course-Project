@@ -23,16 +23,16 @@
             @Html.DisplayNameFor(model => model.PrizePool)
         </th>
         @*<th>
-            @Html.DisplayNameFor(model => model.TierType)
-        </th>
+                @Html.DisplayNameFor(model => model.TierType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EndDate)
+            </th>*@
         <th>
-            @Html.DisplayNameFor(model => model.StartDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EndDate)
-        </th>*@
-        <th>
-            @Html.DisplayNameFor(model=>model.EventAdmins)
+            @Html.DisplayNameFor(model => model.EventAdmins)
         </th>
         <th></th>
     </tr>
@@ -54,16 +54,16 @@
                 @Html.DisplayFor(modelItem => item.PrizePoolToString)
             </td>
             @*<td>
-                @Html.DisplayFor(modelItem => item.TierType)
-            </td>
+                    @Html.DisplayFor(modelItem => item.TierType)
+                </td>
+                <td>
+                    @Html.DateFor(item.StartDate)
+                </td>
+                <td>
+                    @Html.DateFor(item.EndDate)
+                </td>*@
             <td>
-                @Html.DateFor(item.StartDate)
-            </td>
-            <td>
-                @Html.DateFor(item.EndDate)
-            </td>*@
-            <td>
-                @Html.DisplayFor(modelItem => item.EventAdminsToString )
+                @Html.DisplayFor(modelItem => item.EventAdminsToString)
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |

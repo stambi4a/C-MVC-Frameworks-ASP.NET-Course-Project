@@ -35,7 +35,6 @@ namespace ESportsEventsApp
                       //"~/Content/bootstrap.css",
                       "~/Content/animate.css",
                       "~/Content/bootstrap.min.css",
-                       //"~/Content/bootstrap.css",
                       "~/Content/font-awesome.min.css",
                       "~/Content/slick.css",
                       "~/Content/style.css",

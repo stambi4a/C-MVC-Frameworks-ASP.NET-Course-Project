@@ -4,8 +4,6 @@ using System.Web.Routing;
 
 namespace ESportsEventsApp
 {
-    using System.Collections.Generic;
-
     using AutoMapper;
 
     using BindingModels;
@@ -57,6 +55,8 @@ namespace ESportsEventsApp
                         expression.CreateMap<EventBindingModel, Event>();
                         //.ForMember(dest=>dest.Logo, src=>src.Ignore());
                         expression.CreateMap<Logo, LogoViewModel>();
+                        expression.CreateMap<RegisteredUser, EventAdminViewModel>();
+                        expression.CreateMap<RegisteredUser, EventAdminBindingModel>();
                     });
         }
     }

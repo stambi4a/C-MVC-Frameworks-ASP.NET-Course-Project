@@ -41,8 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssociateEventAdminBindingModel.cs" />
     <Compile Include="AssociateRoleBindingModel.cs" />
     <Compile Include="DissociateRoleBindingModel.cs" />
+    <Compile Include="EventAdminBindingModel.cs" />
     <Compile Include="EventBindingModel.cs" />
     <Compile Include="EventDetailsBindingModel.cs" />
     <Compile Include="LoginBindingModel.cs" />

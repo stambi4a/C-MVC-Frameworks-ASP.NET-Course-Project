@@ -60,5 +60,7 @@
         //public int LogoId { get; set; }
 
         public virtual Logo Logo { get; set; }
+
+        public string Description { get; set; }
     }
 }
