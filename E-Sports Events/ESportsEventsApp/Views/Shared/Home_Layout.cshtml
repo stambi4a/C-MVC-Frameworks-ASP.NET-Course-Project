@@ -34,9 +34,9 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav custom_nav">
-                    <li class="active">
-                        @Html.ActionLink("Home", "Index", "Home")
-                    </li>
+                    @*<li class="active">
+                @Html.ActionLink("Home", "Index", "Home")
+            </li>*@
                     <li class="dropdown">
                         @Html.ActionLink("Events", "Index", "Home", routeValues: new { Area = "Events" }, htmlAttributes: new { @class = "dropdown-toggle", @datatoggle = "toggle", @role = "button", @ariaexpanded = "false" })
                         <ul class="dropdown-menu" role="menu">
@@ -47,25 +47,36 @@
                             <li>@Html.ActionLink("Major Events", "Major", "Home", new { Area = "Events" }, null)</li>
                         </ul>
                     </li>
-                    <li>@Html.ActionLink("BESPA rankings", "Index", "Home", new { Area = "Rankings" }, null)</li>
-                    <li>@Html.ActionLink("Players", "Index", "Home", new { Area = "Players" }, null)</li>
-                    <li>@Html.ActionLink("Store", "Index", "Home",  new { Area = "Store" }, null)</li>
+                    <li class="dropdown">
+                        @Html.ActionLink("BESPA", "Index", "Home", routeValues: new { Area = "Events" }, htmlAttributes: new { @class = "dropdown-toggle", @datatoggle = "toggle", @role = "button", @ariaexpanded = "false" })
+                        <ul class="dropdown-menu" role="menu">
+                            <li>@Html.ActionLink("Rankings", "Index", "Home", new { Area = "Events" }, null)</li>
+                            <li>@Html.ActionLink("Players", "Index", "Home", new { Area = "Events" }, null)</li>
+                        </ul>
+                    </li>
+                    @*<li>@Html.ActionLink("BESPA rankings", "Index", "Home", new { Area = "Rankings" }, null)</li>
+            <li>@Html.ActionLink("Players", "Index", "Home", new { Area = "Players" }, null)</li>*@
+                    <li>@Html.ActionLink("Store", "Index", "Home", new { Area = "Store" }, null)</li>
                     <li>@Html.ActionLink("Sponsors", "Index", "Home", new { Area = "Sponsors" }, null)</li>
-                    @if (Roles.IsUserInRole("Admin"))
-                    {
-                        <li class="dropdown">
-                            @Html.ActionLink("Admin Panel", "", null, htmlAttributes: new { @class = "dropdown-toggle", @datatoggle = "toggle", @role = "button", @ariaexpanded = "false" })
-                            <ul class="dropdown-menu" role="menu">
-                                <li>@Html.ActionLink("Users", "Index", "Users", new { Area = "Admin" }, null)</li>
-                                <li>@Html.ActionLink("Events", "Index", "Events", new { Area = "Admin" }, null)</li>
-                            </ul>
-                        </li>
-                    }
-                    @if (Roles.IsUserInRole("EventAdmin"))
-                    {
-                        <li>@Html.ActionLink("My Events", "Index", "Events", new { Area = "EventAdmin" }, null)</li>
-                    }
-                </ul>
+                        @if (User.IsInRole("Admin") || User.IsInRole("Admin"))
+                        {
+
+                            <li class="dropdown">
+                                @Html.ActionLink("Admin Panel", "", null, htmlAttributes: new { @class = "dropdown-toggle", @datatoggle = "toggle", @role = "button", @ariaexpanded = "false" })
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li>@Html.ActionLink("Users", "Index", "Users", new { Area = "Admin" }, null)</li>
+                                        <li>@Html.ActionLink("Events", "Index", "Events", new { Area = "Admin" }, null)</li>
+                                        @if (User.IsInRole("EventAdmin"))
+                                        {
+                                            <li>@Html.ActionLink("My Events", "Index", "Events", new { Area = "EventAdmin" }, null)</li>
+                                        }
+                                    </ul>
+                                }                                
+                            </li>
+                         }
+                    </ul>
                 @Html.Partial("_LoginPartial")
             </div>
             <div class="search">

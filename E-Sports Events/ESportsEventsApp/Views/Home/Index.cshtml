@@ -1,60 +1,50 @@
-﻿    @*<div class="row">
-        <div class="col-lg-12 col-md-12 col-sm-12">
-            <div class="topadd_bar"><a href="#"><img src="images/addbanner_728x90_V1.jpg" alt=""></a></div>
-        </div>
-    </div>*@
-    <div class="row">
-        <div class="col-lg-12 col-md-12 col-sm-12">
-            <div class="featured_slider">
-                <h2 class="featured_title">Latest Events</h2>
-                <div class="slick_slider">
+﻿@using ESportsEventsApp.Extensions
+@using ViewModels
+@model HomePageViewModel
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="featured_slider">
+            <h2 class="featured_title">Latest Events</h2>
+            <div class="slick_slider">
+                @foreach (var image in Model.LatestEventImages)
+                {
                     <div class="single_iteam">
-                        <img src="../../Content/images/300x250x4.jpg" alt="">
-                        <h2><a class="slider_tittle" href="#">Fusce eu nulla semper porttitor felis sit amet</a></h2>
+                        @Html.Image(image.Url, string.Empty, "")
+                        <h2><a class="slider_tittle" href="#">@image.Caption</a></h2>
                     </div>
-                    <div class="single_iteam">
-                        <img src="../../Content/images/300x250x2.jpg" alt="">
-                        <h2><a class="slider_tittle" href="#">Fusce eu nulla semper porttitor felis sit amet</a></h2>
-                    </div>
-                    <div class="single_iteam">
-                        <img src="../../Content/images/300x250x3.jpg" alt="">
-                        <h2><a class="slider_tittle" href="#">Fusce eu nulla semper porttitor felis sit amet</a></h2>
-                    </div>
-                    <div class="single_iteam">
-                        <img src="../../Content/images/300x250x4.jpg" alt="">
-                        <h2><a class="slider_tittle" href="#">Fusce eu nulla semper porttitor felis sit amet</a></h2>
-                    </div>
-                    <div class="single_iteam">
-                        <img src="../../Content/images/300x250x5.jpg" alt="">
-                        <h2><a class="slider_tittle" href="#">Fusce eu nulla semper porttitor felis sit amet</a></h2>
-                    </div>
-                    <div class="single_iteam">
-                        <img src="../../Content/images/300x250x6.jpg" alt="">
-                        <h2><a class="slider_tittle" href="#">Fusce eu nulla semper porttitor felis sit amet</a></h2>
-                    </div>
-                    <div class="single_iteam">
-                        <img src="../../Content/images/300x250x3.jpg" alt="">
-                        <h2><a class="slider_tittle" href="#">Fusce eu nulla semper porttitor felis sit amet</a></h2>
-                    </div>
-                    <div class="single_iteam">
-                        <img src="../../Content/images/300x250x5.jpg" alt="">
-                        <h2><a class="slider_tittle" href="#">Fusce eu nulla semper porttitor felis sit amet</a></h2>
-                    </div>
-                </div>
+                }
             </div>
         </div>
     </div>
+</div>
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="featured_slider">
+            @*<h2 class="featured_title">Latest Events</h2>*@
+            <div class="slick_slider">
+                @foreach (var video in Model.LatestEventVideos)
+                {
+                    <div class="single_iteam embed-responsive embed-responsive-16by9">
+                        @Html.VideoHd(video.Url);
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
     <div class="container">
         <div class="row">
-            <div class="col-lg-3 col-md-3 col-sm-8">
+            <div class="col-lg-3 col-md-3 col-sm-3">
                 <div class="left_sidebar">
                     <div class="single_widget">
                         <h2>Proleague Standings</h2>
                         <ul class="post_nav">
                             <li>
                                 <figure class="effect-lily">
-                                    <a href="pages/single_page.html"><img src="images/270x150x4.jpg" alt=""></a>
-                                    <figcaption><a href="pages/single_page.html">It’s Now An Android World- Feel The Power</a></figcaption>
+                                    @*<a href="pages/single_page.html"><img src="images/270x150x4.jpg" alt=""></a>
+                                    <figcaption><a href="pages/single_page.html">It’s Now An Android World- Feel The Power</a></figcaption>*@
                                 </figure>
                             </li>
                         </ul>
@@ -72,18 +62,25 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-8">
+            <div class="col-lg-6 col-md-6 col-sm-6">
                 <div class="middle_content">
                     <h2>Videos</h2>
                     <ul class="featured_nav">
-                        <li class="wow fadeInDown">
+                        <li>
+                            <div class="embed-responsive embed-responsive-16by9" style="padding-bottom: 300px;">
+                                <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/d3gk5wBwD50" frameborder="0"></iframe>
+                            </div>                         
+                        </li>
+                        @*<li class="wow fadeInDown">
                             <figure class="featured_img"><a href="#"><img src="images/550x400.jpg" alt=""></a></figure>
                             <article class="featured_article">
-                                <div class="article_category"><a href="#">Technology <i class="fa fa-angle-right"></i></a><a href="#">Mobile <i class="fa fa-angle-right"></i></a><a href="#">Samsung</a></div>
-                                <h2 class="article_titile"><a href="pages/single_page.html">Apple iPad Production Reaches 4 Million</a></h2>
+                                <div class="article_category"><a href="#">Technology <i class="fa fa-angle-right"></i></a><a href="#">Mobile <i class="fa fa-angle-right"></i></a><a href="#">Samsung</a>
+                                </div>
+                                <h2 class="article_titile"><a href="pages/single_page.html">Apple iPad Production Reaches 4 Million</a>
+                                </h2>
                                 <p>Nunc tincidunt, elit non cursus euismod, lacus augue ornare metus, egestas imperdiet nulla nisl quis mauris. Suspendisse a pharetra urna. Morbi dui lectus, pharetra nec elementum eget, vulputate ut nisi. Aliquam accumsan, nulla sed feugiat...</p>
                             </article>
-                        </li>
+                        </li>*@
                     </ul>
                     <nav>
                         <ul class="pagination">
@@ -142,8 +139,8 @@
                     </nav>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-3 col-sm-12">
-                <div class="right_sidebar">
+            <div class="col-lg-3 col-md-3 col-sm-3">
+                <div class="left_sidebar">
                     <div class="single_widget">
                         <h2>Upcoming Events</h2>
                         <ul class="ppost_nav wow fadeInDown">
@@ -183,14 +180,6 @@
                             </div>
                         </div>
                     </div>
-                    @*<div class="single_widget">
-                        <h2>Links</h2>
-                        <ul>
-                            <li><a href="#">For the fans</a></li>
-                            <li><a href="#">Streams</a></li>
-                            <li><a href="#">Analysеs</a></li>
-                        </ul>
-                    </div>*@
                 </div>
             </div>
         </div>

@@ -1,0 +1,43 @@
+﻿@using BindingModels
+@model RemoveEventImageBindingModel
+
+@{
+    ViewBag.Title = $"Remove Event Image from {Model.Name}";
+    var addedImages = Model.AddedEventImages.Select(aei=>new { Url = aei.Url.Substring(aei.Url.LastIndexOf("/", StringComparison.InvariantCulture) + 1), aei.Id}).Select(aa => new SelectListItem() { Text = aa.Url, Value = aa.Id.ToString()});
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="col-lg-4 col-md-4 col-sm-8">
+            <div class="form-horizontal">
+                <h3>@ViewBag.Title<strong>@ViewBag.EventImage</strong></h3>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                </div>
+                <div class="form-group">
+                    @Html.Label("Added event images ", htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6" })
+                    <div class="col-lg-8 col-md-8 col-sm-6">
+                        @Html.DropDownListFor(model => model.ImageToRemove.Id, addedImages, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.ImageToRemove.Id, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <input type="submit" value="Save" class="btn btn-default" />
+                    </div>
+                    <div class="col-lg-10 col-md-10 col-sm-10">
+                        @Html.ActionLink("Back to List", "Index")
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -68,9 +68,11 @@
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
                 @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id }) |
-                @Html.ActionLink("Associate Admin", "AssociateAdmin", new { id = item.Id }) |
-                @Html.ActionLink("Dissociate Admin", "DissociateAdmin", new { id = item.Id })
+                @Html.ActionLink("Add Event Image From Server", "AddEventImage", new { id = item.Id }) |
+                @Html.ActionLink("Add Event Image From Local Storage", "AddEventImageLocal", new { id = item.Id }) |
+                @Html.ActionLink("Remove Event Image", "RemoveEventImage", new { id = item.Id }) |
+                @Html.ActionLink("Add Event Video", "AddEventVideo", new { id = item.Id }) |
+                @Html.ActionLink("Remove Event Video", "RemoveEventVideo", new { id = item.Id })
             </td>
         </tr>
     }

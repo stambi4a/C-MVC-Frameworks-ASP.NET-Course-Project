@@ -75,6 +75,7 @@
     <Compile Include="Sponsor.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Videos\ArticleVideo.cs" />
+    <Compile Include="Videos\EventVideo.cs" />
     <Compile Include="Videos\MatchVideo.cs" />
     <Compile Include="Videos\Video.cs" />
   </ItemGroup>

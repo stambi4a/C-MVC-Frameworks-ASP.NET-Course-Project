@@ -14,10 +14,10 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 body{background-color:#fff; color:#99ccff; overflow-x:hidden !important}
 ul{padding:0; margin:0; list-style:none}
-a{text-decoration:none; color:Aqua; font-family:'Ubuntu',sans-serif}
-a:hover{color:#00b3b3; text-decoration:none}
-a:focus{outline:none; text-decoration:none}
-h1, h2, h3, h4, h5, h6{font-family:'Ubuntu',serif}
+a{text-decoration:none; color:Aqua;font-family: 'Ubuntu', sans-serif;outline: 0 !important;}
+a:hover{color:#00b3b3;text-decoration: none; outline: 0 !important;}
+a:focus{outline:none;text-decoration: none; outline: 0 !important;}
+h1, h2, h3, h4, h5, h6{font-family:'Ubuntu',sans-serif}
 h2{line-height:23px}
 img{border:none}
 img:hover{opacity:0.75}
@@ -54,7 +54,7 @@ img:hover{opacity:0.75}
 .navbar{margin-bottom:0}
 .custom_nav li a{}
 .navbar-default .navbar-nav > li > a{color:#99ccff; -webkit-transition:all 0.5s; -moz-transition:all 0.5s; -ms-transition:all 0.5s; -o-transition:all 0.5s; transition:all 0.5s}
-.navbar-default .navbar-brand{color:#99ccff; font-weight:bold; font-family:'Ubuntu',Helvetica,Arial,sans-serif; padding:0px 15px}
+.navbar-default .navbar-brand{color:#99ccff; font-weight:bold; font-family:'Ubuntu',sans-serif; padding:0px 15px}
 .navbar-default .navbar-brand img:hover{opacity:1}
 .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus{background-color:#003366}
 .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus{background-color:#003366}
@@ -83,6 +83,7 @@ figure.effect-lily a:hover img{-webkit-transform:translate3d(0,0,0); transform:t
 .ppost_nav li .media-left{border:1px solid #ddd; padding:4px; margin-right:5px; float:left}
 .middle_content{border-bottom:1px solid #003366; border-left:1px solid #003366; border-right:1px solid #003366; display:inline; float:left; padding-bottom:25px; padding-left:10px; padding-right:10px; width:100%}
 .middle_content > h2, .featured_title{color:#99ccff; font-size:19px; margin:0 0 20px -10px; padding:9px 25px; text-align:center; width:103.4%}
+.middle_content > h2, .details_featured_title{color:#80c1ff; font-size:19px; margin:0 0 20px -10px; padding:9px 25px; text-align:center; width:103.4%}
 .featured_slider{float:left; display:inline; width:100%}
 .single_iteam{float:left; display:inline; width:100%; position:relative}
 .single_iteam img{border-radius:5px; width:100%}
@@ -90,7 +91,7 @@ figure.effect-lily a:hover img{-webkit-transform:translate3d(0,0,0); transform:t
 .slider_tittle{background:none repeat scroll 0 0 rgba(0,0,0,0.4); color:#fff; display:inline-block; font-size:15px; line-height:18px; padding:10px}
 .slider_tittle:hover, .slider_tittle:focus{color:#fff}
 .featured_nav{}
-.featured_nav li{border-bottom:1px dashed #ddd; display:inline; float:left; margin-bottom:30px; width:100%}
+.featured_nav li{display:inline; float:left; margin-bottom:30px; width:100%}
 .featured_nav li p{line-height:1.5em}
 .right_sidebar{float:left; display:inline; width:100%}
 .featured_img:hover img{opacity:1; -webkit-transform:translate3d(0,0,0) scale(1); transform:translate3d(0,0,0) scale(1)}
@@ -227,6 +228,29 @@ input[type="file"] {
     opacity:0;  
     z-index:99;
     width: 100px;
+}*/
+/*.responsive-video {
+    position: relative;
+    padding-bottom: 56.25%;
+    padding-top: 60px; overflow: hidden;
+}
+
+.responsive-video iframe,
+.responsive-video object,
+.responsive-video embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+object, embed, iframe, video { 
+  outline: 0 !important;
+}*/
+
+/*input::-moz-focus-inner { 
+  border: 0; 
 }*/
 
 @media(max-width:1199px ){

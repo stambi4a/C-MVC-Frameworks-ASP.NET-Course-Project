@@ -75,7 +75,7 @@
                 <div class="form-group">
                     @Html.LabelForModel("Logo", htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6" })
                     <div class="col-lg-8 col-md-8 col-sm-6">
-                        @Html.EditorFor(model => model.Logo.Url, new { htmlAttributes = new { @class = "logo", @type = "file", value="index.png"}})
+                        @Html.EditorFor(model => model.Logo.Url, new { htmlAttributes = new { @type = "file"}})
                         @Html.ValidationMessageFor(model => model.Logo.Url, "", new { @class = "text-danger" })
                     </div>
                 </div>

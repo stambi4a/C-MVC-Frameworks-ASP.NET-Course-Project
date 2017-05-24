@@ -46,7 +46,11 @@
 
         public DbSet<Map> Maps { get; set; }
 
+        public DbSet<EventImage> EventImages { get; set; }
+
         public DbSet<Article> Articles { get; set; }
+
+        public DbSet<EventVideo> EventVideos { get; set; }
 
         public static ESportsEventsContext Create()
         {
@@ -105,6 +109,7 @@
                    e.MapRightKey("EventAdminId");
                    e.ToTable("AdministratedEventsEventAdmins");
                });
+            modelBuilder.Entity<Event>().HasMany(p => p.EventImages).WithRequired(e => e.Event).WillCascadeOnDelete(false);
             base.OnModelCreating(modelBuilder);
         }
     }

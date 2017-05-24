@@ -46,6 +46,54 @@
         public static MvcHtmlString DateFor(this HtmlHelper helper, DateTime date)
         {
             var builder = new TagBuilder("span") { InnerHtml = date.ToString("dd MMMM yyyy") };
+
+            return new MvcHtmlString(builder.ToString(TagRenderMode.Normal));
+        }
+
+        public static MvcHtmlString VideoHd(this HtmlHelper helper, string url)
+        {
+            var builder = new TagBuilder("iframe");
+            builder.MergeAttribute("src", url);
+            builder.MergeAttribute("frameborder", "0");
+            //builder.MergeAttribute("class", "embed-responsive-item");
+
+            return new MvcHtmlString(builder.ToString(TagRenderMode.Normal));
+        }
+
+        public static MvcHtmlString Video(this HtmlHelper helper, string url)
+        {
+            var builder = new TagBuilder("iframe");
+            builder.MergeAttribute("src", url);
+            builder.MergeAttribute("frameborder", "0");
+            builder.MergeAttribute("class", "embed-responsive-item");
+
+            return new MvcHtmlString(builder.ToString(TagRenderMode.Normal));
+        }
+
+        public static MvcHtmlString DivForVideoHd(this HtmlHelper helper, string url)
+        {
+            var builder = new TagBuilder("div");
+            builder.MergeAttribute("class", "embed-responsive embed-responsive-16by9");
+            //builder.MergeAttribute("class", "embed-responsive");
+            var inner = new TagBuilder("iframe");
+            inner.MergeAttribute("src", url);
+            inner.MergeAttribute("frameborder", "0");
+            inner.MergeAttribute("class", "embed-responsive-item");
+            builder.InnerHtml = inner.ToString();
+
+            return new MvcHtmlString(builder.ToString(TagRenderMode.Normal));
+        }
+
+        public static MvcHtmlString DivForVideo(this HtmlHelper helper, string url)
+        {
+            var builder = new TagBuilder("div");
+            builder.MergeAttribute("class", "embed-responsive embed-responsive-4by3");
+            var inner = new TagBuilder("iframe");
+            inner.MergeAttribute("src", url);
+            inner.MergeAttribute("frameborder", "0");
+            inner.MergeAttribute("class", "embed-responsive-item");
+            builder.InnerHtml = inner.ToString();
+
             return new MvcHtmlString(builder.ToString(TagRenderMode.Normal));
         }
     }

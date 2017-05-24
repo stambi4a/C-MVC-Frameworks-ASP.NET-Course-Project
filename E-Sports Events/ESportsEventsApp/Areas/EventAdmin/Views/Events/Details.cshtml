@@ -1,15 +1,17 @@
 ﻿@using ESportsEventsApp.Extensions
+@using Helpers
 @using ViewModels
-@model EventDetailsViewModel
+@model EventAllDetailsViewModel
 
 @{
     ViewBag.Title = $"Details for {Model.Name}";
 }
 
 <div>
+    <h3>@ViewBag.Title</h3>
     <div class="row">
-        <div class="col-lg-5 col-md-5 col-sm-5">
-            <hr />
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <hr/>
             <dl class="dl-horizontal">
                 <dt>
                     @Html.DisplayNameFor(model => model.Logo)
@@ -74,12 +76,93 @@
                 <dd>
                     @Html.DateFor(Model.EndDate)
                 </dd>
+                @*<dt>
+                    @Html.DisplayNameFor(model => model.EventImages)
+                </dt>
+
+                <dd>
+                    @foreach (var image in Model.EventImages)
+                    {
+                        <div style="width: 300px; height: 250px; display: inline-block;">
+                            @Html.Image(image.Url, string.Empty, "Width:300px;")
+                        </div>
+                    }
+                </dd>*@
+                @*<dt>
+                    @Html.DisplayNameFor(model => model.EventImages)
+                </dt>*@
+
+                @*<dd>
+                    @foreach (var video in Model.EventVideos)
+                    {
+                        <iframe class="embed-responsive-item" src="@Constants.YoutubeVideosPath@video.Url" frameborder="0"></iframe>
+                        <div style="display: inline-block;" class="embed-responsive embed-responsive-16by9">
+                            @Html.Video(video.Url)
+                        </div>                      
+                        <div style="width: 300px; height: 250px; display: inline-block;">
+                            @Html.Image(image.Url, string.Empty, "Width:300px;")
+                        </div>
+                    }
+                </dd>*@
             </dl>
+            @*<h2 class="featured_title">Event Images</h2>
+            <div class="slick_slider">
+                @foreach (var image in Model.EventImages)
+                {
+                    <div class="single_iteam">
+                        @Html.Image(image.Url, string.Empty, "")
+                        <h2><a class="slider_tittle" href="#">@image.Caption</a></h2>
+                    </div>
+                }
+            </div>
+            <h2 class="featured_title">Event Videos</h2>
+            <div class="slick_slider">
+                @foreach (var video in Model.EventVideos)
+                {
+                    <div class="single_iteam">
+                        @Html.Video(video.Url)
+                        <h2><a class="slider_tittle" href="#">@video.Caption</a></h2>
+                    </div>
+                }
+            </div>*@
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-lg-10 col-md-10 col-sm-10">
+            <div class="featured_slider">
+                <h2 class="details_featured_title">Event Images</h2>
+                <div class="slick_slider">
+                    @foreach (var image in Model.EventImages)
+                    {
+                        <div class="single_iteam">
+                            @Html.Image(image.Url, string.Empty, "")
+                            <h2><a class="slider_tittle" href="#">@image.Caption</a></h2>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-lg-10 col-md-10 col-sm-10">
+            <div class="featured_slider">
+                <h2 class="details_featured_title">Event Videos</h2>
+                <div class="slick_slider">
+                    @foreach (var video in Model.EventVideos)
+                    {
+                        <div class="single_iteam embed-responsive embed-responsive-16by9">
+                            @Html.VideoHd(video.Url);
+                        </div>
+                    }
+                </div>
+            </div>
         </div>
     </div>
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Delete", "Delete", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
+<br />
+<br />

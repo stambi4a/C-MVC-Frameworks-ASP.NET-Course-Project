@@ -2,7 +2,7 @@
 {
     using System.ComponentModel.DataAnnotations.Schema;
 
-    [Table("MatchVideo")]
+    [Table("MatchVideos")]
     public class MatchVideo : Video
     {
         public int MatchId { get; set; }

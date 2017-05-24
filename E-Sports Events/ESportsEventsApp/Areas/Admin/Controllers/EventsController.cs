@@ -21,6 +21,7 @@
 
     using Constants = Helpers.Constants;
 
+    [Authorize(Roles = "Admin")]
     [RouteArea("Admin", AreaPrefix = "admin")]
     [RoutePrefix("events")]
     public class EventsController : Controller
@@ -29,7 +30,6 @@
 
         // GET: Admin/Events
         [HttpGet]
-        [Authorize(Roles = "Admin")]
         [Route("all")]
         [Route("index")]
         [Route("")]
@@ -42,7 +42,6 @@
 
         // GET: Admin/Events/Details/5
         [HttpGet]
-        [Authorize(Roles = "Admin")]
         [Route("details/{id}")]
         public ActionResult Details(int? id)
         {
@@ -60,7 +59,6 @@
         }
 
         // GET: Admin/Events/Create
-        [Authorize(Roles = "Admin")]
         [Route("create")]
         public ActionResult Create()
         {
@@ -73,12 +71,12 @@
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
         [Route("create")]
         public ActionResult Create(EventBindingModel bind)
         {
             if (ModelState.IsValid)
             {
+                bind.Logo.Url = Constants.LogosFolderPath + bind.Logo.Url;
                 var @event = Mapper.Map<EventBindingModel, Event>(bind);
                 db.Events.Add(@event);
                 db.SaveChanges();
@@ -91,7 +89,6 @@
 
         // GET: Admin/Events/Edit/5
         [HttpGet]
-        [Authorize(Roles = "Admin")]
         [Route("edit/{id}")]
         public ActionResult Edit(int? id)
         {
@@ -115,7 +112,6 @@
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
         [Route("edit/{id}")]
         public ActionResult Edit([Bind(Include = "Id, Name, Location, PrizePool, Description, TierType, StartDate, EndDate, Logo")] EventBindingModel model)
         {
@@ -123,16 +119,20 @@
             {
                 var @event = this.db.Events.Find(model.Id);
                 var logo = @event.Logo;
-                if (logo != null)
+                var hasUrl = !string.IsNullOrEmpty(model.Logo.Url);
+                if (hasUrl)
                 {
-                    this.db.Logos.Remove(logo);
+                    if (logo != null)
+                    {
+                        this.db.Logos.Remove(logo);
+                    }
+                    
+                    model.Logo.Url = Constants.LogosFolderPath + model.Logo.Url;
+                    logo = Mapper.Map<LogoBindingModel, Logo>(model.Logo);
+                    this.db.Entry(logo).State = EntityState.Added;
+                    @event.Logo = logo;
                 }
-                //this.db.SaveChanges();
-                //var @event = Mapper.Map<EventBindingModel, Event>(model);
-                model.Logo.Url = Constants.ImagesFolderPath + model.Logo.Url;
-                logo = Mapper.Map<LogoBindingModel, Logo>(model.Logo);
-                this.db.Entry(logo).State = EntityState.Added;
-                @event.Logo = logo;
+
                 @event.Name = model.Name;
                 @event.Location = model.Location;
                 @event.PrizePool = model.PrizePool;
@@ -144,12 +144,10 @@
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            //ViewBag.Id = new SelectList(db.Logos, "Id", "Caption", @event.Id);
             return View(model);
         }
 
         // GET: Admin/Events/Delete/5
-        [Authorize(Roles = "Admin")]
         [Route("delete/{id}")]
         public ActionResult Delete(int? id)
         {
@@ -169,7 +167,6 @@
         // POST: Admin/Events/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
         [Route("delete/{id}")]
         public ActionResult DeleteConfirmed(int id)
         {
@@ -189,7 +186,6 @@
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
         [Route("associateadmin/{id}")]
         public ActionResult AssociateAdmin(int id)
         {
@@ -224,7 +220,6 @@
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
         [Route("associateadmin/{id}")]
         public ActionResult AssociateAdmin(int id, [Bind(Include = "AssociatedAdmins, AvailableAdmins, AssociateEventAdminId")] AssociateEventAdminBindingModel bind)
         {
@@ -254,7 +249,6 @@
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
         [Route("dissociateadmin/{id}")]
         public ActionResult DissociateAdmin(int id)
         {
@@ -290,7 +284,6 @@
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
         [Route("dissociateadmin/{id}")]
         public ActionResult DissociateAdmin(int id, [Bind(Include = "AssociatedAdmins, AvailableAdmins, AssociateEventAdminId")] AssociateEventAdminBindingModel bind)
         {
@@ -310,8 +303,12 @@
                 if (bind.AssociateEventAdminId != null)
                 {
                     var eventUser = this.db.Users.Find(bind.AssociateEventAdminId);
-                    @event.EventAdmins.Remove(eventUser);
-                    this.db.SaveChanges();
+                    if (eventUser != null)
+                    {
+                        @event.EventAdmins.Remove(eventUser);
+                        this.db.SaveChanges();
+                    }
+                                      
                     return this.RedirectToAction("DissociateAdmin", "Events");
                 }
             }

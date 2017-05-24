@@ -22,15 +22,6 @@
         <th>
             @Html.DisplayNameFor(model => model.PrizePool)
         </th>
-        @*<th>
-            @Html.DisplayNameFor(model => model.TierType)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.StartDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EndDate)
-        </th>*@
         <th>
             @Html.DisplayNameFor(model=>model.EventAdmins)
         </th>
@@ -42,7 +33,10 @@
         @Html.HiddenFor(model => item.Id)
         <tr>
             <td>
-                @Html.Image(item.Logo.Url, string.Empty, "width:50px; height:auto;")
+                @if (item.Logo != null)
+                {
+                    @Html.Image(item.Logo.Url, string.Empty, "width:50px; height:auto;")
+                }                
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
@@ -53,15 +47,6 @@
             <td>
                 @Html.DisplayFor(modelItem => item.PrizePoolToString)
             </td>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.TierType)
-            </td>
-            <td>
-                @Html.DateFor(item.StartDate)
-            </td>
-            <td>
-                @Html.DateFor(item.EndDate)
-            </td>*@
             <td>
                 @Html.DisplayFor(modelItem => item.EventAdminsToString )
             </td>

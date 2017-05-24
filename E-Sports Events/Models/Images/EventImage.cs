@@ -6,6 +6,7 @@
     public class EventImage : Image
     {
         public int EventId { get; set; }
-        public virtual Event Match { get; set; }
+
+        public virtual Event Event { get; set; }
     }
 }

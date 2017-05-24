@@ -16,6 +16,7 @@ body {background-color:#000d11}
 .post_nav figcaption a:hover{color:#00b3b3}
 .catg_title:hover{color:#33bbff}
 .middle_content > h2, .featured_title{background-color:#003366}
+.middle_content > h2, .details_featured_title{background-color:#001a33}
 .slick-prev, .slick-next{background-color:#003366}
 .slick-prev:hover, .slick-next:hover{opacity:0.55}
 .featured_article{border-top:6px solid #003366}

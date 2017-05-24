@@ -7,6 +7,11 @@
     {
         public override bool IsValid(object value)
         {
+            if (value == null)
+            {
+                return false;
+            }
+
             var result = (DateTime)value;
             if (result < DateTime.Today)
             {

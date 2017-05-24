@@ -542,6 +542,13 @@
     <Content Include="Areas\EventAdmin\Views\Events\Details.cshtml" />
     <Content Include="Areas\EventAdmin\Views\Events\Edit.cshtml" />
     <Content Include="Areas\EventAdmin\Views\Events\Index.cshtml" />
+    <Content Include="Areas\EventAdmin\Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Areas\EventAdmin\Views\Events\AddEventImage.cshtml" />
+    <Content Include="Areas\EventAdmin\Views\Events\RemoveEventImage.cshtml" />
+    <Content Include="Areas\EventAdmin\Views\Events\AddEventImageLocal.cshtml" />
+    <Content Include="Areas\EventAdmin\Views\Events\AddEventVideo.cshtml" />
+    <Content Include="Areas\EventAdmin\Views\Events\RemoveEventVideo.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -550,7 +557,9 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\slick.min.js" />
     <Content Include="Scripts\wow.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -595,6 +604,7 @@
     <Folder Include="Content\Images\Maps\" />
     <Folder Include="Content\Images\Matches\" />
     <Folder Include="Content\Images\Players\" />
+    <Folder Include="Security\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

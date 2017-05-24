@@ -12,6 +12,7 @@ namespace ESportsEventsApp
 
     using global::Models;
     using global::Models.Images;
+    using global::Models.Videos;
 
     using Microsoft.AspNet.Identity.EntityFramework;
 
@@ -57,6 +58,20 @@ namespace ESportsEventsApp
                         expression.CreateMap<Logo, LogoViewModel>();
                         expression.CreateMap<RegisteredUser, EventAdminViewModel>();
                         expression.CreateMap<RegisteredUser, EventAdminBindingModel>();
+                        expression.CreateMap<EventImage, EventImageViewModel>();
+                        expression.CreateMap<EventImageBindingModel, EventImage>();
+                        expression.CreateMap<Event, EventAllDetailsViewModel>();
+                        expression.CreateMap<EventImage, RemEventImageBindingModel>();
+                        expression.CreateMap<RemEventImageBindingModel, EventImage>();
+                        expression.CreateMap<Event, RemoveEventImageBindingModel>()
+                        .ForMember(dest=>dest.AddedEventImages, src=>src.MapFrom(e=>e.EventImages));
+                        expression.CreateMap<EventVideo, EventVideoBindingModel>();
+                        expression.CreateMap<EventVideoBindingModel, EventVideo>();
+                        expression.CreateMap<EventVideo, EventVideoViewModel>();
+                        expression.CreateMap<EventVideo, RemEventVideoBindingModel>();
+                        expression.CreateMap<RemEventVideoBindingModel, EventVideo>();
+                        expression.CreateMap<Event, RemoveEventVideoBindingModel>()
+                        .ForMember(dest => dest.AddedEventVideos, src => src.MapFrom(e => e.EventVideos));
                     });
         }
     }

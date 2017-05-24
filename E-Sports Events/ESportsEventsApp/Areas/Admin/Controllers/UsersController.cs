@@ -5,6 +5,7 @@
     using System.Data.Entity;
     using System.Linq;
     using System.Net;
+    using System.Threading.Tasks;
     using System.Web;
     using System.Web.Mvc;
 
@@ -14,14 +15,18 @@
 
     using Data;
 
+    using Evernote.EDAM.Type;
+
     using global::Models;
 
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
     using Microsoft.AspNet.Identity.Owin;
+    using Microsoft.Owin.Security;
 
     using ViewModels;
 
+    [Authorize(Roles = "Admin")]
     [RouteArea("Admin", AreaPrefix = "admin")]
     [RoutePrefix("users")]
     public class UsersController : Controller
@@ -29,6 +34,20 @@
         private ESportsEventsContext db = new ESportsEventsContext();
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private IAuthenticationManager authenticationManager;
+
+        public IAuthenticationManager AuthenticationManager
+        {
+            get
+            {
+                return authenticationManager??HttpContext.GetOwinContext().Authentication;
+            }
+            private set
+            {
+                authenticationManager = value;
+            }
+        }
+
         public ApplicationUserManager UserManager
         {
             get
@@ -226,7 +245,7 @@
         [HttpPost]
         [Authorize(Roles = "Admin")]
         [Route("associaterole/{id}")]
-        public ActionResult AssociateRole([Bind(Include = "Id, AddedRole, Username")] AssociateRoleBindingModel bind)
+        public async Task<ActionResult> AssociateRole([Bind(Include = "Id, AddedRole, Username")] AssociateRoleBindingModel bind)
         {
             if (bind.Id == null)
             {
@@ -248,6 +267,7 @@
                     return this.View(bind);
                 }
                 var result = userManager.AddToRole(user.Id, bind.AddedRole);
+                await this.SignInAsync(user, true);
                 //userManager.Update(user);
                 if (result == IdentityResult.Failed())
                 {
@@ -277,6 +297,10 @@
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var user = db.Users.Find(id);
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
             var context = new ESportsEventsContext();
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
             var allRoles = roleManager.Roles.ToList();
@@ -292,10 +316,6 @@
                 Id = id,
                 Username = user.UserName
             };
-            if (user == null)
-            {
-                return HttpNotFound();
-            }
 
             return this.View(model);
         }
@@ -303,7 +323,7 @@
         [HttpPost]
         [Authorize(Roles = "Admin")]
         [Route("dissociaterole/{id}")]
-        public ActionResult DissociateRole([Bind(Include = "Id, RoleToRemove, Username")] DissociateRoleBindingModel bind)
+        public async Task<ActionResult> DissociateRole([Bind(Include = "Id, RoleToRemove, Username")] DissociateRoleBindingModel bind)
         {
             if (bind.Id == null)
             {
@@ -324,7 +344,13 @@
                     //bind.Username = user.UserName;
                     return this.View(bind);
                 }
-                var result = userManager.RemoveFromRole(user.Id, bind.RoleToRemove);
+                var result = await userManager.RemoveFromRoleAsync(user.Id, bind.RoleToRemove);
+                foreach (var @event in user.AdministratedEvents)
+                {
+                    @event.EventAdmins.Remove(user);
+                }
+                this.db.SaveChanges();
+                await this.SignInAsync(user, true);
                 //userManager.Update(user);
                 if (result == IdentityResult.Failed())
                 {
@@ -342,6 +368,13 @@
             }
 
             return this.View();
+        }
+
+        private async Task SignInAsync(RegisteredUser user, bool isPersistent)
+        {
+            this.AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
+            var identity = await UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
+            this.AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = isPersistent }, identity);
         }
     }
 }

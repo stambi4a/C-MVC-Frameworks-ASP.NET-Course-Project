@@ -45,8 +45,14 @@
     <Compile Include="AssociateRoleBindingModel.cs" />
     <Compile Include="DissociateRoleBindingModel.cs" />
     <Compile Include="EventAdminBindingModel.cs" />
+    <Compile Include="EventVideoBindingModel.cs" />
+    <Compile Include="RemEventVideoBindingModel.cs" />
+    <Compile Include="RemEventImageBindingModel.cs" />
+    <Compile Include="RemoveEventImageBindingModel.cs" />
+    <Compile Include="RemoveEventVideoBindingModel.cs" />
     <Compile Include="EventBindingModel.cs" />
     <Compile Include="EventDetailsBindingModel.cs" />
+    <Compile Include="EventImageBindingModel.cs" />
     <Compile Include="LoginBindingModel.cs" />
     <Compile Include="LogoBindingModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

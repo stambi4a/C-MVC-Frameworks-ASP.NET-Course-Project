@@ -44,8 +44,12 @@
     <Compile Include="BasicArticleViewModel.cs" />
     <Compile Include="BasicEventViewModel.cs" />
     <Compile Include="EventAdminViewModel.cs" />
+    <Compile Include="EventAllDetailsViewModel.cs" />
     <Compile Include="EventDetailsViewModel.cs" />
+    <Compile Include="EventVideoViewModel.cs" />
+    <Compile Include="EventImageViewModel.cs" />
     <Compile Include="EventViewModel.cs" />
+    <Compile Include="HomePageViewModel.cs" />
     <Compile Include="LogoViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegisteredUserDetailsViewModel.cs" />

@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNet.Identity
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -26,13 +27,15 @@
                         <ul class="dropdown-menu" role="menu">
                             <li>@Html.ActionLink("Users", "Index", "Users", new { Area = "Admin" }, new { style = "font-weight:bold" })</li>
                             <li>@Html.ActionLink("Events", "Index", "Events", new { Area = "Admin" }, new { style = "font-weight:bold" })</li>
+                            @if (User.IsInRole("EventAdmin"))
+                            {
+                                <li>@Html.ActionLink("My Events", "Index", "Events", new { Area = "EventAdmin" }, new { style = "font-weight:bold" })</li>
+                            }     
                         </ul>
                     </li>   
-                    @if (User.IsInRole("EventAdmin"))
-                    {
-                        <li>@Html.ActionLink("My Events", "Index", "Events", new { Area = "EventAdmin" }, new { style = "font-weight:bold" })</li>
-                    }                    
+                                  
                 </ul>
+               @Html.Partial("_LoginPartial")
             </div>
         </div>
     </div>
