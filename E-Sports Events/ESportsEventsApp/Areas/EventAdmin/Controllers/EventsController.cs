@@ -1,11 +1,13 @@
 ﻿namespace ESportsEventsApp.Areas.EventAdmin.Controllers
 {
+    using System;
     using System.Collections.Generic;
     using System.Data.Entity;
+    using System.Data.Entity.Migrations;
+    using System.Globalization;
     using System.IO;
     using System.Linq;
     using System.Net;
-    using System.Web;
     using System.Web.Mvc;
 
     using AutoMapper;
@@ -26,7 +28,7 @@
 
     [Authorize(Roles = "EventAdmin")]
     [RouteArea("EventAdmin", AreaPrefix = "eventadmin")]
-    [RoutePrefix("events")]
+    [RoutePrefix("myevents")]
     public class EventsController : Controller
     {
         private ESportsEventsContext db = new ESportsEventsContext();
@@ -77,6 +79,12 @@
                 return this.HttpNotFound();
             }
 
+            var dateToString = @event.StartDate.Value.ToString("g");
+            @event.StartDate = DateTime.Parse(dateToString, CultureInfo.InvariantCulture);
+
+            dateToString = @event.EndDate.Value.ToString("g");
+            @event.EndDate = DateTime.Parse(dateToString, CultureInfo.InvariantCulture);
+
             var model = Mapper.Map<Event, EventBindingModel>(@event);
             //ViewBag.Id = new SelectList(db.Logos, "Id", "Caption", @event.Id);
             return this.View(model);
@@ -88,35 +96,24 @@
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("edit/{id}")]
-        public ActionResult Edit([Bind(Include = "Id, Name, Location, PrizePool, Description, TierType, StartDate, EndDate, Logo")] EventBindingModel model)
-        {
+        public ActionResult Edit([Bind(Include = "Id, Name, Location, PrizePool, Description, TierType, StartDate, EndDate")] EventBindingModel model)
+        {   
             if (ModelState.IsValid)
             {
                 var @event = this.db.Events.Find(model.Id);
-                var logo = @event.Logo;
-                var hasUrl = !string.IsNullOrEmpty(model.Logo.Url);
-                if (hasUrl)
-                {
-                    if (logo != null)
-                    {
-                        this.db.Logos.Remove(logo);
-                    }
+                @event = Mapper.Map<EventBindingModel, Event>(model);
+                this.db.Events.AddOrUpdate(a => a.Id, @event);
+                this.db.SaveChanges();
 
-                    model.Logo.Url = Constants.LogosFolderPath + model.Logo.Url;
-                    logo = Mapper.Map<LogoBindingModel, Logo>(model.Logo);
-                    this.db.Entry(logo).State = EntityState.Added;
-                    @event.Logo = logo;
+                var season = this.db.Seasons.FirstOrDefault(s => s.Year == @event.EndDate.Value.Year)
+                             ?? new Season { Year = @event.EndDate.Value.Year };
+                if ((@event.Season != null && @event.EndDate.Value.Year != season.Year) || @event.Season == null)
+                {
+                    @event = this.db.Events.Find(model.Id);
+                    @event.Season = season;
+                    this.db.SaveChanges();
                 }
 
-                @event.Name = model.Name;
-                @event.Location = model.Location;
-                @event.PrizePool = model.PrizePool;
-                @event.TierType = model.TierType;
-                @event.StartDate = model.StartDate;
-                @event.EndDate = model.EndDate;
-                @event.Description = model.Description;
-                db.Entry(@event).State = EntityState.Modified;
-                db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(model);
@@ -135,7 +132,10 @@
             {
                 return this.HttpNotFound();
             }
-
+            if (@event.StartDate >= DateTime.Now)
+            {
+                return this.RedirectToAction("Index");
+            }
             ViewBag.EventName = @event.Name; 
             return this.View();
         }
@@ -174,7 +174,10 @@
             {
                 return this.HttpNotFound();
             }
-
+            if (@event.StartDate >= DateTime.Now)
+            {
+                return this.RedirectToAction("Index");
+            }
             ViewBag.EventName = @event.Name;
             return this.View();
         }
@@ -197,10 +200,10 @@
                     return this.View();
                 }
 
-                var directory = $"{Server.MapPath("~")}/Content/Images/Event Images/";
+                var directory = $"{Server.MapPath("~")}{Constants.EventImagesMapPath}";
                 photo.SaveAs(Path.Combine(directory, photo.FileName));
                 bind.Url = Constants.EventImagesFolderPath + photo.FileName;
-                if (!@event.EventImages.Any(ei => ei.Url == bind.Url))
+                if (@event.EventImages.All(ei => ei.Url != bind.Url))
                 {
                     var image = Mapper.Map<EventImageBindingModel, EventImage>(bind);
                     @event.EventImages.Add(image);
@@ -210,6 +213,124 @@
                 ViewBag.EventName = @event.Name;
 
                 return this.RedirectToAction("AddEventImageLocal");
+            }
+            return this.View();
+        }
+
+        [HttpGet]
+        [Route("editlogo/{id}")]
+        public ActionResult EditLogo(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var @event = this.db.Events.Find(id);
+            if (@event == null)
+            {
+                return this.HttpNotFound();
+            }
+            if (@event.StartDate < DateTime.Now)
+            {
+                return this.RedirectToAction("Index");
+            }
+            ViewBag.EventName = @event.Name;
+            return this.View();
+        }
+
+        [HttpPost]
+        [Route("editlogo/{id}")]
+        public ActionResult EditLogo(int? id, LogoBindingModel model)
+        {
+            if (this.ModelState.IsValid)
+            {
+                var @event = this.db.Events.Find(id);
+                if (@event == null)
+                {
+                    return this.HttpNotFound();
+                }   
+                var hasUrl = !string.IsNullOrEmpty(model.Url);
+                if (@event.Logo != null && hasUrl)
+                {
+                    this.db.Entry(@event.Logo).State = EntityState.Deleted;
+                    this.db.SaveChanges();
+                }
+
+                if (hasUrl)
+                {
+                    model.Url = Constants.LogosFolderPath + model.Url;
+                    var logo = Mapper.Map<LogoBindingModel, Logo>(model);
+                    @event.Logo = logo;
+
+                    this.db.SaveChanges();
+                }
+
+                return this.RedirectToAction("Index");
+
+            }
+            return this.View(model);
+        }
+
+        [HttpGet]
+        [Route("editlogolocal/{id}")]
+        public ActionResult EditLogoLocal(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var @event = this.db.Events.Find(id);
+            if (@event == null)
+            {
+                return this.HttpNotFound();
+            }
+
+            if (@event.StartDate < DateTime.Now)
+            {
+                return this.RedirectToAction("Index");
+            }
+            ViewBag.EventName = @event.Name;
+            return this.View();
+        }
+
+        [HttpPost]
+        [Route("editlogolocal/{id}")]
+        public ActionResult EditLogoLocal(int? id, LogoBindingModel model)
+        {
+            if (this.ModelState.IsValid)
+            {
+                var @event = this.db.Events.Find(id);
+                if (@event == null)
+                {
+                    return this.HttpNotFound();
+                }
+
+                var hasUrl = !string.IsNullOrEmpty(model.Url);
+                if (@event.Logo != null && hasUrl)
+                {
+                    this.db.Entry(@event.Logo).State = EntityState.Deleted;
+                    this.db.SaveChanges();
+                }
+
+                var photo = Request.Files["Url"];
+                if (photo == null)
+                {
+                    return this.View();
+                }
+
+                if (hasUrl)
+                {
+                    var directory = $"{Server.MapPath("~")}{Constants.LogosMapPath}";
+                    photo.SaveAs(Path.Combine(directory, photo.FileName));
+                    model.Url = Constants.LogosFolderPath + photo.FileName;
+                    var logo = Mapper.Map<LogoBindingModel, Logo>(model);
+                    @event.Logo = logo;
+                    this.db.SaveChanges();
+                }
+
+                ViewBag.EventName = @event.Name;
+
+                return this.RedirectToAction("Index");
             }
             return this.View();
         }
@@ -226,6 +347,11 @@
             if (@event == null)
             {
                 return this.HttpNotFound();
+            }
+
+            if (@event.StartDate >= DateTime.Now)
+            {
+                return this.RedirectToAction("Index");
             }
 
             var addedImages = @event.EventImages;
@@ -282,6 +408,11 @@
             if (@event == null)
             {
                 return this.HttpNotFound();
+            }
+
+            if (@event.StartDate >= DateTime.Now)
+            {
+                return this.RedirectToAction("Index");
             }
 
             ViewBag.EventName = @event.Name;

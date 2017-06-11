@@ -34,6 +34,17 @@
             return new MvcHtmlString(builder.ToString(TagRenderMode.Normal));
         }
 
+        public static MvcHtmlString SubmitButton(this HtmlHelper helper, string value)
+        {
+            var builder = new TagBuilder("input");
+            builder.MergeAttribute("type", "Submit");
+            builder.MergeAttribute("value", value);
+            builder.MergeAttribute("class", "btn btn-default");
+            //builder.InnerHtml = text;
+
+            return new MvcHtmlString(builder.ToString(TagRenderMode.Normal));
+        }
+
         public static MvcHtmlString EmailLink(this HtmlHelper helper, string address)
         {
             var builder = new TagBuilder("a");
@@ -45,7 +56,7 @@
 
         public static MvcHtmlString DateFor(this HtmlHelper helper, DateTime date)
         {
-            var builder = new TagBuilder("span") { InnerHtml = date.ToString("dd MMMM yyyy") };
+            var builder = new TagBuilder("span") { InnerHtml = date.ToString("dddd, dd MMMM yyyy H:mm tt") };
 
             return new MvcHtmlString(builder.ToString(TagRenderMode.Normal));
         }

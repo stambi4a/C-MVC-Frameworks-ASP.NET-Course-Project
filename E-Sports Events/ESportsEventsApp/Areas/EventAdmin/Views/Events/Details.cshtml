@@ -76,6 +76,22 @@
                 <dd>
                     @Html.DateFor(Model.EndDate)
                 </dd>
+                
+                <dt>
+                    @Html.DisplayNameFor(model => model.EventAdmins)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.EventAdminsToString)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Players)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.PlayersToString)
+                </dd>
                 @*<dt>
                     @Html.DisplayNameFor(model => model.EventImages)
                 </dt>

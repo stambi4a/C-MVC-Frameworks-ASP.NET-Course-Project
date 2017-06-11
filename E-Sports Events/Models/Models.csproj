@@ -58,7 +58,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationUser.cs" />
+    <Compile Include="City.cs" />
+    <Compile Include="Country.cs" />
+    <Compile Include="Images\Flag.cs" />
+    <Compile Include="PlayerEventRanking.cs" />
     <Compile Include="Images\EventImage.cs" />
+    <Compile Include="Images\TeamLogo.cs" />
     <Compile Include="Images\MatchImage.cs" />
     <Compile Include="RegisteredUser.cs" />
     <Compile Include="Article.cs" />
@@ -72,8 +77,12 @@
     <Compile Include="Map.cs" />
     <Compile Include="Match.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Round.cs" />
+    <Compile Include="Season.cs" />
     <Compile Include="Sponsor.cs" />
     <Compile Include="Player.cs" />
+    <Compile Include="Team.cs" />
+    <Compile Include="Venue.cs" />
     <Compile Include="Videos\ArticleVideo.cs" />
     <Compile Include="Videos\EventVideo.cs" />
     <Compile Include="Videos\MatchVideo.cs" />

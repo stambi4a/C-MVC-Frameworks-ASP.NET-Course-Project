@@ -27,6 +27,14 @@
 
         public string Description { get; set; }
 
+        public IEnumerable<EventAdminViewModel> EventAdmins { get; set; }
+
+        public IEnumerable<PlayerViewModel> Players { get; set; }
+
+        public string EventAdminsToString => string.Join(", ", this.EventAdmins);
+
+        public string PlayersToString => string.Join(", ", this.Players);
+
         public IEnumerable<EventImageViewModel> EventImages { get; set; }
 
         public IEnumerable<EventVideoViewModel> EventVideos { get; set; }

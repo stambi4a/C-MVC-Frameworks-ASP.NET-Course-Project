@@ -73,14 +73,6 @@
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelForModel("Logo", htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6" })
-                    <div class="col-lg-8 col-md-8 col-sm-6">
-                        @Html.EditorFor(model => model.Logo.Url, new { htmlAttributes = new { @type = "file" } })
-                        @Html.ValidationMessageFor(model => model.Logo.Url, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
                     <div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-lg-10 col-md-10 col-sm-10">
                         <input type="submit" value="Save" class="btn btn-default" />
                     </div>

@@ -1,0 +1,52 @@
+﻿@using ViewModels
+@model CityViewModel
+@{
+    ViewBag.Title = $"Details for {Model.Name}";
+}
+
+<div>
+    <h3>@ViewBag.Title</h3>
+    <div class="row">
+        <div class="col-lg-5 col-md-5 col-sm-5">
+            <hr/>
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Name)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Country)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Country.Name)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Players)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.PlayersToString)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Teams)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.TeamsToString)
+                </dd>
+
+            </dl>
+        </div>
+    </div>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

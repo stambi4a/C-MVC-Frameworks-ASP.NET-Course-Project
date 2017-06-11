@@ -17,6 +17,7 @@
         private ICollection<RegisteredUser> eventAdmins;
         private ICollection<EventImage> eventImages;
         private ICollection<EventVideo> eventVideos;
+        private ICollection<PlayerEventRanking> playerEventRankings;
 
         public Event()
         {
@@ -27,13 +28,14 @@
             this.eventImages = new HashSet<EventImage>();
             this.eventAdmins = new HashSet<RegisteredUser>();
             this.eventVideos = new HashSet<EventVideo>();
+            this.playerEventRankings = new SortedSet<PlayerEventRanking>();
         }
 
         public int Id { get; set; }
 
         public string Name { get; set; }
 
-        public string Location { get; set; }
+        //public string Location { get; set; }
 
         public double? PrizePool { get; set; }
 
@@ -57,8 +59,18 @@
 
         public virtual ICollection<EventVideo> EventVideos => this.eventVideos;
 
+        public virtual ICollection<PlayerEventRanking> PlayerEventRankings => this.playerEventRankings;
+
+        public virtual Season Season { get; set; }
+
         public virtual Logo Logo { get; set; }
 
         public string Description { get; set; }
+
+        public virtual City City { get; set; }
+
+        public virtual Country Country { get; set; }
+
+        public virtual Venue Venue { get; set; }
     }
 }

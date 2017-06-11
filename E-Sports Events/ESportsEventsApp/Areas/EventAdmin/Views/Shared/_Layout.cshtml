@@ -1,5 +1,4 @@
-﻿@using Microsoft.AspNet.Identity
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -28,10 +27,20 @@
                                 @if (User.IsInRole("Admin"))
                                 {
                                     <li>@Html.ActionLink("Users", "Index", "Users", new { Area = "Admin" }, new { style = "font-weight:bold" })</li>
-                                    <li>@Html.ActionLink("Events", "Index", "Events", new { Area = "Admin" }, new { style = "font-weight:bold" })</li>
-                                                           
+                                    <li>@Html.ActionLink("Events", "Index", "Events", new { Area = "Admin" }, new { style = "font-weight:bold" })</li>        
                                 }
                                 <li>@Html.ActionLink("My Events", "Index", "Events", new { Area = "EventAdmin" }, new { style = "font-weight:bold" })</li>
+                                @if (User.IsInRole("PlayerAdmin"))
+                                {
+                                    <li>@Html.ActionLink("Players", "Index", "Players", new { Area = "PlayerAdmin" }, new { style = "font-weight:bold"})</li>
+                                    <li>@Html.ActionLink("Teams", "Index", "Teams", new { Area = "PlayerAdmin" }, new { style = "font-weight:bold" })</li>
+                                }
+                                @if (User.IsInRole("LocationAdmin"))
+                                {
+                                    <li>@Html.ActionLink("Countries", "Index", "Countries", new { Area = "LocationAdmin" }, new { style = "font-weight:bold" })</li>
+                                    <li>@Html.ActionLink("Cities", "Index", "Cities", new { Area = "LocationAdmin" }, new { style = "font-weight:bold" })</li>
+                                    <li>@Html.ActionLink("Venues", "Index", "Venues", new { Area = "LocationAdmin" }, new { style = "font-weight:bold" })</li>
+                                }
                             </ul>
                         </li>                       
                     </ul>

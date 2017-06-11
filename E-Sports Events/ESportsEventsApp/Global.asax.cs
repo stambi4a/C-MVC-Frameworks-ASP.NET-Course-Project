@@ -8,7 +8,7 @@ namespace ESportsEventsApp
 
     using BindingModels;
 
-    using ESportsEventsApp.Extensions;
+    using Extensions;
 
     using global::Models;
     using global::Models.Images;
@@ -46,15 +46,12 @@ namespace ESportsEventsApp
                         .ForMember(dest => dest.Roles, src => src.MapFrom(s => s.GetRoles()));
                         expression.CreateMap<RegisterBindingModel, RegisteredUser>();
                         expression.CreateMap<Event, EventViewModel>();
-                        //.ForMember(dest => dest.Logo, src => src.Ignore());
                         expression.CreateMap<Event, EventDetailsViewModel>();
                         expression.CreateMap<Event, EventDetailsBindingModel>();
                         expression.CreateMap<Logo, LogoBindingModel>();
                         expression.CreateMap<Event, EventBindingModel>();
-                        //.ForMember(dest=>dest.Logo, src=>src.Ignore());
                         expression.CreateMap<LogoBindingModel, Logo>();
                         expression.CreateMap<EventBindingModel, Event>();
-                        //.ForMember(dest=>dest.Logo, src=>src.Ignore());
                         expression.CreateMap<Logo, LogoViewModel>();
                         expression.CreateMap<RegisteredUser, EventAdminViewModel>();
                         expression.CreateMap<RegisteredUser, EventAdminBindingModel>();
@@ -72,6 +69,34 @@ namespace ESportsEventsApp
                         expression.CreateMap<RemEventVideoBindingModel, EventVideo>();
                         expression.CreateMap<Event, RemoveEventVideoBindingModel>()
                         .ForMember(dest => dest.AddedEventVideos, src => src.MapFrom(e => e.EventVideos));
+                        expression.CreateMap<Player, PlayerViewModel>();
+                        expression.CreateMap<Player, PlayerBindingModel>();
+                        expression.CreateMap<PlayerBindingModel, Player>();
+                        expression.CreateMap<Team, TeamViewModel>();
+                        expression.CreateMap<TeamBindingModel, Team>();
+                        expression.CreateMap<Team, TeamBindingModel>();
+                        expression.CreateMap<Season, SeasonViewModel>();
+                        expression.CreateMap<CountryBindingModel, Country>();
+                        expression.CreateMap<Country, CountryBindingModel>();
+                        expression.CreateMap<Country, CountryViewModel>();
+                        expression.CreateMap<PlayerImage, PlayerImageViewModel>();
+                        expression.CreateMap<TeamLogo, TeamLogoViewModel>();
+                        expression.CreateMap<Flag, FlagViewModel>();
+                        expression.CreateMap<FlagBindingModel, Flag>();
+                        expression.CreateMap<TeamLogoBindingModel, TeamLogo>();
+                        expression.CreateMap<CityBindingModel, City>();
+                        expression.CreateMap<City, CityBindingModel>();
+                        expression.CreateMap<City, CityViewModel>();
+                        expression.CreateMap<Country, CountryShortViewModel>();
+                        expression.CreateMap<City, CityShortViewModel>();
+                        expression.CreateMap<Team, TeamShortViewModel>();
+                        expression.CreateMap<RoundBindingModel, Round>();
+                        expression.CreateMap<Round, RoundBindingModel>();
+                        expression.CreateMap<Round, RoundViewModel>();
+                        expression.CreateMap<Venue, VenueViewModel>();
+                        expression.CreateMap<Venue, VenueBindingModel>();
+                        expression.CreateMap<VenueBindingModel, Venue>();
+                        expression.CreateMap<Venue, VenueShortViewModel>();
                     });
         }
     }

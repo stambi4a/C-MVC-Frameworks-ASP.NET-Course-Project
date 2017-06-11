@@ -1,6 +1,6 @@
 body {background-color:#000d11}
 .scrollToTop{background-color:#003366; color:#fff}
-.scrollToTop:hover, .scrollToTop:focus{background-color:#fff; color:#003366; border-color:1px solid #003366}
+.scrollToTop:hover, .scrollToTop:focus{background-color:#fff; color:#003366; border-color: #003366}
 #header{background:none repeat scroll 0 0 #003366}
 /*.navbar-default{background-color:#003366; border-color:#003366}*/
 .navbar-default{background-color:#000d1a; border-color:#000d1a}

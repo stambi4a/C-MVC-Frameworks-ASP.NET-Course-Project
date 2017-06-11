@@ -1,0 +1,41 @@
+﻿@using BindingModels
+@model FlagBindingModel
+
+@{
+    ViewBag.Title = $"Edit flag for ";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="col-lg-4 col-md-4 col-sm-8">
+            <div class="form-horizontal">
+                <h3>@ViewBag.Title<strong>@ViewBag.CountryName</strong></h3>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="form-group">
+                    @Html.LabelForModel("Url", htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6" })
+                    <div class="col-lg-8 col-md-8 col-sm-6">
+                        @Html.EditorFor(model => model.Url, new { htmlAttributes = new { @type = "file", value = "index.png" } })
+                        @Html.ValidationMessageFor(model => model.Url, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-lg-10 col-md-10 col-sm-10">
+                        <input type="submit" value="Save" class="btn btn-default" />
+                    </div>
+                    <div class="col-lg-10 col-md-10 col-sm-10">
+                        @Html.ActionLink("Back to List", "Index")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

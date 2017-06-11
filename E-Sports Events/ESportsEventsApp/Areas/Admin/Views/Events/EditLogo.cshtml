@@ -1,0 +1,70 @@
+﻿@using BindingModels
+@using ESportsEventsApp.Extensions
+@model LogoBindingModel
+
+@{
+    ViewBag.Title = $"Edit Logo for ";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-6">
+            <div class="form-horizontal">
+                <h4>@ViewBag.Title<strong>@ViewBag.EventName</strong></h4>
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <br/>
+                <div class="responsive">
+                    <table class="table-striped">
+                        <tr>
+                            <td class="left-cell col-lg-2 col-md-3 col-sm-4">
+                                @Html.LabelForModel("Logo", htmlAttributes: new { @style = "font-weight: normal;" })
+                            </td>
+                            <td class="right-cell col-lg-2 col-md-3 col-sm-4">
+                                <div>
+                                    @(!string.IsNullOrEmpty(@Model?.Url) ? Html.Image(Model.Url, string.Empty, "width: 50px;") : Html.DisplayText("None"))
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-cell col-lg-2 col-md-3 col-sm-4">
+                                @Html.LabelFor(model=>model.Url, new { @style = "font-weight: normal;" })
+                            </td>
+                            <td class="left-cell col-lg-2 col-md-3 col-sm-4">
+                                <div>
+                                    @Html.EditorFor(model => model.Url, new { htmlAttributes = new { @type = "file", value = "index.png" } })
+                                    @Html.ValidationMessageFor(model => model.Url, "", new { @class = "text-danger" })
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <br/>
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <input type="submit" value="Save" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="col-lg-2 col-md-3 col-sm-3" style="padding-top: 40px;">
+            <ul>
+                <li>@Html.ActionLink("Back To List", "Index", null, new { @class = "btn btn-primary" })</li>
+                <li>@Html.ActionLink("Edit", "Edit", null, new { @class = "btn btn-primary" })</li>
+                <li>@Html.ActionLink("Details", "Details", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
+                <li>@Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" })</li>
+                <li>@Html.ActionLink("Delete", "Delete", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
+                <li>@Html.ActionLink("Edit Logo Local", "EditLogoLocal", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
+                <li>@Html.ActionLink("Associate Admin", "AssociateAdmin", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
+                <li>@Html.ActionLink("Dissociate Admin", "DissociateAdmin", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
+            </ul>
+        </div>
+    </div>
+
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

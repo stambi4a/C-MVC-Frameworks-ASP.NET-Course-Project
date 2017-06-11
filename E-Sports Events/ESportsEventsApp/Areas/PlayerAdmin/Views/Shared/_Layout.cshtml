@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <header>
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    @Html.ActionLink("ESports Events", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav custom_nav">
+                        <li class="dropdown">
+                            @Html.ActionLink("Admin Panel", "", null, htmlAttributes: new { @class = "dropdown-toggle", @datatoggle = "toggle", @role = "button", @ariaexpanded = "false", style = "font-weight:bold" })
+                            <ul class="dropdown-menu" role="menu">
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <li>@Html.ActionLink("Users", "Index", "Users", new { Area = "Admin" }, new { style = "font-weight:bold" })</li>
+                                    <li>@Html.ActionLink("Events", "Index", "Events", new { Area = "Admin" }, new { style = "font-weight:bold" })</li>
+
+                                }
+                                @if (User.IsInRole("EventAdmin"))
+                                {
+                                    <li>@Html.ActionLink("My Events", "Index", "Events", new { Area = "EventAdmin" }, new { style = "font-weight:bold" })</li>
+                                }
+                                <li>@Html.ActionLink("Players", "Index", "Players", new { Area = "PlayerAdmin" }, new { style = "font-weight:bold" })</li>
+                                <li>@Html.ActionLink("Teams", "Index", "Teams", new { Area = "PlayerAdmin" }, new { style = "font-weight:bold" })</li>
+                                @if (User.IsInRole("LocationAdmin"))
+                                {
+                                    <li>@Html.ActionLink("Countries", "Index", "Countries", new { Area = "LocationAdmin" }, new { style = "font-weight:bold" })</li>
+                                    <li>@Html.ActionLink("Cities", "Index", "Cities", new { Area = "LocationAdmin" }, new { style = "font-weight:bold" })</li>
+                                    <li>@Html.ActionLink("Venues", "Index", "Venues", new { Area = "LocationAdmin" }, new { style = "font-weight:bold" })</li>
+                                }
+                            </ul>
+                        </li>
+                    </ul>
+                    @Html.Partial("_LoginPartial")
+                </div>
+            </div>
+        </div>
+    </header>
+    <section id="content">
+        <div class="container body-content">
+            @RenderBody()
+        </div>
+    </section>
+    <footer class="footer navbar-fixed-bottom">
+        <div class="footer_bottom">
+            <div class="container">
+                <p class="copyright">Copyright &copy; 2017 <a href="#">Sweet Sixteen Software</a></p>
+                <p class="developer">Developed By Stanimir Todorov</p>
+            </div>
+        </div>
+    </footer>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

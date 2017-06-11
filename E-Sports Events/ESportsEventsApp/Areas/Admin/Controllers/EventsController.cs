@@ -1,7 +1,11 @@
 ﻿namespace ESportsEventsApp.Areas.Admin.Controllers
 {
+    using System;
     using System.Collections.Generic;
     using System.Data.Entity;
+    using System.Data.Entity.Migrations;
+    using System.Globalization;
+    using System.IO;
     using System.Linq;
     using System.Net;
     using System.Web.Mvc;
@@ -16,6 +20,8 @@
 
     using global::Models;
     using global::Models.Images;
+
+    using Helpers.Enums;
 
     using ViewModels;
 
@@ -37,6 +43,25 @@
         {
             var events = db.Events.ToList();
             var model = Mapper.Map<IEnumerable<Event>, IEnumerable<EventViewModel>>(events);
+            return View(model);
+        }
+
+        [Route("allbytiertype")]
+        public ActionResult AllByTierType(TierType tierType)
+        {
+            var events = db.Events.Where(e=>e.TierType == tierType).ToList();
+            var model = Mapper.Map<IEnumerable<Event>, IEnumerable<EventViewModel>>(events);
+            ViewBag.TierType = tierType.ToString();
+            return View(model);
+        }
+
+        [Route("allbyseason")]
+        public ActionResult AllBySeason(int seasonId)
+        {
+            var events = db.Events.Where(e => e.Season.Id == seasonId).ToList();
+            var model = Mapper.Map<IEnumerable<Event>, IEnumerable<EventViewModel>>(events);
+            var season = this.db.Seasons.Find(seasonId);
+            ViewBag.Season = season?.Year ?? 0;
             return View(model);
         }
 
@@ -62,8 +87,21 @@
         [Route("create")]
         public ActionResult Create()
         {
-            //ViewBag.Id = new SelectList(db.Logos, "Id", "Caption");
-            return View();
+            var countries = this.db.Countries;
+            var countryModels = Mapper.Map<IEnumerable<Country>, IEnumerable<CountryBindingModel>>(countries);
+            var cities = this.db.Cities.ToList();
+            var citiesModel =
+                Mapper.Map<IEnumerable<City>, IEnumerable<CityBindingModel>>(cities);
+            var venues = this.db.Venues;
+            var venuesModel = Mapper.Map<IEnumerable<Venue>, IEnumerable<VenueBindingModel>>(venues);
+            var bindingModel = new EventBindingModel
+            {
+                AvailableCountries = countryModels,
+                AvailableCities = citiesModel,
+                AvailableVenues = venuesModel
+            };
+
+            return View(bindingModel);
         }
 
         // POST: Admin/Events/Create
@@ -76,14 +114,38 @@
         {
             if (ModelState.IsValid)
             {
-                bind.Logo.Url = Constants.LogosFolderPath + bind.Logo.Url;
+                //bind.Logo.Url = Constants.LogosFolderPath + bind.Logo.Url;
                 var @event = Mapper.Map<EventBindingModel, Event>(bind);
+                var season = this.db.Seasons.FirstOrDefault(s => s.Year == @event.EndDate.Value.Year);
+                if (season == null)
+                {
+                    season = new Season { Year = @event.EndDate.Value.Year };
+                }
+                @event.Season = season;
+                var country = this.db.Countries.Find(bind.CountryId);
+                @event.Country = country;
+                var city = this.db.Cities.Find(bind.CityId);
+                @event.City = city;
+                var venue = this.db.Venues.Find(bind.VenueId);
+                @event.Venue = venue;
                 db.Events.Add(@event);
                 db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
 
-            //ViewBag.Id = new SelectList(db.Logos, "Id", "Caption", @event.Id);
+            var availableCountries = this.db.Countries.ToList();
+            var availableCountriesModel =
+                Mapper.Map<IEnumerable<Country>, IEnumerable<CountryBindingModel>>(availableCountries);
+            bind.AvailableCountries = availableCountriesModel;
+            var availableCities = this.db.Cities.ToList();
+            var availableCitiesModel =
+                Mapper.Map<IEnumerable<City>, IEnumerable<CityBindingModel>>(availableCities);
+            bind.AvailableCities = availableCitiesModel;
+            var venues = this.db.Venues;
+            var availableVenuesModel = Mapper.Map<IEnumerable<Venue>, IEnumerable<VenueBindingModel>>(venues);
+            bind.AvailableVenues = availableVenuesModel;
+
             return View(bind);
         }
 
@@ -102,7 +164,23 @@
                 return HttpNotFound();
             }
 
+            var dateToString = @event.StartDate.Value.ToString("g");
+            @event.StartDate = DateTime.Parse(dateToString, CultureInfo.InvariantCulture);
+
+            dateToString = @event.EndDate.Value.ToString("g");
+            @event.EndDate = DateTime.Parse(dateToString, CultureInfo.InvariantCulture);
             var model = Mapper.Map<Event, EventBindingModel>(@event);
+            var availableCountries = this.db.Countries.ToList();
+            var availableCountriesModel =
+                Mapper.Map<IEnumerable<Country>, IEnumerable<CountryBindingModel>>(availableCountries);
+            model.AvailableCountries = availableCountriesModel;
+            var availableCities = this.db.Cities.ToList();
+            var availableCitiesModel =
+                Mapper.Map<IEnumerable<City>, IEnumerable<CityBindingModel>>(availableCities);
+            model.AvailableCities = availableCitiesModel;
+            var venues = this.db.Venues;
+            var availableVenuesModel = Mapper.Map<IEnumerable<Venue>, IEnumerable<VenueBindingModel>>(venues);
+            model.AvailableVenues = availableVenuesModel;
             //ViewBag.Id = new SelectList(db.Logos, "Id", "Caption", @event.Id);
             return View(model);
         }
@@ -113,37 +191,57 @@
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("edit/{id}")]
-        public ActionResult Edit([Bind(Include = "Id, Name, Location, PrizePool, Description, TierType, StartDate, EndDate, Logo")] EventBindingModel model)
+        //public ActionResult Edit([Bind(Include = "Id, Name, Location, PrizePool, Description, TierType, StartDate, EndDate, Logo")] EventBindingModel model)
+        public ActionResult Edit(EventBindingModel model)
         {
             if (ModelState.IsValid)
             {
                 var @event = this.db.Events.Find(model.Id);
-                var logo = @event.Logo;
-                var hasUrl = !string.IsNullOrEmpty(model.Logo.Url);
-                if (hasUrl)
+                @event = Mapper.Map<EventBindingModel, Event>(model);              
+                this.db.Events.AddOrUpdate(a => a.Id, @event);
+                this.db.SaveChanges();
+
+                @event = this.db.Events.Find(model.Id);
+                var country = this.db.Countries.Find(model.CountryId);
+                @event.Country = country;
+                this.db.Entry(@event.Country).State = EntityState.Modified;
+                var city = this.db.Cities.Find(model.CityId);
+                @event.City = city;
+                this.db.Entry(@event.City).State = EntityState.Modified;
+                var venue = this.db.Venues.Find(model.VenueId);
+                if (@event.Venue == null)
                 {
-                    if (logo != null)
-                    {
-                        this.db.Logos.Remove(logo);
-                    }
-                    
-                    model.Logo.Url = Constants.LogosFolderPath + model.Logo.Url;
-                    logo = Mapper.Map<LogoBindingModel, Logo>(model.Logo);
-                    this.db.Entry(logo).State = EntityState.Added;
-                    @event.Logo = logo;
+                    @event.Venue = venue;
+                    //this.db.Entry(@event.Venue).State = EntityState.Added;
+                }
+                else
+                {
+                    @event.Venue = venue;
+                    this.db.Entry(@event.Venue).State = EntityState.Modified;
+                }
+                var season = this.db.Seasons.FirstOrDefault(s => s.Year == @event.EndDate.Value.Year)
+                             ?? new Season { Year = @event.EndDate.Value.Year };
+                if ((@event.Season != null && @event.EndDate.Value.Year != season.Year) || @event.Season == null)
+                {
+                    @event.Season = season;
                 }
 
-                @event.Name = model.Name;
-                @event.Location = model.Location;
-                @event.PrizePool = model.PrizePool;
-                @event.TierType = model.TierType;
-                @event.StartDate = model.StartDate;
-                @event.EndDate = model.EndDate;
-                @event.Description = model.Description;
-                db.Entry(@event).State = EntityState.Modified;
-                db.SaveChanges();
+                this.db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
+
+            var availableCountries = this.db.Countries.ToList();
+            var availableCountriesModel =
+                Mapper.Map<IEnumerable<Country>, IEnumerable<CountryBindingModel>>(availableCountries);
+            model.AvailableCountries = availableCountriesModel;
+            var availableCities = this.db.Cities.ToList();
+            var availableCitiesModel =
+                Mapper.Map<IEnumerable<City>, IEnumerable<CityBindingModel>>(availableCities);
+            model.AvailableCities = availableCitiesModel;
+            var venues = this.db.Venues;
+            var availableVenuesModel = Mapper.Map<IEnumerable<Venue>, IEnumerable<VenueBindingModel>>(venues);
+            model.AvailableVenues = availableVenuesModel;
             return View(model);
         }
 
@@ -160,7 +258,8 @@
             {
                 return HttpNotFound();
             }
-            var model = Mapper.Map<Event, EventViewModel>(@event);
+
+            var model = Mapper.Map<Event, EventBindingModel>(@event);
             return View(model);
         }
 
@@ -168,11 +267,17 @@
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("delete/{id}")]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(EventBindingModel bind)
         {
-            var @event = db.Events.Find(id);
+            var @event = db.Events.Find(bind.Id);
             db.Events.Remove(@event);
+
+            var eventImages = @event.EventImages;
+            this.db.EventImages.RemoveRange(eventImages);
+            //var logo = @event.Logo;
+            //this.db.EventImages.RemoveRange(eventImages);
             db.SaveChanges();
+
             return RedirectToAction("Index");
         }
 
@@ -187,7 +292,7 @@
 
         [HttpGet]
         [Route("associateadmin/{id}")]
-        public ActionResult AssociateAdmin(int id)
+        public ActionResult AssociateAdmin(int? id)
         {
             if (id == 0)
             {
@@ -196,8 +301,13 @@
             var @event = this.db.Events.Find(id);
             if (@event == null)
             {
-                return HttpNotFound();
+                return this.HttpNotFound();
             }
+            if (@event.StartDate < DateTime.Now)
+            {
+                return this.RedirectToAction("Index");
+            }
+
             //var model = Mapper.Map<Event, EventAdminBindingModel>(@event);
             var associatedAdmins = @event.EventAdmins;
             var associatedAdminsModel = 
@@ -212,7 +322,8 @@
                             {
                                 Name = @event.Name,
                                 AvailableAdmins = availableAdminsModel,
-                                AssociatedAdmins = associatedAdminsModel
+                                AssociatedAdmins = associatedAdminsModel,
+                                Id = (int)id
                             };
             
 
@@ -221,7 +332,7 @@
 
         [HttpPost]
         [Route("associateadmin/{id}")]
-        public ActionResult AssociateAdmin(int id, [Bind(Include = "AssociatedAdmins, AvailableAdmins, AssociateEventAdminId")] AssociateEventAdminBindingModel bind)
+        public ActionResult AssociateAdmin(int? id, [Bind(Include = "Id,AssociatedAdmins, AvailableAdmins, AssociateEventAdminId")] AssociateEventAdminBindingModel bind)
         {
             if (id == 0)
             {
@@ -250,7 +361,7 @@
 
         [HttpGet]
         [Route("dissociateadmin/{id}")]
-        public ActionResult DissociateAdmin(int id)
+        public ActionResult DissociateAdmin(int? id)
         {
             if (id == 0)
             {
@@ -260,6 +371,10 @@
             if (@event == null)
             {
                 return HttpNotFound();
+            }
+            if (@event.StartDate < DateTime.Now)
+            {
+                return this.RedirectToAction("Index");
             }
             //var model = Mapper.Map<Event, EventAdminBindingModel>(@event);
             var associatedAdmins = @event.EventAdmins;
@@ -276,7 +391,8 @@
             {
                 Name = @event.Name,
                 AvailableAdmins = associatedAdminsModel,
-                AssociatedAdmins = associatedAdminsModel
+                AssociatedAdmins = associatedAdminsModel,
+                Id = (int)id
             };
 
 
@@ -285,7 +401,7 @@
 
         [HttpPost]
         [Route("dissociateadmin/{id}")]
-        public ActionResult DissociateAdmin(int id, [Bind(Include = "AssociatedAdmins, AvailableAdmins, AssociateEventAdminId")] AssociateEventAdminBindingModel bind)
+        public ActionResult DissociateAdmin(int? id, [Bind(Include = "Id, AssociatedAdmins, AvailableAdmins, AssociateEventAdminId")] AssociateEventAdminBindingModel bind)
         {
             if (id == 0)
             {
@@ -314,6 +430,130 @@
             }
 
             return this.View(bind);
+        }
+
+        [HttpGet]
+        [Route("editlogo/{id}")]
+        public ActionResult EditLogo(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var @event = this.db.Events.Find(id);
+            if (@event == null)
+            {
+                return this.HttpNotFound();
+            }
+            if (@event.StartDate <= DateTime.Now)
+            {
+                return this.RedirectToAction("Index");
+            }
+
+            var model = Mapper.Map<Logo, LogoBindingModel>(@event.Logo) ?? new LogoBindingModel() { Id = (int)id };
+            this.ViewBag.EventName = @event.Name;
+            this.ViewBag.Id = id;
+            return this.View(model);
+        }
+
+        [HttpPost]
+        [Route("editlogo/{id}")]
+        public ActionResult EditLogo(int? id, LogoBindingModel model)
+        {
+            if (this.ModelState.IsValid)
+            {
+                var @event = this.db.Events.Find(id);
+                if (@event == null)
+                {
+                    return this.HttpNotFound();
+                }
+
+                var hasUrl = !string.IsNullOrEmpty(model.Url);
+                if (@event.Logo != null && hasUrl)
+                {
+                    this.db.Entry(@event.Logo).State = EntityState.Deleted;
+                    this.db.SaveChanges();
+                }
+
+                if (hasUrl)
+                {
+                    model.Url = Constants.LogosFolderPath + model.Url;
+                    var logo = Mapper.Map<LogoBindingModel, Logo>(model);
+                    @event.Logo = logo;
+
+                    this.db.SaveChanges();
+                }
+
+                return this.RedirectToAction("Index");
+
+            }
+            return this.View(model);
+        }
+
+        [HttpGet]
+        [Route("editlogolocal/{id}")]
+        public ActionResult EditLogoLocal(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var @event = this.db.Events.Find(id);
+            if (@event == null)
+            {
+                return this.HttpNotFound();
+            }
+
+            if (@event.StartDate <= DateTime.Now)
+            {
+                return this.RedirectToAction("Index");
+            }
+
+            var model = Mapper.Map<Logo, LogoBindingModel>(@event.Logo) ?? new LogoBindingModel() { Id = (int)id };
+            this.ViewBag.EventName = @event.Name;
+            return this.View(model);
+        }
+
+        [HttpPost]
+        [Route("editlogolocal/{id}")]
+        public ActionResult EditLogoLocal(int? id, LogoBindingModel model)
+        {
+            if (this.ModelState.IsValid)
+            {
+                var @event = this.db.Events.Find(id);
+                if (@event == null)
+                {
+                    return this.HttpNotFound();
+                }
+
+                var hasUrl = !string.IsNullOrEmpty(model.Url);
+                if (@event.Logo != null && hasUrl)
+                {
+                    this.db.Entry(@event.Logo).State = EntityState.Deleted;
+                    this.db.SaveChanges();
+                }
+
+                var photo = Request.Files["Url"];
+                if (photo == null)
+                {
+                    return this.View();
+                }
+
+                if (hasUrl)
+                {
+                    var directory = $"{Server.MapPath("~")}{Constants.LogosMapPath}";
+                    photo.SaveAs(Path.Combine(directory, photo.FileName));
+                    model.Url = Constants.LogosFolderPath + photo.FileName;
+                    var logo = Mapper.Map<LogoBindingModel, Logo>(model);
+                    @event.Logo = logo;
+                    this.db.SaveChanges();
+                }
+
+                ViewBag.EventName = @event.Name;
+
+                return this.RedirectToAction("Index");
+            }
+            return this.View();
         }
     }
 }

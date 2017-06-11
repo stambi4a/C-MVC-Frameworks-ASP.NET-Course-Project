@@ -2,7 +2,7 @@
 @model IEnumerable<ViewModels.RegisteredUserViewModel>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "All users";
 }
 
 <p>
@@ -42,9 +42,9 @@
             <td>
                 @Html.ActionLink("Details", "Details", "Users", new { Area = "Admin", id = item.Id }, null) |
                 @Html.ActionLink("Edit", "Edit", "Users", new { Area = "Admin", id = item.Id }, null) |
+                @Html.ActionLink("Delete", "Delete", "Users", new { Area = "Admin", id = item.Id }, null) |
                 @Html.ActionLink("Associate Role", "AssociateRole", "Users", new { Area = "Admin", id = item.Id }, null) |
-                @Html.ActionLink("Dissociate Role", "DissociateRole", "Users", new { Area = "Admin", id = item.Id }, null) |
-                @Html.ActionLink("Delete", "Delete", "Users", new { Area = "Admin", id = item.Id }, null)
+                @Html.ActionLink("Dissociate Role", "DissociateRole", "Users", new { Area = "Admin", id = item.Id }, null)
             </td>
         </tr>
     }

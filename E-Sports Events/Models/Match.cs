@@ -52,6 +52,8 @@
 
         public ICollection<MatchVideo> Videos => this.videos;
 
+        public virtual Round Round { get; set; }
+
         private string GetResult()
         {
             var countFirst = this.games.Count(g => g.Winner == Winner.First);

@@ -5,9 +5,7 @@
 @{
     ViewBag.Title = "Index";
 }
-<p>
-    @Html.ActionLink("Create New Event", "Create")
-</p>
+
 <table class="table">
     <tr>
         <th>
@@ -31,9 +29,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.EndDate)
             </th>*@
-        <th>
+        @*<th>
             @Html.DisplayNameFor(model => model.EventAdmins)
-        </th>
+        </th>*@
         <th></th>
     </tr>
 
@@ -42,7 +40,10 @@
         @Html.HiddenFor(model => item.Id)
         <tr>
             <td>
-                @Html.Image(item.Logo.Url, string.Empty, "width:50px; height:auto;")
+                @if (item.Logo != null)
+                {
+                    @Html.Image(item.Logo.Url, string.Empty, "width:50px; height:auto;")
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
@@ -54,25 +55,25 @@
                 @Html.DisplayFor(modelItem => item.PrizePoolToString)
             </td>
             @*<td>
-                    @Html.DisplayFor(modelItem => item.TierType)
-                </td>
-                <td>
-                    @Html.DateFor(item.StartDate)
-                </td>
-                <td>
-                    @Html.DateFor(item.EndDate)
-                </td>*@
-            <td>
                 @Html.DisplayFor(modelItem => item.EventAdminsToString)
-            </td>
+            </td>*@
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Add Event Image From Server", "AddEventImage", new { id = item.Id }) |
-                @Html.ActionLink("Add Event Image From Local Storage", "AddEventImageLocal", new { id = item.Id }) |
-                @Html.ActionLink("Remove Event Image", "RemoveEventImage", new { id = item.Id }) |
-                @Html.ActionLink("Add Event Video", "AddEventVideo", new { id = item.Id }) |
-                @Html.ActionLink("Remove Event Video", "RemoveEventVideo", new { id = item.Id })
+                @Html.ActionLink("Details", "Details", new { id = item.Id })
+                @if (item.StartDate > DateTime.Now)
+                {
+                    @Html.ActionLink(" | Edit Logo", "EditLogo", new { id = item.Id })
+                    @Html.ActionLink(" | Edit Logo Local", "EditLogoLocal", new { id = item.Id })
+                }
+               
+                @if (item.StartDate <= DateTime.Now)
+                {
+                    @Html.ActionLink(" | Add Event Image From Server", "AddEventImage", new { id = item.Id })
+                    @Html.ActionLink(" | Add Event Image From Local Storage", "AddEventImageLocal", new { id = item.Id })
+                    @Html.ActionLink(" | Remove Event Image", "RemoveEventImage", new { id = item.Id })
+                    @Html.ActionLink(" | Add Event Video", "AddEventVideo", new { id = item.Id })
+                    @Html.ActionLink(" | Remove Event Video", "RemoveEventVideo", new { id = item.Id })
+                }
             </td>
         </tr>
     }

@@ -3,84 +3,78 @@
 @model EventDetailsViewModel
 
 @{
-    ViewBag.Title = $"Details for {Model.Name}";
+    ViewBag.Title = $"Details for event";
 }
 
 <div>
-    <h3>@ViewBag.Title</h3>
-    <div class="row">
-        <div class="col-lg-5 col-md-5 col-sm-5">
-            <hr/>
-            <dl class="dl-horizontal">
-                <dt>
-                    @Html.DisplayNameFor(model => model.Logo)
-                </dt>
-
-                <dd>
-                    @Html.Image(Model.Logo.Url, string.Empty, "width:50px;height:auto;")
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.Name)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.Name)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.Location)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.Location)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.PrizePool)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.PrizePoolToString)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.Description)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.Description)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.TierType)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.TierType)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.StartDate)
-                </dt>
-
-                <dd>
-                    @Html.DateFor(Model.StartDate)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.EndDate)
-                </dt>
-
-                <dd>
-                    @Html.DateFor(Model.EndDate)
-                </dd>
-            </dl>
-        </div>
+    <h4>@ViewBag.Title</h4>
+    <div class="responsive">
+        <table class="table">
+            <tr>
+                <td class="col-lg-4 col-md-4 col-sm-8">
+                    <div class="responsive">
+                        <table class="table-striped">
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.Name)</td>
+                                <td>@Html.DisplayFor(model => model.Name)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.Logo)</td>
+                                <td>@Html.Image(Model.Logo.Url, string.Empty, "width:50px;height:auto;")</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.Location)</td>
+                                <td>@Html.DisplayFor(model => model.Location)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.Venue)</td>
+                                <td>@Html.DisplayFor(model => model.Venue.Name)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.PrizePool)</td>
+                                <td>@Html.DisplayFor(model => model.PrizePoolToString)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.Description)</td>
+                                <td>@Html.DisplayFor(model => model.Description)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.TierType)</td>
+                                <td>@Html.DisplayFor(model => model.TierType)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.StartDate)</td>
+                                <td>@Html.DisplayFor(model => model.StartDate)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.EndDate)</td>
+                                <td>@Html.DisplayFor(model => model.EndDate)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.EventAdmins)</td>
+                                <td>@Html.DisplayFor(model => model.EventAdminsToString)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.Players)</td>
+                                <td>@Html.DisplayFor(model => model.PlayersToString)</td>
+                            </tr>
+                        </table>
+                    </div>                   
+                </td>
+                <td class="col-lg-2 col-md-2 col-sm-4">
+                    <ul>
+                        <li>@Html.ActionLink("Back To List", "Index", null, new {@class= "btn btn-primary"})</li>
+                        <li>@Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
+                        <li>@Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" })</li>
+                        <li>@Html.ActionLink("Delete", "Delete", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
+                        <li>@Html.ActionLink("Edit Logo", "EditLogo", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
+                        <li>@Html.ActionLink("Edit Logo Local", "EditLogoLocal", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
+                        <li>@Html.ActionLink("Associate Admin", "AssociateAdmin", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
+                        <li>@Html.ActionLink("Dissociate Admin", "DissociateAdmin", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
+                    </ul>
+                </td>
+                <td></td>
+            </tr>
+        </table>
     </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Delete", "Delete", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

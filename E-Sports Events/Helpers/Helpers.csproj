@@ -43,9 +43,13 @@
   <ItemGroup>
     <Compile Include="Constants.cs" />
     <Compile Include="Enums\MapSize.cs" />
+    <Compile Include="Enums\RoundFormat.cs" />
+    <Compile Include="Enums\RoundType.cs" />
     <Compile Include="Enums\TierType.cs" />
     <Compile Include="Enums\Winner.cs" />
+    <Compile Include="ViewsHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModelsMethods.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

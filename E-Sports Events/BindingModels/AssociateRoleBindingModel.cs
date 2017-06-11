@@ -7,10 +7,11 @@
     {
         public string Id { get; set; }
 
-        private List<string> allRoles = new List<string>
+        private readonly List<string> allRoles = new List<string>
                                                    {
                                                        "Admin",
                                                        "ArticleAuthor",
+                                                       "PlayerAdmin",
                                                        "EventAdmin",
                                                        "Volunteer",
                                                        "Guest",

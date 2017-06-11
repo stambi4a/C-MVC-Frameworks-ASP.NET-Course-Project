@@ -43,9 +43,15 @@
   <ItemGroup>
     <Compile Include="AssociateEventAdminBindingModel.cs" />
     <Compile Include="AssociateRoleBindingModel.cs" />
+    <Compile Include="CityBindingModel.cs" />
+    <Compile Include="CountryBindingModel.cs" />
     <Compile Include="DissociateRoleBindingModel.cs" />
     <Compile Include="EventAdminBindingModel.cs" />
     <Compile Include="EventVideoBindingModel.cs" />
+    <Compile Include="FlagBindingModel.cs" />
+    <Compile Include="RoundBindingModel.cs" />
+    <Compile Include="TeamLogoBindingModel.cs" />
+    <Compile Include="PlayerBindingModel.cs" />
     <Compile Include="RemEventVideoBindingModel.cs" />
     <Compile Include="RemEventImageBindingModel.cs" />
     <Compile Include="RemoveEventImageBindingModel.cs" />
@@ -58,8 +64,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="EditUserBindingModel.cs" />
     <Compile Include="RegisterBindingModel.cs" />
+    <Compile Include="SeasonBindingModel.cs" />
+    <Compile Include="TeamBindingModel.cs" />
     <Compile Include="ValidationAttributes\EndDateAttribute.cs" />
+    <Compile Include="ValidationAttributes\DateOfBirth.cs" />
     <Compile Include="ValidationAttributes\StartDateAttribute.cs" />
+    <Compile Include="ValidationAttributes\VenueBindingModel.cs" />
+    <Compile Include="VenueBindingModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Helpers\Helpers.csproj">

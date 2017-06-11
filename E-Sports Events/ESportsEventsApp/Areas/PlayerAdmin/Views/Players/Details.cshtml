@@ -1,0 +1,80 @@
+﻿@using ESportsEventsApp.Extensions
+@using ViewModels
+@model PlayerViewModel
+@{
+    ViewBag.Title = $"Details for {Model.Name}";
+}
+
+<div>
+    <h3>@ViewBag.Title</h3>
+    <div class="row">
+        <div class="col-lg-5 col-md-5 col-sm-5">
+            <hr/>
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.PlayerImage)
+                </dt>
+
+                <dd>
+                    @if (Model.PlayerImage != null)
+                    {
+                        @Html.Image(Model.PlayerImage.Url, string.Empty, "width:100px; height:auto;")
+                    }
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Team)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Team)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Address)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Address)
+                </dd>
+                
+                <dt>
+                    @Html.DisplayNameFor(model => model.Location)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Location)
+                </dd>
+                
+                <dt>
+                    @Html.DisplayNameFor(model => model.DateOfBirth)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.DateOfBirth)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.PrizeMoney)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.PrizeMoney)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.BespaPoints)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.BespaPoints)
+                </dd>
+
+            </dl>
+        </div>
+    </div>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

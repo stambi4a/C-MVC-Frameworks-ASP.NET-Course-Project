@@ -58,22 +58,33 @@
             <li>@Html.ActionLink("Players", "Index", "Home", new { Area = "Players" }, null)</li>*@
                     <li>@Html.ActionLink("Store", "Index", "Home", new { Area = "Store" }, null)</li>
                     <li>@Html.ActionLink("Sponsors", "Index", "Home", new { Area = "Sponsors" }, null)</li>
-                        @if (User.IsInRole("Admin") || User.IsInRole("Admin"))
+                        @if (User.IsInRole("Admin") || User.IsInRole("EventAdmin") || User.IsInRole("PlayerAdmin"))
                         {
 
                             <li class="dropdown">
                                 @Html.ActionLink("Admin Panel", "", null, htmlAttributes: new { @class = "dropdown-toggle", @datatoggle = "toggle", @role = "button", @ariaexpanded = "false" })
+                            <ul class="dropdown-menu" role="menu">
                                 @if (User.IsInRole("Admin"))
                                 {
-                                    <ul class="dropdown-menu" role="menu">
-                                        <li>@Html.ActionLink("Users", "Index", "Users", new { Area = "Admin" }, null)</li>
-                                        <li>@Html.ActionLink("Events", "Index", "Events", new { Area = "Admin" }, null)</li>
-                                        @if (User.IsInRole("EventAdmin"))
-                                        {
-                                            <li>@Html.ActionLink("My Events", "Index", "Events", new { Area = "EventAdmin" }, null)</li>
-                                        }
-                                    </ul>
-                                }                                
+                                    <li>@Html.ActionLink("Users", "Index", "Users", new { Area = "Admin" }, null)</li>
+                                    <li>@Html.ActionLink("Events", "Index", "Events", new { Area = "Admin" }, null)</li>                    
+                                }  
+                                @if (User.IsInRole("EventAdmin"))
+                                {
+                                    <li>@Html.ActionLink("My events", "Index", "Events", new { Area = "EventAdmin" }, null)</li>
+                                }
+                                @if (User.IsInRole("PlayerAdmin"))
+                                {
+                                    <li>@Html.ActionLink("Players", "Index", "Players", new { Area = "PlayerAdmin" }, null)</li>
+                                    <li>@Html.ActionLink("Teams", "Index", "Teams", new { Area = "PlayerAdmin" }, null)</li>
+                                }
+                                @if (User.IsInRole("LocationAdmin"))
+                                {
+                                    <li>@Html.ActionLink("Countries", "Index", "Countries", new { Area = "LocationAdmin" }, null)</li>
+                                    <li>@Html.ActionLink("Cities", "Index", "Cities", new { Area = "LocationAdmin" }, null)</li>
+                                    <li>@Html.ActionLink("Venues", "Index", "Venues", new { Area = "LocationAdmin" }, null)</li>
+                                }
+                            </ul>                              
                             </li>
                          }
                     </ul>

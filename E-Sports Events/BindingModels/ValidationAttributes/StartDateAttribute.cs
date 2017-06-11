@@ -3,7 +3,7 @@
     using System;
     using System.ComponentModel.DataAnnotations;
 
-    public class StartDateAttribute : ValidationAttribute
+    public class DateOfBirth : ValidationAttribute
     {
         public override bool IsValid(object value)
         {
@@ -13,10 +13,11 @@
             }
 
             var result = (DateTime)value;
-            if (result < DateTime.Today)
+            if (result > DateTime.Today.AddYears(-14) || result <= DateTime.Today.AddYears(-70))
             {
                 return false;
             }
+
             return true;
         }
     }

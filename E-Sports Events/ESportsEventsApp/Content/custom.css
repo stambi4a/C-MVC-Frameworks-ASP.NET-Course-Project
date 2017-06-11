@@ -1,0 +1,230 @@
+﻿
+/*.sidenav {
+    height: 100%; 
+    width: 0; 
+    position: fixed; 
+    z-index: 1; 
+    top: 0;
+    left: 0;
+    background-color: #000d1a; 
+    overflow-x: hidden; 
+    padding-top: 60px; 
+    transition: 0.5s; 
+}*/
+
+/*#mySidenav a {
+    position: absolute; 
+    left: -80px; 
+    transition: 0.3s; 
+    padding: 15px; 
+    width: 100px; 
+    text-decoration: none; 
+    font-size: 14px;
+    font-weight: bold; 
+    color: Aqua; 
+    border-radius: 0 5px 5px 0;
+}*/
+
+/* The navigation menu links */
+/*.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold; 
+    color: Aqua;
+    display: block;
+    transition: 0.3s
+}*/
+
+/* When you mouse over the navigation links, change their color */
+/*.sidenav a:hover, .offcanvas a:focus{
+    color: #00b3b3;
+}*/
+
+/* Position and style the close button (top right corner) */
+/*.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}*/
+
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+/*#main {
+    transition: margin-left .5s;
+    padding: 20px;
+}*/
+.dropbtn {
+    background-color: #000d3a;
+    color: aqua;
+    padding: 2px 20px;
+    width: 150px;
+    font-size: 14px;
+    border: 1px solid;
+    border-color: #000d4a;
+    cursor: pointer;
+    -ms-transition: 0.3s;
+    -o-transition: 0.3s;
+    -webkit-transition: 0.3s;
+    transition: 0.3s;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #000d11;
+    left: -1px;
+    /*padding-left: 2px;*/
+    width: 140px  !important;
+    min-height: 200px;
+    /*box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);*/
+    z-index: 1;
+}
+
+.dropdown-content:active {
+    display: none;
+    position: absolute;
+    background-color: #000d11;
+    width: 150px;
+    min-height: 200px;
+    /*box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);*/
+    z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+    background-color: #000d2c;
+    color: aqua !important;
+    padding: 1px 20px;
+    width: 150px;
+    font-size: 14px;
+    text-decoration: none;
+    display: block;
+}
+
+
+/* Change color of dropdown links on hover */
+/*.dropdown-content a:hover {background-color: #000d1a; color: #00b3b3 }*/
+
+/* Show the dropdown menu on hover */
+/*.dropdown:hover .dropdown-content {
+    display: block;
+}*/
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+/*.dropdown:hover .dropbtn {
+    background-color: #000d1a;
+}*/
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:focus {background-color: #000d1a !important; color: #00b3b3 }
+
+/* Show the dropdown menu on hover */
+.dropdown:focus .dropdown-content {
+    display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:focus .dropbtn {
+    background-color: #000d1a;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:active {background-color: #000d1a; color: #00b3b3 }
+
+/* Show the dropdown menu on hover */
+.dropdown:active .dropdown-content {
+    display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:active .dropbtn {
+    background-color: #000d1a;
+}
+
+
+dd {
+    color:#00BFFF;
+    margin:2px;
+    /*background-color: #000d1a;*/
+    border: 1px solid;
+    border-color: #000d3a;
+    padding: 1px 5px;
+}
+
+dt {
+    color:#1E90FF;
+    margin:2px;
+    /*background-color: #000d1a;*/
+    /*border: 1px solid;*/
+    /*border-color: #000d3a;*/
+    padding: 2px 2px;
+}
+
+.table-striped {
+    width:100%;
+    max-width:100%;
+    /*margin-bottom: 20px;*/
+
+    /*line-height:1.42857143;*/
+    vertical-align:top;
+}
+
+.table-striped > tbody> tr >td, .table-striped > tbody > tr > th {
+    padding: 2px 5px;
+    color: #66b3ff;
+    /*border: 1px solid;
+    border-color: #000d3a;*/
+    text-align: center;
+}
+
+.table-striped > tbody> tr {
+    border: 1px solid;
+    border-color: #000d3a;
+}
+
+.table-striped > tbody > tr > th {
+    background-color: #000d14;
+}
+
+
+
+h3, h4 {
+    color: #00BFFF !important;
+}
+
+.push-down {
+    margin-top: 6px;
+}
+
+.table-link {
+    font-weight:  normal;
+    color:aqua;
+}
+.table-link:hover {
+    color: #4499ff;
+}
+
+.right-cell {
+    color: #66b3ff;
+    font-weight: normal;
+}
+
+.left-cell {
+    /*padding-top: 6px !important;*/
+    color: #99ccff;
+    font-weight: normal !important;
+}
+
+@media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+}

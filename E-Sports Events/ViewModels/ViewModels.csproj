@@ -43,6 +43,13 @@
   <ItemGroup>
     <Compile Include="BasicArticleViewModel.cs" />
     <Compile Include="BasicEventViewModel.cs" />
+    <Compile Include="CityShortViewModel.cs" />
+    <Compile Include="VenueShortViewModel.cs" />
+    <Compile Include="RoundViewModel.cs" />
+    <Compile Include="TeamShortViewModel.cs" />
+    <Compile Include="CityViewModel.cs" />
+    <Compile Include="CountryViewModel.cs" />
+    <Compile Include="CountryShortViewModel.cs" />
     <Compile Include="EventAdminViewModel.cs" />
     <Compile Include="EventAllDetailsViewModel.cs" />
     <Compile Include="EventDetailsViewModel.cs" />
@@ -50,11 +57,18 @@
     <Compile Include="EventImageViewModel.cs" />
     <Compile Include="EventViewModel.cs" />
     <Compile Include="HomePageViewModel.cs" />
+    <Compile Include="FlagViewModel.cs" />
+    <Compile Include="TeamLogoViewModel.cs" />
+    <Compile Include="PlayerImageViewModel.cs" />
     <Compile Include="LogoViewModel.cs" />
+    <Compile Include="PlayerViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegisteredUserDetailsViewModel.cs" />
     <Compile Include="RegisteredUserViewModel.cs" />
     <Compile Include="RoleViewModel.cs" />
+    <Compile Include="SeasonViewModel.cs" />
+    <Compile Include="TeamViewModel.cs" />
+    <Compile Include="VenueViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Helpers\Helpers.csproj">

@@ -15,8 +15,6 @@
 
     using Data;
 
-    using Evernote.EDAM.Type;
-
     using global::Models;
 
     using Microsoft.AspNet.Identity;
@@ -369,6 +367,7 @@
 
             return this.View();
         }
+
 
         private async Task SignInAsync(RegisteredUser user, bool isPersistent)
         {

@@ -5,7 +5,6 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 
 using Owin;
-using ESportsEventsApp.Models;
 
 namespace ESportsEventsApp
 {
@@ -99,29 +98,38 @@ namespace ESportsEventsApp
                 roleManager.Create(role);
             }
 
-            //if (!roleManager.RoleExists("Player"))
-            //{
-            //    var role = new IdentityRole("Player");
-            //    roleManager.Create(role);
-            //}
             if (!roleManager.RoleExists("Buyer"))
             {
                 var role = new IdentityRole("Buyer");
                 roleManager.Create(role);
             }
+
             if (!roleManager.RoleExists("ArticleAuthor"))
             {
                 var role = new IdentityRole("ArticleAuthor");
                 roleManager.Create(role);
             }
+
             if (!roleManager.RoleExists("Volunteer"))
             {
                 var role = new IdentityRole("Volunteer");
                 roleManager.Create(role);
             }
+
             if (!roleManager.RoleExists("Guest"))
             {
                 var role = new IdentityRole("Guest");
+                roleManager.Create(role);
+            }
+
+            if (!roleManager.RoleExists("PlayerAdmin"))
+            {
+                var role = new IdentityRole("PlayerAdmin");
+                roleManager.Create(role);
+            }
+            if (!roleManager.RoleExists("LocationAdmin"))
+            {
+                var role = new IdentityRole("LocationAdmin");
                 roleManager.Create(role);
             }
         }
