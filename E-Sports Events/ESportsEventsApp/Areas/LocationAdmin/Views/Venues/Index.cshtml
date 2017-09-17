@@ -1,35 +1,84 @@
 ﻿@using ViewModels;
-
 @model IEnumerable<VenueViewModel>
-<p>
-    @Html.ActionLink("Create new venue", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Location)
-        </th>
-        <th></th>
-    </tr>
 
-    @foreach (var item in Model)
-    {
+@{
+    ViewBag.Title = "All venues";
+    ViewBag.SortName = ViewBag.SortValue.Equals("Name") && ViewBag.SortOrder.Equals("Asc") ? "Desc" : "Asc";
+    ViewBag.SortLocation = ViewBag.SortValue.Equals("Location") && ViewBag.SortOrder.Equals("Asc") ? "Desc" : "Asc";
+}
+
+<div class="col-lg-6 col-md-6 col-sm-6">
+    <h4 class="text-center">@ViewBag.Title</h4>
+    <p>
+        @Html.ActionLink("Create New Venue", "Create", null, new { @class = "btn btn-primary", @style = "width:150px;" })
+    </p>
+    <table class="table-striped">
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Location)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-            </td>
+            <th>
+                <a href="@Url.Action("Index", "Venues", new { area = "LocationAdmin", sortValue = "Name", sortOrder = ViewBag.SortName })" class="btn btn-info">
+                    Name&nbsp;
+                    @if (ViewBag.SortName.Equals("Desc"))
+                    {
+                        <span class="dropup">
+                            <span class="caret"></span>
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="caret"></span>
+                    }
+                </a>
+            </th>
+            <th>
+                <a href="@Url.Action("Index", "Venues", new { area = "LocationAdmin", sortValue = "Location", sortOrder = ViewBag.SortLocation })" class="btn btn-info">
+                    Location&nbsp;
+                    @if (ViewBag.SortLocation.Equals("Desc"))
+                    {
+                        <span class="dropup">
+                            <span class="caret"></span>
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="caret"></span>
+                    }
+                </a>
+            </th>
+            <th></th>
         </tr>
-    }
 
-</table>
+        @foreach (var item in Model)
+        {
+            @Html.HiddenFor(model => item.Id)
+            <tr>
+
+                <td>
+                    @Html.ActionLink(item.Name, "Details", "Venues", new { area = "LocationAdmin", id = item.Id }, new { @class = "table-link" })
+                </td>
+                <td>
+                    @if (!item.City.Name.Equals("No city"))
+                    {
+                        @Html.ActionLink(item.City.Name, "Details", "Cities", new { area = "LocationAdmin", id = item.City.Id }, new { @class = "table-link" })
+                        @Html.Name(", ")
+                    }
+                    @Html.ActionLink(item.Country.Name, "Details", "Countries", new { area = "LocationAdmin", id = item.Country.Id }, new { @class = "table-link" })
+                </td>
+                <td class="col-lg-2 col-md-3 col-sm-3">
+                    <div class="dropdown">
+                        <button class="dropbtn btn-info dropdown-toggle" data-toggle="dropdown">
+                            Actions
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-content dropdown-menu">
+                            <li>@Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-info" })</li>
+                            <li>@Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-info" })</li>
+                            <li>@Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-info" })</li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+<div class="divider-small">
+</div>

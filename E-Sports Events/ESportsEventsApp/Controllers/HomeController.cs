@@ -32,7 +32,7 @@ namespace ESportsEventsApp.Controllers
             var eventImages =
                 db.Events.OrderBy(e => e.StartDate).Take(Constants.LatestEventsCount).SelectMany(e => e.EventImages).ToList().Select(ei=>new { key = rnd.Next(), ei}).OrderBy(ei => ei.key).Select(i=>i.ei).Take(Constants.LatestImagesCount);
             var eventImagesModel = Mapper.Map<IEnumerable<EventImage>, IEnumerable<EventImageViewModel>>(eventImages);
-            var eventVideos =
+            var eventVideos = 
                db.Events.OrderBy(e => e.StartDate).Take(Constants.LatestEventsCount).SelectMany(e => e.EventVideos).ToList().Select(ei => new { key = rnd.Next(), ei }).OrderBy(ei => ei.key).Select(i => i.ei).Take(Constants.LatestVideosCount);
             var eventVideosModel = Mapper.Map<IEnumerable<EventVideo>, IEnumerable<EventVideoViewModel>>(eventVideos);
             var model = new HomePageViewModel

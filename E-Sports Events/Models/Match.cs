@@ -40,7 +40,7 @@
 
         public DateTime StartDate { get; set; }
 
-        public ICollection<Game> Games => this.games;
+        public virtual ICollection<Game> Games => this.games;
 
         public bool IsFinished { get; set; }
 

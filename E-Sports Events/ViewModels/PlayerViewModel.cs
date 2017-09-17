@@ -18,7 +18,7 @@
         {
             get
             {
-                return this.address ?? "Unknown";
+                return this.address;
             }
 
             set
@@ -42,6 +42,11 @@
         public DateTime DateOfBirth { get; set; }
 
         public string Location => ViewModelsMethods.GetLocation(this.Country.Name, this.City.Name);
+
+        public string PrizeMoneyToString => this.PrizeMoney + " лв.";
+
+        public string DateOfBirthToString => this.DateOfBirth.ToString("dd MMMM yyyy");
+
 
         public override string ToString()
         {

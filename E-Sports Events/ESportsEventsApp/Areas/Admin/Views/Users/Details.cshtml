@@ -3,108 +3,99 @@
 
 @{
     ViewBag.Title = $"Details for {Model.UserName}";
+    var roleArr = Model.Roles.ToArray();
 }
 
 <div>
-    <h3>@ViewBag.Title</h3>
-    <div class="row">
-        <div class="col-lg-5 col-md-5 col-sm-5">
-            <hr />
-            <dl class="dl-horizontal">
-                <dt>
-                    @Html.DisplayNameFor(model => model.UserName)
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.UserName)
-                </dd>
-                <dt>
-                    @Html.DisplayNameFor(model => model.Name)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.Name)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.Email)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.Email)
-                </dd>
-                <dt>
-                    @Html.DisplayNameFor(model => model.PhoneNumber)
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.PhoneNumber)
-                </dd>
-                <dt>
-                    @Html.DisplayNameFor(model => model.Roles)
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.Roles)
-                </dd>
-                <dt>
-                    @Html.Name("Date Added")
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.DateAdded)
-                </dd>
-                @if (Model.Events.Any())
-                {
-                    <dd>
-                        @Html.DisplayFor(model => model.Events)
-                    </dd>
-                    <dt>
-                        @{
-                            var count = 0;
-                        }
-                        @foreach (var ev in Model.Events)
-                        {
-                            if (count > 0)
-                            {
-                                @Html.Display(", ")
-                            }
-                            @Html.ActionLink(ev.Name, "Details", "Events", new { Area = "Events" }, new { id = ev.Id })
-                            count++;
-                        }
-
-                    </dt>
-                }
-                @if (Model.Articles.Any())
-                {
-                    <dd>
-                        @Html.DisplayFor(model => model.Articles)
-                    </dd>
-                    <dt>
-                        @{
-                            var count = 0;
-                        }
-                        @foreach (var ev in Model.Articles)
-                        {
-                            if (count > 0)
-                            {
-                                @Html.Display(", ")
-                            }
-                            @Html.ActionLink(ev.Name, "Details", "Articles", new { Area = "Articles" }, new { id = ev.Id })
-                            count++;
-                        }
-
-                    </dt>
-                }
-                <dt>
-                    @Html.Name("Options")
-                </dt>
-                <dd>
-                    @Html.ActionLink("Associate Role", "AssociateRole", "Users", new { Area = "Admin", id = Model.Id }, null) |
-                    @Html.ActionLink("DissociateRole", "DissociateRole", "Users", new { Area = "Admin", id = Model.Id }, null) |
-                    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-                    @Html.ActionLink("Delete", "Delete", "Users", new { Area = "Admin", id = Model.Id }, null)
-                </dd>
-            </dl>
-            <p>
-                @Html.ActionLink("Back to List", "Index")
-            </p>
-        </div>
+    <h4>@ViewBag.Title</h4>
+    <div class="responsive">
+        <table class="table">
+            <tr>
+                <td class="col-lg-4 col-md-4 col-sm-8">
+                    <div class="responsive">
+                        <table class="table-striped">
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.UserName)</td>
+                                <td>@Html.DisplayFor(model => model.UserName)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.Name)</td>
+                                <td>@Html.DisplayFor(model => model.Name)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.Email)</td>
+                                <td>@Html.DisplayFor(model => model.Email)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.PhoneNumber)</td>
+                                <td>@Html.DisplayFor(model => model.PhoneNumber)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.Roles)</td>
+                                <td>
+                                    @*@Html.DisplayFor(model => model.Roles)*@
+                                    @for (var i = 0; i < roleArr.Length - 1; i++)
+                                    {
+                                        @Html.ActionLink(roleArr[i], "AllByRole", "Users", new { Area = "Admin", roleName = roleArr[i] }, new { @class = "table-link" })
+                                        @Html.Name(", ")
+                                    }
+                                    @Html.ActionLink(roleArr[roleArr.Length - 1], "AllByRole", "Users", new { Area = "Admin", roleName = roleArr[roleArr.Length - 1] }, new { @class = "table-link" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.DateAdded)</td>
+                                <td>@Html.DisplayFor(model => model.DateAdded)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.Events)</td>
+                                <td>
+                                    @{
+                                        var count = 0;
+                                    }
+                                    @foreach (var ev in Model.Events)
+                                    {
+                                        if (count > 0)
+                                        {
+                                            @Html.Display(", ")
+                                        }
+                                        @Html.ActionLink(ev.Name, "Details", "Events", new { Area = "Events", id = ev.Id }, new { @class = "table-link" })
+                                        count++;
+                                    }
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.DisplayNameFor(model => model.Articles)
+                                </td>
+                                <td>
+                                    @{
+                                        var countOf = 0;
+                                    }
+                                   @foreach (var ev in Model.Articles)
+                                   {
+                                       if (countOf > 0)
+                                       {
+                                        @Html.Display(", ")
+                                       }
+                                    @Html.ActionLink(ev.Name, "Details", "Articles", new { Area = "Articles", id = ev.Id }, new { @class = "table-link" })
+                                       countOf++;
+                                   }
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+                <td class="col-lg-2 col-md-2 col-sm-4">
+                    <ul>
+                        <li>@Html.ActionLink("All users", "Index", null, new { @class = "btn btn-primary" })</li>
+                        <li>@Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
+                        <li>@Html.ActionLink("Delete", "Delete", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
+                        <li>@Html.ActionLink("Associate Role", "AssociateRole", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
+                        <li>@Html.ActionLink("Dissociate Role", "DissociateRole", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
+                    </ul>
+                </td>
+                <td></td>
+            </tr>
+        </table>
     </div>
 </div>

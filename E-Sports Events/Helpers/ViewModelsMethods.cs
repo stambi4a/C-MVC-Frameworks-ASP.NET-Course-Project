@@ -5,9 +5,9 @@
         public static string GetLocation(string first, string second)
         {
             var location = string.Empty;
-            if (!string.IsNullOrEmpty(first))
+            if (!first.Equals(' '))
             {
-                if (!string.IsNullOrEmpty(second))
+                if (!second.Equals(' '))
                 {
                     location = second + ", " + first;
                 }

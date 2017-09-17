@@ -1,13 +1,11 @@
-﻿namespace ESportsEventsApp.Areas.PlayerAdmin.Controllers
+﻿namespace ESportsEventsApp.Areas.LocationAdmin.Controllers
 {
     using System;
     using System.Collections.Generic;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
-    using System.IO;
     using System.Linq;
     using System.Net;
-    using System.Security.AccessControl;
     using System.Web.Mvc;
 
     using AutoMapper;
@@ -17,9 +15,6 @@
     using Data;
 
     using global::Models;
-    using global::Models.Images;
-
-    using Helpers;
 
     using ViewModels;
 
@@ -35,11 +30,40 @@
         [Route("all")]
         [Route("index")]
         [Route("")]
-        public ActionResult Index()
+        public ActionResult Index(string sortValue, string sortOrder)
         {
-            var cities = db.Cities.ToList();
-            var citiesModel = Mapper.Map<IEnumerable<City>, IEnumerable<CityViewModel>>(cities);
-            return View(citiesModel);
+            var cities = this.db.Cities.Where(c => c.Name != "No city").ToList();
+            var model = Mapper.Map<IEnumerable<City>, IEnumerable<CityViewModel>>(cities);
+            this.ViewBag.SortValue = sortValue;
+            this.ViewBag.SortOrder = sortOrder;
+            switch (sortValue)
+            {
+                case null:
+                    {
+                        model = model.OrderBy(m => m.Name);
+                        this.ViewBag.SortValue = "Name";
+                        this.ViewBag.SortOrder = "Asc";
+                    }
+                    break;
+
+                case "Name":
+                    {
+                        model = sortOrder.Equals("Asc") ? model.OrderBy(m => m.Name) : model.OrderByDescending(m => m.Name);
+                    }
+                    break;
+
+                case "Country":
+                    {
+                        model = sortOrder.Equals("Asc") ? model.OrderBy(m => m.Country.Name) : model.OrderByDescending(m => m.Country.Name);
+                    }
+                    break;
+
+                default:
+                    {
+                        throw new InvalidOperationException("Invalid sort parameters");
+                    }
+            }
+            return this.View(model);
         }
 
         // GET: PlayerAdmin/Cities/Details/5
@@ -52,14 +76,14 @@
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var city = db.Cities.Find(id);
+            var city = this.db.Cities.Find(id);
             if (city == null)
             {
                 return this.HttpNotFound();
             }
 
             var model = Mapper.Map<City, CityViewModel>(city);
-            return View(model);
+            return this.View(model);
         }
 
         // GET: PlayerAdmin/Cities/Create
@@ -72,7 +96,7 @@
                 Mapper.Map<IEnumerable<Country>, IEnumerable<CountryBindingModel>>(availableCountries);
             var model = new CityBindingModel();
             model.AvailableCountries = availableCountriesModel;
-            return View(model);
+            return this.View(model);
         }
 
         // POST: PlayerAdmin/Cities/Create
@@ -83,7 +107,7 @@
         [Route("create")]
         public ActionResult Create(CityBindingModel bind)
         {
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
                 var city = Mapper.Map<CityBindingModel, City>(bind);
                 var country = this.db.Countries.Find(bind.CountryId);
@@ -91,10 +115,10 @@
                 this.db.Cities.Add(city);
                 this.db.SaveChanges();
 
-                return RedirectToAction("Index");
+                return this.RedirectToAction("Index");
             }
 
-            return View(bind);
+            return this.View(bind);
         }
 
         // GET: PlayerAdmin/Cities/Edit/5
@@ -106,10 +130,10 @@
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var city = db.Cities.Find(id);
+            var city = this.db.Cities.Find(id);
             if (city == null)
             {
-                return HttpNotFound();
+                return this.HttpNotFound();
             }
 
             var model = Mapper.Map<City, CityBindingModel>(city);
@@ -118,7 +142,7 @@
                 Mapper.Map<IEnumerable<Country>, IEnumerable<CountryBindingModel>>(availableCountries);
             model.AvailableCountries = availableCountriesModel;
 
-            return View(model);
+            return this.View(model);
         }
 
         // POST: PlayerAdmin/Cities/Edit/5
@@ -129,7 +153,7 @@
         [Route("edit/{id}")]
         public ActionResult Edit(CityBindingModel model)
         {
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
                 var city = this.db.Cities.Find(model.Id);
                 city = Mapper.Map<CityBindingModel, City>(model);
@@ -142,10 +166,10 @@
                 this.db.Entry(city.Country).State = EntityState.Modified;
                 this.db.SaveChanges();
 
-                return RedirectToAction("Index");
+                return this.RedirectToAction("Index");
             }
 
-            return View(model);
+            return this.View(model);
         }
 
         // GET: PlayerAdmin/Cities/Delete/5
@@ -157,13 +181,16 @@
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var city = db.Cities.Find(id);
+            var city = this.db.Cities.Find(id);
 
             if (city == null)
             {
-                return HttpNotFound();
+                return this.HttpNotFound();
             }
-            return View(city);
+
+            var model = Mapper.Map<City, CityBindingModel>(city);
+
+            return this.View(model);
         }
 
         // POST: PlayerAdmin/Cities/Delete/5
@@ -172,17 +199,17 @@
         [Route("delete/{id}")]
         public ActionResult DeleteConfirmed(int id)
         {
-            var city = db.Cities.Find(id);
-            db.Cities.Remove(city);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            var city = this.db.Cities.Find(id);
+            this.db.Cities.Remove(city);
+            this.db.SaveChanges();
+            return this.RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
-                db.Dispose();
+                this.db.Dispose();
             }
             base.Dispose(disposing);
         }

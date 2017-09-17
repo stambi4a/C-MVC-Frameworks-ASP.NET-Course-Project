@@ -1,5 +1,6 @@
 ﻿namespace ESportsEventsApp.Areas.LocationAdmin.Controllers
 {
+    using System;
     using System.Collections.Generic;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
@@ -29,11 +30,40 @@
         [Route("all")]
         [Route("index")]
         [Route("")]
-        public ActionResult Index()
+        public ActionResult Index(string sortValue, string sortOrder)
         {
-            var venues = this.db.Venues.ToList();
-            var venuesModel = Mapper.Map<IEnumerable<Venue>, IEnumerable<VenueViewModel>>(venues);
-            return View(venuesModel);
+            var venues = this.db.Venues.Where(v=>v.Name != "No venue").ToList();
+            var model = Mapper.Map<IEnumerable<Venue>, IEnumerable<VenueViewModel>>(venues);
+            this.ViewBag.SortValue = sortValue;
+            this.ViewBag.SortOrder = sortOrder;
+            switch (sortValue)
+            {
+                case null:
+                    {
+                        model = model.OrderBy(m => m.Name);
+                        this.ViewBag.SortValue = "Name";
+                        this.ViewBag.SortOrder = "Asc";
+                    }
+                    break;
+
+                case "Name":
+                    {
+                        model = sortOrder.Equals("Asc") ? model.OrderBy(m => m.Name) : model.OrderByDescending(m => m.Name);
+                    }
+                    break;
+
+                case "Location":
+                    {
+                        model = sortOrder.Equals("Asc") ? model.OrderBy(m => m.Location) : model.OrderByDescending(m => m.Location);
+                    }
+                    break;
+
+                default:
+                    {
+                        throw new InvalidOperationException("Invalid sort parameters");
+                    }
+            }
+            return View(model);
         }
 
         // GET: LocationAdmin/Venues/Details/5
@@ -175,7 +205,9 @@
                 return HttpNotFound();
             }
 
-            return View(venue);
+            var model = Mapper.Map<Venue, VenueBindingModel>(venue);
+
+            return View(model);
         }
 
         // POST: LocationAdmin/Venues/Delete/5

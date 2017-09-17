@@ -19,7 +19,7 @@
 
         public IEnumerable<PlayerViewModel> Players { get; set; }
 
-        public string PlayersToString => this.Players.Any() ? string.Join(", ", this.Players) : "No Players";
+        public string PlayersToString => this.Players.Any() ? string.Join(", ", this.Players) : string.Empty;
 
         public TeamLogoViewModel TeamLogo { get; set; }
 

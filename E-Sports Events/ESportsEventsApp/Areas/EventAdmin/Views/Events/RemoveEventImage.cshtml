@@ -10,32 +10,54 @@
 {
     @Html.AntiForgeryToken()
     <div class="row">
-        <div class="col-lg-4 col-md-4 col-sm-8">
+        <div class="col-lg-4 col-md-6 col-sm-6">
             <div class="form-horizontal">
-                <h3>@ViewBag.Title<strong>@ViewBag.EventImage</strong></h3>
-                <hr />
+                <h4>@ViewBag.Title</h4>
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="form-group">
+                <br />
+                <div class="responsive">
+                    <table class="table-striped">
+                        <tr>
+                            <td class="left-cell col-lg-2 col-md-3 col-sm-4">
+                                @Html.LabelForModel("Images to choose from", htmlAttributes: new { @style = "font-weight: normal;margin-top:5px;" })
+                            </td>
+                            <td class="right-cell col-lg-2 col-md-3 col-sm-4">
+                                <div>
+                                    @Html.DropDownListFor(model => model.ImageToRemove.Id, addedImages, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.ImageToRemove.Id, "", new { @class = "text-danger" })
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
-                <div class="form-group">
-                    @Html.Label("Added event images ", htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6" })
-                    <div class="col-lg-8 col-md-8 col-sm-6">
-                        @Html.DropDownListFor(model => model.ImageToRemove.Id, addedImages, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.ImageToRemove.Id, "", new { @class = "text-danger" })
-                    </div>
-                </div>
+                <br />
                 <div class="form-group">
                     <div class="col-md-10">
                         <input type="submit" value="Save" class="btn btn-default" />
                     </div>
-                    <div class="col-lg-10 col-md-10 col-sm-10">
-                        @Html.ActionLink("Back to List", "Index")
-                    </div>
                 </div>
-
             </div>
         </div>
+        <br />
+        <div class="col-lg-2 col-md-3 col-sm-3" style="padding-top: 40px;">
+            <ul>
+                <li>@Html.ActionLink("All events", "Index", null, new { @class = "btn btn-primary" })</li>
+                <li>@Html.ActionLink("Edit", "Edit", null, new { @class = "btn btn-primary" })</li>
+                <li>@Html.ActionLink("Details", "Details", new { id = ViewBag.Id }, new { @class = "btn btn-primary" })</li>
+                @if (ViewBag.StartDate > DateTime.Now)
+                {
+                    <li>@Html.ActionLink("Delete", "Delete", new { id = ViewBag.Id }, new { @class = "btn btn-primary" })</li>
+                    <li>@Html.ActionLink("Edit Logo", "EditLogo", new { id = ViewBag.Id }, new { @class = "btn btn-primary" })</li>
+                    <li>@Html.ActionLink("Edit Logo Local", "EditLogoLocal", new { id = ViewBag.Id }, new { @class = "btn btn-primary" })</li>
+                }
+                <li>@Html.ActionLink("Add Event Image", "AddEventImage", new { id = ViewBag.Id }, new { @class = "btn btn-primary" })</li>
+                <li>@Html.ActionLink("Add Event Image From Local Storage", "AddEventImageLocal", new { id = ViewBag.Id }, new { @class = "btn btn-primary" })</li>
+                <li>@Html.ActionLink("Add Event Video", "AddEventVideo", new { id = ViewBag.Id }, new { @class = "btn btn-primary" })</li>
+                <li>@Html.ActionLink("Remove Event Video", "RemoveEventVideo", new { id = ViewBag.Id }, new { @class = "btn btn-primary" })</li>
+            </ul>
+        </div>
     </div>
+
 }
 
 @section Scripts {

@@ -519,6 +519,11 @@
     <Content Include="Areas\LocationAdmin\Views\Venues\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Events\AllByTierType.cshtml" />
     <Content Include="Areas\Admin\Views\Events\AllBySeason.cshtml" />
+    <Content Include="Areas\Admin\Views\Users\AllByRole.cshtml" />
+    <Content Include="Areas\EventAdmin\Views\Events\AllBySeason.cshtml" />
+    <Content Include="Areas\EventAdmin\Views\Events\AllByTierType.cshtml" />
+    <Content Include="Areas\PlayerAdmin\Views\Players\EditPlayerImage.cshtml" />
+    <Content Include="Areas\PlayerAdmin\Views\Players\EditPlayerImageLocal.cshtml" />
     <None Include="Content\scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\scripts\jquery-1.10.2.js" />
     <Content Include="Content\scripts\jquery-1.10.2.min.js" />
@@ -617,10 +622,13 @@
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Scripts\jquery.min.js" />
+    <Content Include="Content\scripts\MicrosoftAjax.debug.js" />
+    <Content Include="Content\scripts\MicrosoftAjax.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\slick.min.js" />
     <Content Include="Scripts\wow.min.js" />
+    <Content Include="Content\scripts\youtube.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

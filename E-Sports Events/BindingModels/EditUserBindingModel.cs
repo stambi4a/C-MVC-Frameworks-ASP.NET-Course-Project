@@ -1,6 +1,7 @@
 ﻿namespace BindingModels
 {
     using System;
+    using System.ComponentModel.DataAnnotations;
 
     public class EditUserBindingModel
     {
@@ -8,11 +9,30 @@
 
         public string UserName { get; set; }
 
+        //[Required]
+        [StringLength(30, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 3)]
+        [Display(Name = "Name")]
         public string Name { get; set; }
 
-        public string PhoneNumber { get; set; }
-
+        [Required]
+        [EmailAddress]
+        [Display(Name = "Email")]
         public string Email { get; set; }
+
+        [Required]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        [Display(Name = "Password")]
+        public string Password { get; set; }
+
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirm password")]
+        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        public string ConfirmPassword { get; set; }
+
+        [Display(Name = "Phone number")]
+        [RegularExpression(@"^(([0][0-9]{9})|(\+?\d{12}))$", ErrorMessage = "The {0} must be ten-digit number starting with 0 or twelve-digit number statring with +")]
+        public string PhoneNumber { get; set; }
 
         public string PasswordHash { get; set; }
 

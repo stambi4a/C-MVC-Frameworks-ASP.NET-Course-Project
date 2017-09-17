@@ -24,11 +24,13 @@
                             </tr>
                             <tr>
                                 <td>@Html.DisplayNameFor(model => model.Location)</td>
-                                <td>@Html.DisplayFor(model => model.Location)</td>
+                                <td>
+                                    @Html.ActionLink(@Model.City.Name + ", ", "Details", "Cities", new { area = "LocationAdmin", id = Model.City.Id }, new { @class = "table-link" })
+                                    @Html.ActionLink(@Model.Country.Name, "Details", "Countries", new { area = "LocationAdmin", id = Model.Country.Id }, new { @class = "table-link" })</td>
                             </tr>
                             <tr>
                                 <td>@Html.DisplayNameFor(model => model.Venue)</td>
-                                <td>@Html.DisplayFor(model => model.Venue.Name)</td>
+                                <td>@Html.ActionLink(@Model.Venue.Name, "Details", "Venues", new { area = "LocationAdmin", id = Model.Venue.Id }, new { @class = "table-link" })</td>
                             </tr>
                             <tr>
                                 <td>@Html.DisplayNameFor(model => model.PrizePool)</td>
@@ -40,7 +42,9 @@
                             </tr>
                             <tr>
                                 <td>@Html.DisplayNameFor(model => model.TierType)</td>
-                                <td>@Html.DisplayFor(model => model.TierType)</td>
+                                <td>
+                                    @Html.ActionLink(@Model.TierType.ToString(), "AllByTierType", "Events", new { area = "Admin", tierType = Model.TierType }, new { @class = "table-link" })
+                            </td>
                             </tr>
                             <tr>
                                 <td>@Html.DisplayNameFor(model => model.StartDate)</td>
@@ -52,11 +56,35 @@
                             </tr>
                             <tr>
                                 <td>@Html.DisplayNameFor(model => model.EventAdmins)</td>
-                                <td>@Html.DisplayFor(model => model.EventAdminsToString)</td>
+                                <td>
+                                   @{
+                                       var links = Model.EventAdmins.ToArray();
+                                       for (var i = 0; i < links.Length - 1; i++)
+                                       {
+                                        @Html.ActionLink(links[i].UserName + ", ", "Details", "Users", new { area = "Admin", id = links[i].Id }, new { @class = "table-link" })
+                                       }
+                                       if (links.Length > 0)
+                                       {
+                                        @Html.ActionLink(links[links.Length - 1].UserName, "Details", "Users", new { area = "Admin", id = links[links.Length - 1].Id }, new { @class = "table-link" })
+                                       }
+                                }
+                                </td>
                             </tr>
                             <tr>
                                 <td>@Html.DisplayNameFor(model => model.Players)</td>
-                                <td>@Html.DisplayFor(model => model.PlayersToString)</td>
+                                <td>
+                                    @{
+                                        var linksEa = Model.Players.ToArray();
+                                        for (var i = 0; i < linksEa.Length - 1; i++)
+                                        {
+                                            @Html.ActionLink(linksEa[i].Name + ", ", "Details", "Players", new { area = "PlayerAdmin", id = linksEa[i].Id }, new { @class = "table-link" })
+                                        }
+                                        if (linksEa.Length > 0)
+                                        {
+                                            @Html.ActionLink(linksEa[linksEa.Length - 1].Name, "Details", "Players", new { area = "PlayerAdmin", id = linksEa[linksEa.Length - 1].Id }, new { @class = "table-link" })
+                                        }
+                                    }
+                                </td>
                             </tr>
                         </table>
                     </div>                   
@@ -65,12 +93,14 @@
                     <ul>
                         <li>@Html.ActionLink("Back To List", "Index", null, new {@class= "btn btn-primary"})</li>
                         <li>@Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
-                        <li>@Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" })</li>
-                        <li>@Html.ActionLink("Delete", "Delete", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
-                        <li>@Html.ActionLink("Edit Logo", "EditLogo", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
-                        <li>@Html.ActionLink("Edit Logo Local", "EditLogoLocal", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
-                        <li>@Html.ActionLink("Associate Admin", "AssociateAdmin", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
-                        <li>@Html.ActionLink("Dissociate Admin", "DissociateAdmin", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
+                        @if (ViewBag.StartDate > DateTime.Now)
+                        {
+                            <li>@Html.ActionLink("Delete", "Delete", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
+                            <li>@Html.ActionLink("Edit Logo", "EditLogo", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
+                            <li>@Html.ActionLink("Edit Logo Local", "EditLogoLocal", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
+                            <li>@Html.ActionLink("Associate Admin", "AssociateAdmin", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
+                            <li>@Html.ActionLink("Dissociate Admin", "DissociateAdmin", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
+                        }
                     </ul>
                 </td>
                 <td></td>

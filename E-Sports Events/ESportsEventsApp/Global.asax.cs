@@ -77,7 +77,8 @@ namespace ESportsEventsApp
                         expression.CreateMap<Team, TeamBindingModel>();
                         expression.CreateMap<Season, SeasonViewModel>();
                         expression.CreateMap<CountryBindingModel, Country>();
-                        expression.CreateMap<Country, CountryBindingModel>();
+                        expression.CreateMap<Country, CountryBindingModel>()
+                        .ForMember(dest=>dest.Flag, t=>t.Ignore());
                         expression.CreateMap<Country, CountryViewModel>();
                         expression.CreateMap<PlayerImage, PlayerImageViewModel>();
                         expression.CreateMap<TeamLogo, TeamLogoViewModel>();
@@ -97,6 +98,11 @@ namespace ESportsEventsApp
                         expression.CreateMap<Venue, VenueBindingModel>();
                         expression.CreateMap<VenueBindingModel, Venue>();
                         expression.CreateMap<Venue, VenueShortViewModel>();
+                        expression.CreateMap<Flag, FlagBindingModel>();
+                        expression.CreateMap<TeamLogo, TeamLogoBindingModel>();
+                        expression.CreateMap<PlayerImage, PlayerImageBindingModel>()
+                        .ForMember(dest=>dest.Alias,src=>src.MapFrom(s=>s.Player.Alias));
+                        expression.CreateMap<PlayerImageBindingModel, PlayerImage>();
                     });
         }
     }

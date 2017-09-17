@@ -5,6 +5,16 @@
 
     public static class HtmlHelperExtensions
     {
+        public static MvcHtmlString Image(this HtmlHelper helper, string imageUrl, string alt, string style, string classAttr)
+        {
+            var builder = new TagBuilder("img");
+            builder.MergeAttribute("src", imageUrl);
+            builder.MergeAttribute("alt", alt);
+            builder.MergeAttribute("class",classAttr);
+
+            return new MvcHtmlString(builder.ToString(TagRenderMode.SelfClosing));
+        }
+
         public static MvcHtmlString Image(this HtmlHelper helper, string imageUrl, string alt, string style)
         {
             var builder = new TagBuilder("img");
@@ -61,12 +71,21 @@
             return new MvcHtmlString(builder.ToString(TagRenderMode.Normal));
         }
 
-        public static MvcHtmlString VideoHd(this HtmlHelper helper, string url)
+        public static MvcHtmlString VideoHdIFrame(this HtmlHelper helper, string url)
         {
             var builder = new TagBuilder("iframe");
             builder.MergeAttribute("src", url);
             builder.MergeAttribute("frameborder", "0");
             //builder.MergeAttribute("class", "embed-responsive-item");
+
+            return new MvcHtmlString(builder.ToString(TagRenderMode.Normal));
+        }
+
+        public static MvcHtmlString VideoHd(this HtmlHelper helper, string url)
+        {
+            var builder = new TagBuilder("div");
+            builder.MergeAttribute("class", "youtube-player");
+            builder.MergeAttribute("data-id", url);
 
             return new MvcHtmlString(builder.ToString(TagRenderMode.Normal));
         }

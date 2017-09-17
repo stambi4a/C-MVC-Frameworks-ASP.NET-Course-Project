@@ -1,5 +1,6 @@
-﻿namespace ESportsEventsApp.Areas.PlayerAdmin.Controllers
+﻿namespace ESportsEventsApp.Areas.LocationAdmin.Controllers
 {
+    using System;
     using System.Collections.Generic;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
@@ -33,11 +34,34 @@
         [Route("all")]
         [Route("index")]
         [Route("")]
-        public ActionResult Index()
+        public ActionResult Index(string sortValue, string sortOrder)
         {
-            var countries = db.Countries.ToList();
-            var countriesModel = Mapper.Map<IEnumerable<Country>, IEnumerable<CountryViewModel>>(countries);
-            return View(countriesModel);
+            var countries = this.db.Countries.Where(c => c.Name != "No country").ToList();
+            var model = Mapper.Map<IEnumerable<Country>, IEnumerable<CountryViewModel>>(countries);
+            this.ViewBag.SortValue = sortValue;
+            this.ViewBag.SortOrder = sortOrder;
+            switch (sortValue)
+            {
+                case null:
+                    {
+                        model = model.OrderBy(m => m.Name);
+                        this.ViewBag.SortValue = "Name";
+                        this.ViewBag.SortOrder = "Asc";
+                    }
+                    break;
+
+                case "Name":
+                    {
+                        model = sortOrder.Equals("Asc") ? model.OrderBy(m => m.Name) : model.OrderByDescending(m => m.Name);
+                    }
+                    break;
+
+                default:
+                    {
+                        throw new InvalidOperationException("Invalid sort parameters");
+                    }
+            }
+            return this.View(model);
         }
 
         // GET: PlayerAdmin/Countries/Details/5
@@ -49,13 +73,13 @@
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var country = db.Countries.Find(id);
+            var country = this.db.Countries.Find(id);
             if (country == null)
             {
                 return this.HttpNotFound();
             }
             var model = Mapper.Map<Country, CountryViewModel>(country);
-            return View(model);
+            return this.View(model);
         }
 
         // GET: PlayerAdmin/Countries/Create
@@ -63,7 +87,7 @@
         [Route("create")]
         public ActionResult Create()
         {
-            return View();
+            return this.View();
         }
 
         // POST: PlayerAdmin/Countries/Create
@@ -74,15 +98,15 @@
         [Route("create")]
         public ActionResult Create(CountryBindingModel bind)
         {
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
                 var country = Mapper.Map<CountryBindingModel, Country>(bind);
-                db.Countries.Add(country);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                this.db.Countries.Add(country);
+                this.db.SaveChanges();
+                return this.RedirectToAction("Index");
             }
 
-            return View(bind);
+            return this.View(bind);
         }
 
         // GET: PlayerAdmin/Countries/Edit/5
@@ -94,15 +118,15 @@
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var country = db.Countries.Find(id);
+            var country = this.db.Countries.Find(id);
             if (country == null)
             {
-                return HttpNotFound();
+                return this.HttpNotFound();
             }
 
             var model = Mapper.Map<Country, CountryBindingModel>(country);
 
-            return View(model);
+            return this.View(model);
         }
 
         // POST: PlayerAdmin/Countries/Edit/5
@@ -113,16 +137,16 @@
         [Route("edit/{id}")]
         public ActionResult Edit([Bind(Include = "Id, Name")] CountryBindingModel model)
         {
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
                 var country = this.db.Countries.Find(model.Id);
                 country = Mapper.Map<CountryBindingModel, Country>(model);
                 this.db.Countries.AddOrUpdate(a => a.Id, country);
                 this.db.SaveChanges();
-                return RedirectToAction("Index");
+                return this.RedirectToAction("Index");
             }
 
-            return View(model);
+            return this.View(model);
         }
 
         // GET: PlayerAdmin/Countries/Delete/5
@@ -134,14 +158,16 @@
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var country = db.Countries.Find(id);
+            var country = this.db.Countries.Find(id);
 
             if (country == null)
             {
-                return HttpNotFound();
+                return this.HttpNotFound();
             }
 
-            return View(country);
+            var model = Mapper.Map<Country, CountryBindingModel>(country);
+
+            return this.View(model);
         }
 
         // POST: PlayerAdmin/Countries/Delete/5
@@ -150,10 +176,10 @@
         [Route("delete/{id}")]
         public ActionResult DeleteConfirmed(int id)
         {
-            Country country = db.Countries.Find(id);
-            db.Countries.Remove(country);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            Country country = this.db.Countries.Find(id);
+            this.db.Countries.Remove(country);
+            this.db.SaveChanges();
+            return this.RedirectToAction("Index");
         }
 
         [HttpGet]
@@ -170,8 +196,10 @@
                 return this.HttpNotFound();
             }
            
-            ViewBag.CountryName = country.Name;
-            return this.View();
+            this.ViewBag.CountryName = country.Name;
+            var model = Mapper.Map<Flag, FlagBindingModel>(country.Flag) ?? new FlagBindingModel { Id = (int)id };
+
+            return this.View(model);
         }
 
         [HttpPost]
@@ -201,7 +229,7 @@
                     this.db.SaveChanges();
                 }
 
-                ViewBag.CountryName = country.Name;
+                this.ViewBag.CountryName = country.Name;
                 return this.RedirectToAction("Index");
 
             }
@@ -222,8 +250,10 @@
                 return this.HttpNotFound();
             }
            
-            ViewBag.CountryName = country.Name;
-            return this.View();
+            this.ViewBag.CountryName = country.Name;
+            var model = Mapper.Map<Flag, FlagBindingModel>(country.Flag) ?? new FlagBindingModel { Id = (int)id };
+
+            return this.View(model);
         }
 
         [HttpPost]
@@ -245,7 +275,7 @@
                     this.db.SaveChanges();
                 }
 
-                var photo = Request.Files["Url"];
+                var photo = this.Request.Files["Url"];
                 if (photo == null)
                 {
                     return this.View();
@@ -253,7 +283,7 @@
 
                 if (hasUrl)
                 {
-                    var directory = $"{Server.MapPath("~")}{Constants.FlagsMapPath}";
+                    var directory = $"{this.Server.MapPath("~")}{Constants.FlagsMapPath}";
                     photo.SaveAs(Path.Combine(directory, photo.FileName));
                     model.Url = Constants.FlagsFolderPath + photo.FileName;
                     var flag = Mapper.Map<FlagBindingModel, Flag>(model);
@@ -261,7 +291,7 @@
                     this.db.SaveChanges();
                 }
 
-                ViewBag.CountryName = country.Name;
+                this.ViewBag.CountryName = country.Name;
 
                 return this.RedirectToAction("Index");
             }
@@ -272,7 +302,7 @@
         {
             if (disposing)
             {
-                db.Dispose();
+                this.db.Dispose();
             }
             base.Dispose(disposing);
         }

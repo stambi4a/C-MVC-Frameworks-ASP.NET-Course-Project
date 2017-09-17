@@ -4,66 +4,146 @@
 
 @{
     ViewBag.Title = "All players";
+    ViewBag.SortAlias = ViewBag.SortValue.Equals("Alias") && ViewBag.SortOrder.Equals("Asc") ? "Desc" : "Asc";
+    ViewBag.SortTeam = ViewBag.SortValue.Equals("Team") && ViewBag.SortOrder.Equals("Asc") ? "Desc" : "Asc";
+    ViewBag.SortLocation = ViewBag.SortValue.Equals("Location") && ViewBag.SortOrder.Equals("Asc") ? "Desc" : "Asc";
+    ViewBag.SortPrizeMoney = ViewBag.SortValue.Equals("PrizeMoney") && ViewBag.SortOrder.Equals("Asc") ? "Desc" : "Asc";
+    ViewBag.SortBespaPoints = ViewBag.SortValue.Equals("BespaPoints") && ViewBag.SortOrder.Equals("Asc") ? "Desc" : "Asc";
 }
-
-<p>
-    @Html.ActionLink("Create New Player", "Create")
-</p>
-<table class="table">
+    <h4 class="text-center">@ViewBag.Title</h4>
+    <p>
+        @Html.ActionLink("Create New Player", "Create", null, new { @class = "btn btn-primary", @style = "width:150px;" })
+    </p>
+<table class="table-striped">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.PlayerImage)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Alias)
+            <a href="@Url.Action("Index", "Players", new { area = "PlayerAdmin", sortValue = "Alias", sortOrder = ViewBag.SortAlias })" class="btn btn-info">
+                Alias&nbsp;
+                @if (ViewBag.SortAlias.Equals("Desc"))
+                {
+                    <span class="dropup">
+                        <span class="caret"></span>
+                    </span>
+                }
+                else
+                {
+                    <span class="caret"></span>
+                }
+            </a>
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Team)
+            <a href="@Url.Action("Index", "Players", new { area = "PlayerAdmin", sortValue = "Team", sortOrder = ViewBag.SortTeam })" class="btn btn-info">
+                Team&nbsp;
+                @if (ViewBag.SortTeam.Equals("Desc"))
+                {
+                    <span class="dropup">
+                        <span class="caret"></span>
+                    </span>
+                }
+                else
+                {
+                    <span class="caret"></span>
+                }
+            </a>
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Location)
+            <a href="@Url.Action("Index", "Players", new { area = "PlayerAdmin", sortValue = "Location", sortOrder = ViewBag.SortLocation })" class="btn btn-info">
+            Location&nbsp;
+                @if (ViewBag.SortLocation.Equals("Desc"))
+                {
+                    <span class="dropup">
+                        <span class="caret"></span>
+                    </span>
+                }
+                else
+                {
+                    <span class="caret"></span>
+                }
+            </a>
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PrizeMoney)
+            <a href="@Url.Action("Index", "Players", new { area = "PlayerAdmin", sortValue = "PrizeMoney", sortOrder = ViewBag.SortPrizeMoney })" class="btn btn-info">
+                PrizeMoney&nbsp;
+                @if (ViewBag.SortPrizeMoney.Equals("Desc"))
+                {
+                    <span class="dropup">
+                        <span class="caret"></span>
+                    </span>
+                }
+                else
+                {
+                    <span class="caret"></span>
+                }
+            </a>
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.BespaPoints)
+            <a href="@Url.Action("Index", "Players", new { area = "PlayerAdmin", sortValue = "BespaPoints", sortOrder = ViewBag.SortBespaPoints })" class="btn btn-info">
+                BespaPoints&nbsp;
+                @if (ViewBag.SortBespaPoints.Equals("Desc"))
+                {
+                    <span class="dropup">
+                        <span class="caret"></span>
+                    </span>
+                }
+                else
+                {
+                    <span class="caret"></span>
+                }
+            </a>
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @if (item.PlayerImage != null)
-            {
-                @Html.Image(item.PlayerImage.Url, string.Empty, "width:100px; height:auto;")
-            }          
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Alias)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Team.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Location)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PrizeMoney)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BespaPoints)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id }) |
-            @Html.ActionLink("Edit Player Image", "EditPlayerImage", new { id=item.Id }) |
-            @Html.ActionLink("Edit Player Image local", "EditPlayerImageLocal", new { id = item.Id })
-
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @if (item.PlayerImage != null)
+                {
+                    @Html.Image(item.PlayerImage.Url, string.Empty, string.Empty)
+                }
+            </td>
+            <td>
+                @Html.ActionLink(item.Alias, "Details", "Players", new { area = "PlayerAdmin", id = item.Id }, new { @class = "table-link" })
+            </td>
+            <td>
+               @Html.ActionLink(item.Team.Name, "Details", "Teams", new { area = "PLayerAdmin", id = item.Team.Id }, new { @class = "table-link" })
+            </td>
+            <td>
+                @if (!item.City.Name.Equals("No city"))
+                {
+                    @Html.ActionLink(item.City.Name, "Details", "Cities", new { area = "LocationAdmin", id = item.City.Id }, new { @class = "table-link" })
+                    @Html.Name(", ")
+                }
+                @Html.ActionLink(item.Country.Name, "Details", "Countries", new { area = "LocationAdmin", id = item.Country.Id }, new { @class = "table-link" })
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PrizeMoney)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BespaPoints)
+            </td>
+            <td class="col-lg-2 col-md-3 col-sm-3">
+                <div class="dropdown">
+                    <button class="dropbtn btn-info dropdown-toggle" data-toggle="dropdown">
+                        Actions
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-content dropdown-menu">
+                        <li>@Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-primary" })</li>
+                        <li>@Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-info" })</li>
+                        <li>@Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-primary" })</li>
+                        <li>@Html.ActionLink("Edit PlayerImage", "EditPlayerImage", new { id = item.Id }, new { @class = "btn btn-primary" })</li>
+                        <li>@Html.ActionLink("Edit PlayerImage local", "EditPlayerImageLocal", new { id = item.Id }, new { @class = "btn btn-primary" })</li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+    }
 
 </table>
+<div class="divider-medium">
+</div>

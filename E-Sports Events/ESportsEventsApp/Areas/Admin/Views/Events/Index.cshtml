@@ -3,35 +3,113 @@
 @model IEnumerable<EventViewModel>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "All Events";
+    ViewBag.SortName = ViewBag.SortValue.Equals("Name") && ViewBag.SortOrder.Equals("Asc") ? "Desc" : "Asc";
+    ViewBag.SortLocation = ViewBag.SortValue.Equals("Location") && ViewBag.SortOrder.Equals("Asc") ? "Desc" : "Asc";
+    ViewBag.SortVenue = ViewBag.SortValue.Equals("Venue") && ViewBag.SortOrder.Equals("Asc") ? "Desc" : "Asc";
+    ViewBag.SortTierType = ViewBag.SortValue.Equals("TierType") && ViewBag.SortOrder.Equals("Asc") ? "Desc" : "Asc";
+    ViewBag.SortPrizePool = ViewBag.SortValue.Equals("PrizePool") && ViewBag.SortOrder.Equals("Asc") ? "Desc" : "Asc";
+    ViewBag.SortSeason = ViewBag.SortValue.Equals("Season") && ViewBag.SortOrder.Equals("Asc") ? "Desc" : "Asc";
 }
-<p>
-    @Html.ActionLink("Create New Event", "Create", null, new { @class = "btn btn-primary", @style="width:150px;"})
-</p>
 
 <div class="responsive">
+    <h4 class="text-center">@ViewBag.Title</h4>
+    <p>
+        @Html.ActionLink("Create New Event", "Create", null, new { @class = "btn btn-primary", @style = "width:150px;" })
+    </p>
     <table class="table-striped">
         <tr>
             <th>
                 @Html.Name("Logo")
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                <a href="@Url.Action("Index", "Events", new { area = "Admin", sortValue = "Name", sortOrder = ViewBag.SortName })" class="btn btn-info"> Name&nbsp;
+                    @if (ViewBag.SortName.Equals("Desc"))
+                    {
+                        <span class="dropup">
+                            <span class="caret"></span>
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="caret"></span>
+                    }
+                </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Location)
+                <a href="@Url.Action("Index", "Events", new { area = "Admin", sortValue = "Location", sortOrder = ViewBag.SortLocation })" class="btn btn-info">
+                    Location&nbsp;
+                    @if (ViewBag.SortLocation.Equals("Desc"))
+                    {
+                        <span class="dropup">
+                            <span class="caret"></span>
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="caret"></span>
+                    }
+                </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Venue)
+                <a href="@Url.Action("Index", "Events", new { area = "Admin", sortValue = "Venue", sortOrder = ViewBag.SortVenue })" class="btn btn-info">
+                    Venue&nbsp;
+                    @if (ViewBag.SortVenue.Equals("Desc"))
+                    {
+                        <span class="dropup">
+                            <span class="caret"></span>
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="caret"></span>
+                    }
+                </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TierType)
+                <a href="@Url.Action("Index", "Events", new { area = "Admin", sortValue = "TierType", sortOrder = ViewBag.SortTierType })" class="btn btn-info">
+                    TierType&nbsp;
+                    @if (ViewBag.SortTierType.Equals("Desc"))
+                    {
+                        <span class="dropup">
+                            <span class="caret"></span>
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="caret"></span>
+                    }
+                </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PrizePool)
+                <a href="@Url.Action("Index", "Events", new { area = "Admin", sortValue = "PrizePool", sortOrder = ViewBag.SortPrizePool })" class="btn btn-info">
+                    PrizePool&nbsp;
+                    @if (ViewBag.SortPrizePool.Equals("Desc"))
+                    {
+                        <span class="dropup">
+                            <span class="caret"></span>
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="caret"></span>
+                    }
+                </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Season)
+                <a href="@Url.Action("Index", "Events", new { area = "Admin", sortValue = "Season", sortOrder = ViewBag.SortSeason })" class="btn btn-info">
+                    Season&nbsp;
+                    @if (ViewBag.SortSeason.Equals("Desc"))
+                    {
+                        <span class="dropup">
+                            <span class="caret"></span>
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="caret"></span>
+                    }
+                </a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.EventAdmins)
@@ -50,10 +128,14 @@
                     }
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Name)
+                    @Html.ActionLink(item.Name, "Details", "Events", new { area = "Admin", id = item.Id }, new { @class = "table-link" })
                 </td>
                 <td>
-                    @Html.ActionLink(item.City.Name + ", ", "Details", "Cities", new { area = "LocationAdmin", id = item.City.Id }, new { @class = "table-link" })
+                    @if (!item.City.Name.Equals("No city"))
+                    {
+                        @Html.ActionLink(item.City.Name, "Details", "Cities", new { area = "LocationAdmin", id = item.City.Id }, new { @class = "table-link" })
+                        @Html.Name(", ")
+                    }
                     @Html.ActionLink(item.Country.Name, "Details", "Countries", new { area = "LocationAdmin", id = item.Country.Id }, new { @class = "table-link" })
                 </td>
                 <td>
@@ -80,7 +162,6 @@
                             @Html.ActionLink(links[links.Length - 1].UserName, "Details", "Users", new { area = "Admin", id = links[links.Length - 1].Id }, new { @class = "table-link" })
                         }
                     }
-                    
                 </td>
                 <td class="col-lg-2 col-md-3 col-sm-3">
                     <div class="dropdown">
@@ -104,4 +185,5 @@
         }
     </table>
 </div>
-<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+<div class="divider-big">
+</div>

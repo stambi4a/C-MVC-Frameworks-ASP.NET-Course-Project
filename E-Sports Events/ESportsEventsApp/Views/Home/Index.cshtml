@@ -23,12 +23,16 @@
         <div class="featured_slider">
             @*<h2 class="featured_title">Latest Events</h2>*@
             <div class="slick_slider">
-                @foreach (var video in Model.LatestEventVideos)
+                @if (Model.LatestEventVideos.Any())
                 {
-                    <div class="single_iteam embed-responsive embed-responsive-16by9">
-                        @Html.VideoHd(video.Url);
-                    </div>
+                foreach (var video in Model.LatestEventVideos)
+                {
+                        <div class="single_iteam embed-responsive embed-responsive-16by9">
+                             @Html.VideoHd(video.Url);
+                        </div>
+                    }
                 }
+                
             </div>
         </div>
     </div>
@@ -68,7 +72,8 @@
                     <ul class="featured_nav">
                         <li>
                             <div class="embed-responsive embed-responsive-16by9" style="padding-bottom: 300px;">
-                                <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/d3gk5wBwD50" frameborder="0"></iframe>
+                                @*<iframe class="embed-responsive-item" src="https://www.youtube.com/embed/d3gk5wBwD50" frameborder="0"></iframe>*@
+                                @Html.VideoHd("https://www.youtube.com/embed/d3gk5wBwD50");
                             </div>                         
                         </li>
                         @*<li class="wow fadeInDown">

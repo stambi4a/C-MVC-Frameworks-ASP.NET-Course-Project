@@ -1,9 +1,10 @@
-﻿@model BindingModels.AssociateRoleBindingModel
+﻿@using ESportsEventsApp.Extensions
+@model BindingModels.AssociateRoleBindingModel
 
 @{
     ViewBag.Title = "Associate Role for ";
-    var AssociatedRoles = Model.AssociatedRoles;
-    var roles = new List<string>()
+    var associatedRoles = Model.AssociatedRoles.ToArray();
+    var roles = new List<string>
                     {
                         "Admin",
                         "ArticleAuthor",
@@ -15,7 +16,7 @@
                         "Buyer",
                         "Seller"
                     };
-    var availableRoles = roles.Except(AssociatedRoles.ToList()).Select(r => new SelectListItem() { Text = r, Value = r });
+    var availableRoles = roles.Except(associatedRoles.ToList()).Select(r => new SelectListItem() { Text = r, Value = r });
 }
 
 @using (Html.BeginForm())
@@ -24,37 +25,57 @@
     <div class="row">
         <div class="col-lg-4 col-md-6 col-sm-8">
             <div class="form-horizontal">
-                <h3>@ViewBag.Title@Model.Username</h3>
-                <hr />
+                <h4>@ViewBag.Title@Model.Username</h4>
                 @Html.ValidationSummary(false, "", new { @class = "text-danger" })
                 @Html.HiddenFor(model => model.Id)
+                <div class="responsive">
+                    <table class="table-striped">
+                        <tr>
+                            <td class="left-cell col-lg-2 col-md-3 col-sm-4">@Html.DisplayNameFor(model => model.AssociatedRoles)</td>
+                            <td class="right-cell col-lg-2 col-md-3 col-sm-4">
+                               @for (var i = 0; i < associatedRoles.Length - 1; i++)
+                               {
+                                @Html.ActionLink(associatedRoles[i], "AllByRole", "Users", new { Area = "Admin", roleName = associatedRoles[i] }, new { @class = "table-link" })
+                                @Html.Name(", ")
+                               }
+                                @if (associatedRoles.Length > 0)
+                                {
+                                    @Html.ActionLink(associatedRoles[associatedRoles.Length - 1], "AllByRole", "Users", new { Area = "Admin", roleName = associatedRoles[associatedRoles.Length - 1] }, new { @class = "table-link" })
+                                }
+                               
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-cell col-lg-2 col-md-3 col-sm-4">@Html.DisplayNameFor(model => model.AvailableRoles)</td>
+                            <td class="right-cell col-lg-2 col-md-3 col-sm-4">
+                                @Html.DropDownListFor(model=>model.AddedRole, availableRoles, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.AddedRole, "", new { @class = "text-danger" })
+                            </td>
+                        </tr>
+                    </table>
+                </div>	
+                <br/>
                 <div class="form-group">
-                    @Html.LabelFor(model => model.AssociatedRoles, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6" })
-                    <div class="col-lg-8 col-md-8 col-sm-6">
-                        @Html.DisplayFor(model => model.RolesToString)
+                    <div class="col-lg-10 col-md-10 col-sm-10">
+                        @Html.SubmitButton("Save")
                     </div>
                 </div>
-                <div class="form-group">
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.AvailableRoles, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6" })
-                    <div class="col-lg-8 col-md-8 col-sm-6">
-                        @Html.DropDownListFor(model => model.AddedRole, availableRoles, new { @class = "form-control" } )
-                        @Html.ValidationMessageFor(model => model.AddedRole, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-10">
-                        <input type="submit" value="Save" class="btn btn-default" />
-                    </div>
-                </div>
+                <br/><br/>
             </div>
         </div>
+        <div class="col-lg-2 col-md-3 col-sm-3" style="padding-top: 40px;">
+            <ul>
+                <li>@Html.ActionLink("All users", "Index", null, new { @class = "btn btn-primary" })</li>
+                <li>@Html.ActionLink("Details", "Details", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
+                <li>@Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" })</li>
+                <li>@Html.ActionLink("Associate Role", "AssociateRole", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
+                <li>@Html.ActionLink("Dissociate Role", "DissociateRole", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
+            </ul>
+        </div>
+        <br />
+        <br />
     </div>
  }
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

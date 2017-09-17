@@ -1,52 +1,70 @@
-﻿@using ViewModels
+﻿ @using ViewModels
 @model CityViewModel
 @{
     ViewBag.Title = $"Details for {Model.Name}";
 }
 
 <div>
-    <h3>@ViewBag.Title</h3>
-    <div class="row">
-        <div class="col-lg-5 col-md-5 col-sm-5">
-            <hr/>
-            <dl class="dl-horizontal">
-                <dt>
-                    @Html.DisplayNameFor(model => model.Name)
-                </dt>
+    <div class="responsive">
+        <h4>@ViewBag.Title</h4>
+        <table class="table">
+            <tr>
+                <td class="col-lg-4 col-md-4 col-sm-8">
+                    <div class="responsive">
+                        <table class="table-striped">
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.Name)</td>
+                                <td>@Html.DisplayFor(model => model.Name)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.Country)</td>
+                                <td>@Html.ActionLink(Model.Country.Name, "Details", "Countries", new { area = "LocationAdmin", id = Model.Country.Id }, new { @class = "table-link" })</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.Players)</td>
+                                <td>
+                                    @{
+                                        var players = Model.Players.ToArray();
+                                        for (var i = 0; i < players.Length - 1; i++)
+                                        {
+                                            @Html.ActionLink(players[i].Alias + ", ", "Details", "Players", new { area = "PlayerAdmin", id = players[i].Id }, new { @class = "table-link" })
+                                        }
+                                        if (players.Length > 0)
+                                        {
+                                            @Html.ActionLink(players[players.Length - 1].Alias, "Details", "Players", new { area = "PlayerAdmin", id = players[players.Length - 1].Id }, new { @class = "table-link" })
+                                        }
+                                    }
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.Teams)</td>
+                                <td>
+                                    @{
+                                        var teams = Model.Teams.ToArray();
+                                        for (var i = 0; i < teams.Length - 1; i++)
+                                        {
+                                            @Html.ActionLink(teams[i].Name + ", ", "Details", "Teams", new { area = "PlayerAdmin", id = teams[i].Id }, new { @class = "table-link" })
+                                        }
+                                        if (teams.Length > 0)
+                                        {
+                                            @Html.ActionLink(teams[teams.Length - 1].Name, "Details", "Teams", new { area = "PlayerAdmin", id = teams[teams.Length - 1].Id }, new { @class = "table-link" })
+                                        }
+                                    }
+                                </td>
+                            </tr>
 
-                <dd>
-                    @Html.DisplayFor(model => model.Name)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.Country)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.Country.Name)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.Players)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.PlayersToString)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.Teams)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.TeamsToString)
-                </dd>
-
-            </dl>
-        </div>
+                        </table>
+                    </div>
+                </td>
+                <td class="col-lg-2 col-md-2 col-sm-4">
+                    <ul>
+                        <li>@Html.ActionLink("All cities", "Index", null, new { @class = "btn btn-primary" })</li>
+                        <li>@Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
+                        <li>@Html.ActionLink("Delete", "Delete", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
+                    </ul>
+                </td>
+                <td></td>
+            </tr>
+        </table>
     </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

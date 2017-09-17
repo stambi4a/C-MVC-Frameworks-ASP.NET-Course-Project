@@ -13,6 +13,7 @@ namespace ESportsEventsApp
     using Data;
 
     using global::Models;
+    using global::Models.Images;
 
     using Microsoft.AspNet.Identity.EntityFramework;
     using Microsoft.Owin.Security.Google;
@@ -132,6 +133,48 @@ namespace ESportsEventsApp
                 var role = new IdentityRole("LocationAdmin");
                 roleManager.Create(role);
             }
+            if (!context.Countries.Any())
+            {
+                this.CreateNoCountry(context);
+            }
+
+            if (!context.Cities.Any())
+            {
+                this.CreateNoCity(context);
+            }
+
+            if (!context.Teams.Any())
+            {
+                this.CreateNoTeam(context);
+            }
+
+            if (!context.Venues.Any())
+            {
+                this.CreateNoVenue(context);
+            }
+        }
+
+        private void CreateNoCountry(ESportsEventsContext context)
+        {
+            context.Countries.Add(new Country() { Name = "No country"});
+            context.SaveChanges();
+        }
+        private void CreateNoCity(ESportsEventsContext context)
+        {
+            context.Cities.Add(new City() { Name = "No city", Country = context.Countries.FirstOrDefault(c=>c.Name == "No country") });
+            context.SaveChanges();
+        }
+
+        private void CreateNoTeam(ESportsEventsContext context)
+        {
+            context.Teams.Add(new Team() { Name = "No team", Country = context.Countries.FirstOrDefault(c => c.Name == "No country"), City = context.Cities.FirstOrDefault(c => c.Name == "No city") });
+            context.SaveChanges();
+        }
+
+        private void CreateNoVenue(ESportsEventsContext context)
+        {
+            context.Venues.Add(new Venue() { Name = "No venue", Country = context.Countries.FirstOrDefault(c => c.Name == "No country"), City = context.Cities.FirstOrDefault(c => c.Name == "No city") });
+            context.SaveChanges();
         }
 
         private void CreateAdministrator(UserManager<RegisteredUser> userManager)

@@ -8,6 +8,7 @@
     using System.IO;
     using System.Linq;
     using System.Net;
+    using System.Threading;
     using System.Web.Mvc;
 
     using AutoMapper;
@@ -39,27 +40,174 @@
         [Route("all")]
         [Route("index")]
         [Route("")]
-        public ActionResult Index()
+        public ActionResult Index(string sortValue, string sortOrder)
         {
             var events = db.Events.ToList();
             var model = Mapper.Map<IEnumerable<Event>, IEnumerable<EventViewModel>>(events);
+            this.ViewBag.SortValue = sortValue;
+            this.ViewBag.SortOrder = sortOrder;
+            switch (sortValue)
+            {
+                case null:
+                    {
+                        model = model.OrderBy(m => m.Name);
+                        this.ViewBag.SortValue = "Name";
+                        this.ViewBag.SortOrder = "Asc";
+                    }
+                    break;
+
+                case "Name":
+                    {
+                        model = sortOrder.Equals("Asc") ? model.OrderBy(m => m.Name) : model.OrderByDescending(m => m.Name);
+                    }
+                    break;
+
+                case "Location":
+                    {
+                        model = sortOrder.Equals("Asc") ? model.OrderBy(m => m.Location) : model.OrderByDescending(m => m.Location);
+                    }
+                    break;
+
+                case "Venue":
+                    {
+                        model = sortOrder.Equals("Asc") ? model.OrderBy(m => m.Venue.Name) : model.OrderByDescending(m => m.Venue.Name);
+                    }
+                    break;
+
+                case "TierType":
+                    {
+                        model = sortOrder.Equals("Asc") ? model.OrderBy(m => m.TierType) : model.OrderByDescending(m => m.TierType);
+                    }
+                    break;
+
+                case "PrizePool":
+                    {
+                        model = sortOrder.Equals("Asc") ? model.OrderBy(m => m.PrizePool) : model.OrderByDescending(m => m.PrizePool);
+                    }
+                    break;
+
+                case "Season":
+                    {
+                        model = sortOrder.Equals("Asc") ? model.OrderBy(m => m.Season.Year) : model.OrderByDescending(m => m.Season.Year);
+                    }
+                    break;
+
+                default:
+                    {
+                        throw new InvalidOperationException("Invalid sort parameters");
+                    }
+            }
             return View(model);
         }
 
-        [Route("allbytiertype")]
-        public ActionResult AllByTierType(TierType tierType)
+        [Route("allbytiertype/{tierType}")]
+        public ActionResult AllByTierType(TierType tierType, string sortValue, string sortOrder)
         {
             var events = db.Events.Where(e=>e.TierType == tierType).ToList();
             var model = Mapper.Map<IEnumerable<Event>, IEnumerable<EventViewModel>>(events);
+            this.ViewBag.SortValue = sortValue;
+            this.ViewBag.SortOrder = sortOrder;
+            switch (sortValue)
+            {
+                case null:
+                    {
+                        model = model.OrderBy(m => m.Name);
+                        this.ViewBag.SortValue = "Name";
+                        this.ViewBag.SortOrder = "Asc";
+                    }
+                    break;
+
+                case "Name":
+                    {
+                        model = sortOrder.Equals("Asc") ? model.OrderBy(m => m.Name) : model.OrderByDescending(m => m.Name);
+                    }
+                    break;
+
+                case "Location":
+                    {
+                        model = sortOrder.Equals("Asc") ? model.OrderBy(m => m.Location) : model.OrderByDescending(m => m.Location);
+                    }
+                    break;
+
+                case "Venue":
+                    {
+                        model = sortOrder.Equals("Asc") ? model.OrderBy(m => m.Venue.Name) : model.OrderByDescending(m => m.Venue.Name);
+                    }
+                    break;
+
+                case "PrizePool":
+                    {
+                        model = sortOrder.Equals("Asc") ? model.OrderBy(m => m.PrizePool) : model.OrderByDescending(m => m.PrizePool);
+                    }
+                    break;
+
+                case "Season":
+                    {
+                        model = sortOrder.Equals("Asc") ? model.OrderBy(m => m.Season.Year) : model.OrderByDescending(m => m.Season.Year);
+                    }
+                    break;
+
+                default:
+                    {
+                        throw new InvalidOperationException("Invalid sort parameters");
+                    }
+            }
             ViewBag.TierType = tierType.ToString();
             return View(model);
         }
 
-        [Route("allbyseason")]
-        public ActionResult AllBySeason(int seasonId)
+        [Route("allbyseason/{seasonId}")]
+        public ActionResult AllBySeason(int seasonId, string sortValue, string sortOrder)
         {
             var events = db.Events.Where(e => e.Season.Id == seasonId).ToList();
             var model = Mapper.Map<IEnumerable<Event>, IEnumerable<EventViewModel>>(events);
+            this.ViewBag.SortValue = sortValue;
+            this.ViewBag.SortOrder = sortOrder;
+            switch (sortValue)
+            {
+                case null:
+                    {
+                        model = model.OrderBy(m => m.Name);
+                        this.ViewBag.SortValue = "Name";
+                        this.ViewBag.SortOrder = "Asc";
+                    }
+                    break;
+
+                case "Name":
+                    {
+                        model = sortOrder.Equals("Asc") ? model.OrderBy(m => m.Name) : model.OrderByDescending(m => m.Name);
+                    }
+                    break;
+
+                case "Location":
+                    {
+                        model = sortOrder.Equals("Asc") ? model.OrderBy(m => m.Location) : model.OrderByDescending(m => m.Location);
+                    }
+                    break;
+
+                case "Venue":
+                    {
+                        model = sortOrder.Equals("Asc") ? model.OrderBy(m => m.Venue.Name) : model.OrderByDescending(m => m.Venue.Name);
+                    }
+                    break;
+
+                case "TierType":
+                    {
+                        model = sortOrder.Equals("Asc") ? model.OrderBy(m => m.TierType) : model.OrderByDescending(m => m.TierType);
+                    }
+                    break;
+
+                case "PrizePool":
+                    {
+                        model = sortOrder.Equals("Asc") ? model.OrderBy(m => m.PrizePool) : model.OrderByDescending(m => m.PrizePool);
+                    }
+                    break;
+
+                default:
+                    {
+                        throw new InvalidOperationException("Invalid sort parameters");
+                    }
+            }
             var season = this.db.Seasons.Find(seasonId);
             ViewBag.Season = season?.Year ?? 0;
             return View(model);
@@ -80,6 +228,8 @@
                 return HttpNotFound();
             }
             var model = Mapper.Map<Event, EventDetailsViewModel>(@event);
+
+            ViewBag.StartDate = @event.StartDate;
             return View(model);
         }
 
@@ -165,10 +315,10 @@
             }
 
             var dateToString = @event.StartDate.Value.ToString("g");
-            @event.StartDate = DateTime.Parse(dateToString, CultureInfo.InvariantCulture);
+            @event.StartDate = DateTime.Parse(dateToString, CultureInfo.CurrentCulture);
 
             dateToString = @event.EndDate.Value.ToString("g");
-            @event.EndDate = DateTime.Parse(dateToString, CultureInfo.InvariantCulture);
+            @event.EndDate = DateTime.Parse(dateToString, CultureInfo.CurrentCulture);
             var model = Mapper.Map<Event, EventBindingModel>(@event);
             var availableCountries = this.db.Countries.ToList();
             var availableCountriesModel =
@@ -230,19 +380,38 @@
 
                 return RedirectToAction("Index");
             }
+            {
+                if (model.Id == 0)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                var @event = db.Events.Find(model.Id);
+                if (@event == null)
+                {
+                    return this.HttpNotFound();
+                }
 
-            var availableCountries = this.db.Countries.ToList();
-            var availableCountriesModel =
-                Mapper.Map<IEnumerable<Country>, IEnumerable<CountryBindingModel>>(availableCountries);
-            model.AvailableCountries = availableCountriesModel;
-            var availableCities = this.db.Cities.ToList();
-            var availableCitiesModel =
-                Mapper.Map<IEnumerable<City>, IEnumerable<CityBindingModel>>(availableCities);
-            model.AvailableCities = availableCitiesModel;
-            var venues = this.db.Venues;
-            var availableVenuesModel = Mapper.Map<IEnumerable<Venue>, IEnumerable<VenueBindingModel>>(venues);
-            model.AvailableVenues = availableVenuesModel;
-            return View(model);
+                var dateToString = @event.StartDate.Value.ToString("g");
+                @event.StartDate = DateTime.Parse(dateToString, CultureInfo.CurrentCulture);
+
+                dateToString = @event.EndDate.Value.ToString("g");
+                @event.EndDate = DateTime.Parse(dateToString, CultureInfo.CurrentCulture);
+                model = Mapper.Map<Event, EventBindingModel>(@event);
+                var availableCountries = this.db.Countries.ToList();
+                var availableCountriesModel =
+                    Mapper.Map<IEnumerable<Country>, IEnumerable<CountryBindingModel>>(availableCountries);
+                model.AvailableCountries = availableCountriesModel;
+                var availableCities = this.db.Cities.ToList();
+                var availableCitiesModel =
+                    Mapper.Map<IEnumerable<City>, IEnumerable<CityBindingModel>>(availableCities);
+                model.AvailableCities = availableCitiesModel;
+                var venues = this.db.Venues;
+                var availableVenuesModel = Mapper.Map<IEnumerable<Venue>, IEnumerable<VenueBindingModel>>(venues);
+                model.AvailableVenues = availableVenuesModel;
+
+                return View(model);
+
+            }
         }
 
         // GET: Admin/Events/Delete/5
@@ -325,7 +494,8 @@
                                 AssociatedAdmins = associatedAdminsModel,
                                 Id = (int)id
                             };
-            
+
+            this.ViewBag.StartDate = @event.StartDate;
 
             return this.View(model);
         }
@@ -395,7 +565,7 @@
                 Id = (int)id
             };
 
-
+            this.ViewBag.StartDate = @event.StartDate;
             return this.View(model);
         }
 
@@ -453,6 +623,7 @@
             var model = Mapper.Map<Logo, LogoBindingModel>(@event.Logo) ?? new LogoBindingModel() { Id = (int)id };
             this.ViewBag.EventName = @event.Name;
             this.ViewBag.Id = id;
+            this.ViewBag.StartDate = @event.StartDate;
             return this.View(model);
         }
 
@@ -511,6 +682,8 @@
 
             var model = Mapper.Map<Logo, LogoBindingModel>(@event.Logo) ?? new LogoBindingModel() { Id = (int)id };
             this.ViewBag.EventName = @event.Name;
+            this.ViewBag.StartDate = @event.StartDate;
+            this.ViewBag.Id = id;
             return this.View(model);
         }
 
@@ -557,3 +730,4 @@
         }
     }
 }
+

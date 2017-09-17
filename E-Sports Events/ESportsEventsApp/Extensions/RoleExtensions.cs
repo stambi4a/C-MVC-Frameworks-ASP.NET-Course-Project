@@ -46,12 +46,12 @@
         //    return userRoles.Contains(roleName);
         //}
 
-        public static string GetRoles(this RegisteredUser user)
+        public static IEnumerable<string> GetRoles(this RegisteredUser user)
         {
             var context = new ESportsEventsContext();
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
             var userRoles = user.Roles.Select(r => roleManager.FindById(r.RoleId).Name);
-            return string.Join(", ", userRoles);
+            return userRoles;
         }
     }
 }

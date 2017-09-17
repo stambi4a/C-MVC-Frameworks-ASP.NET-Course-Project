@@ -1,0 +1,153 @@
+﻿@using ESportsEventsApp.Extensions
+@using ViewModels;
+@model IEnumerable<EventViewModel>
+
+@{
+    ViewBag.Title = $"My Events For Season {ViewBag.Season}";
+    ViewBag.SortName = ViewBag.SortValue.Equals("Name") && ViewBag.SortOrder.Equals("Asc") ? "Desc" : "Asc";
+    ViewBag.SortLocation = ViewBag.SortValue.Equals("Location") && ViewBag.SortOrder.Equals("Asc") ? "Desc" : "Asc";
+    ViewBag.SortVenue = ViewBag.SortValue.Equals("Venue") && ViewBag.SortOrder.Equals("Asc") ? "Desc" : "Asc";
+    ViewBag.SortTierType = ViewBag.SortValue.Equals("TierType") && ViewBag.SortOrder.Equals("Asc") ? "Desc" : "Asc";
+    ViewBag.SortPrizePool = ViewBag.SortValue.Equals("PrizePool") && ViewBag.SortOrder.Equals("Asc") ? "Desc" : "Asc";
+}
+
+<div class="responsive">
+    <h4 class="text-center">@ViewBag.Title</h4>
+    <table class="table-striped">
+        <tr>
+            <th>
+                @Html.Name("Logo")
+            </th>
+            <th>
+                <a href="@Url.Action("Index", "Events", new { area = "Admin", sortValue = "Name", sortOrder = ViewBag.SortName })" class="btn btn-info">
+                    Name&nbsp;
+                    @if (ViewBag.SortName.Equals("Desc"))
+                    {
+                        <span class="dropup">
+                            <span class="caret"></span>
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="caret"></span>
+                    }
+                </a>
+            </th>
+            <th>
+                <a href="@Url.Action("Index", "Events", new { area = "Admin", sortValue = "Location", sortOrder = ViewBag.SortLocation })" class="btn btn-info">
+                    Index&nbsp;
+                    @if (ViewBag.SortLocation.Equals("Desc"))
+                    {
+                        <span class="dropup">
+                            <span class="caret"></span>
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="caret"></span>
+                    }
+                </a>
+            </th>
+            <th>
+                <a href="@Url.Action("Index", "Events", new { area = "Admin", sortValue = "Venue", sortOrder = ViewBag.SortVenue })" class="btn btn-info">
+                    Venue&nbsp;
+                    @if (ViewBag.SortVenue.Equals("Desc"))
+                    {
+                        <span class="dropup">
+                            <span class="caret"></span>
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="caret"></span>
+                    }
+                </a>
+            </th>
+            <th>
+                <a href="@Url.Action("Index", "Events", new { area = "Admin", sortValue = "TierType", sortOrder = ViewBag.SortTierType })" class="btn btn-info">
+                    TierType&nbsp;
+                    @if (ViewBag.SortTierType.Equals("Desc"))
+                    {
+                        <span class="dropup">
+                            <span class="caret"></span>
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="caret"></span>
+                    }
+                </a>
+            </th>
+            <th>
+                <a href="@Url.Action("Index", "Events", new { area = "Admin", sortValue = "PrizePool", sortOrder = ViewBag.SortPrizePool })" class="btn btn-info">
+                    PrizePool&nbsp;
+                    @if (ViewBag.SortPrizePool.Equals("Desc"))
+                    {
+                        <span class="dropup">
+                            <span class="caret"></span>
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="caret"></span>
+                    }
+                </a>
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            @Html.HiddenFor(model => item.Id)
+            <tr>
+                <td>
+                    @if (item.Logo != null)
+                    {
+                        @Html.Image(item.Logo.Url, string.Empty, "width:50px; height:auto;")
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.ActionLink(item.City.Name + ", ", "Details", "Cities", new { area = "LocationAdmin", id = item.City.Id }, new { @class = "table-link" })
+                    @Html.ActionLink(item.Country.Name, "Details", "Countries", new { area = "LocationAdmin", id = item.Country.Id }, new { @class = "table-link" })
+                </td>
+                <td>
+                    @Html.ActionLink(item.Venue.Name, "Details", "Venues", new { area = "LocationAdmin", id = item.Venue.Id }, new { @class = "table-link" })
+                </td>
+                <td>
+                    @Html.ActionLink(item.TierType.ToString(), "AllByTierType", "Events", new { area = "EventAdmin", tierType = item.TierType }, new { @class = "table-link" })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PrizePoolToString)
+                </td>
+                <td class="col-lg-2 col-md-3 col-sm-3">
+                    <div class="dropdown">
+                        <button class="dropbtn btn-info dropdown-toggle" data-toggle="dropdown">
+                            Actions
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-content dropdown-menu">
+                            <li>@Html.ActionLink("All events", "Index", new { id = item.Id }, new { @class = "btn btn-info" })</li>
+                            <li>@Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-info" })</li>
+                            <li>@Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-info" })</li>
+                            @if (item.StartDate > DateTime.Now)
+                            {
+                                <li>@Html.ActionLink("Edit Logo", "EditLogo", new { id = item.Id }, new { @class = "btn btn-info" })</li>
+                                <li>@Html.ActionLink("Edit Logo Local", "EditLogoLocal", new { id = item.Id }, new { @class = "btn btn-info" })</li>
+                            }
+                            <li>@Html.ActionLink("Add Event Image From Server", "AddEventImage", new { id = item.Id }, new { @class = "btn btn-info" })</li>
+                            <li>@Html.ActionLink("Add Event Image From Local Storage", "AddEventImageLocal", new { id = item.Id }, new { @class = "btn btn-info" })</li>
+                            <li>@Html.ActionLink("Remove Event Image", "RemoveEventImage", new { id = item.Id }, new { @class = "btn btn-info" })</li>
+                            <li>@Html.ActionLink("Add Event Video", "AddEventVideo", new { id = item.Id }, new { @class = "btn btn-info" })</li>
+                            <li>@Html.ActionLink("Remove Event Video", "RemoveEventVideo", new { id = item.Id }, new { @class = "btn btn-info" })</li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+<div class="divider-big">
+</div>

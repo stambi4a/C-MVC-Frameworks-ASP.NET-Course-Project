@@ -23,7 +23,11 @@
 
         public LogoViewModel Logo { get; set; }
 
+        public SeasonViewModel Season { get; set; }
+
         public string PrizePoolToString => this.PrizePool + " лв.";
+
+        public string SeasonToString => $"{this.Season.Year}";
 
         public string Description { get; set; }
 

@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
 
     public class RegisteredUserDetailsViewModel
     {
@@ -17,8 +18,9 @@
 
         public string Email { get; set; }
 
-        public string Roles { get; set; }
+        public IEnumerable<string> Roles { get; set; }
 
+        [Display(Name = "Date added")]
         public DateTime DateAdded { get; set; }
 
         public IEnumerable<BasicEventViewModel> Events { get; set; }

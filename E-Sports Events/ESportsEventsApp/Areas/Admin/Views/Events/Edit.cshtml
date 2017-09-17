@@ -96,7 +96,7 @@
                                 @Html.LabelFor(model => model.Description, new { @style = "font-weight: normal;" })
                             </td>
                             <td class="right-cell col-lg-2 col-md-3 col-sm-4">
-                                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.TextAreaFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
                                 @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                             </td>
                         </tr>
@@ -130,7 +130,7 @@
                     </table>
                     <br />
                     <div class="form-group">
-                        <div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-lg-10 col-md-10 col-sm-10">
+                        <div class="col-lg-10 col-md-10 col-sm-10">
                             @Html.SubmitButton("Save")
                         </div>
                     </div>
@@ -141,13 +141,15 @@
         <div class="col-lg-2 col-md-3 col-sm-3" style="padding-top: 40px;">
             <ul>
                 <li>@Html.ActionLink("Back To List", "Index", null, new { @class = "btn btn-primary" })</li>
-                <li>@Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" })</li>
-                <li>@Html.ActionLink("Delete", "Delete", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
                 <li>@Html.ActionLink("Details", "Details", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
-                <li>@Html.ActionLink("Edit Logo", "EditLogo", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
-                <li>@Html.ActionLink("Edit Logo Local", "EditLogoLocal", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
-                <li>@Html.ActionLink("Associate Admin", "AssociateAdmin", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
-                <li>@Html.ActionLink("Dissociate Admin", "DissociateAdmin", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
+                @if (Model.StartDate > DateTime.Now)
+                {
+                    <li>@Html.ActionLink("Delete", "Delete", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
+                    <li>@Html.ActionLink("Edit Logo", "EditLogo", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
+                    <li>@Html.ActionLink("Edit Logo Local", "EditLogoLocal", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
+                    <li>@Html.ActionLink("Associate Admin", "AssociateAdmin", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
+                    <li>@Html.ActionLink("Dissociate Admin", "DissociateAdmin", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
+                }
             </ul>
         </div>
         <br/>

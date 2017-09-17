@@ -129,7 +129,7 @@
             modelBuilder.Entity<Event>().HasMany(e => e.PlayerEventRankings).WithRequired(l => l.Event).WillCascadeOnDelete(false);
             modelBuilder.Entity<Player>().HasMany(e => e.PlayerEventRankings).WithRequired(l => l.Player).WillCascadeOnDelete(false);
             modelBuilder.Entity<Event>().HasOptional(e => e.Season).WithMany(l => l.Events).WillCascadeOnDelete(false);
-            modelBuilder.Entity<City>().HasOptional(e => e.Country).WithMany(c => c.Cities).WillCascadeOnDelete(false);
+            modelBuilder.Entity<City>().HasRequired(e => e.Country).WithMany(c => c.Cities).WillCascadeOnDelete(true);
             modelBuilder.Entity<Team>().HasOptional(e => e.Country).WithMany(c => c.Teams).WillCascadeOnDelete(false);
             modelBuilder.Entity<Team>().HasOptional(e => e.City).WithMany(c => c.Teams).WillCascadeOnDelete(false);
             modelBuilder.Entity<Player>().HasOptional(e => e.City).WithMany(c => c.Players).WillCascadeOnDelete(false);

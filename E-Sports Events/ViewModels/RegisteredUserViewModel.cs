@@ -7,7 +7,7 @@
     {
         public string Id { get; set; }
 
-        public string UserName { get; set; }
+        public string Username { get; set; }
 
         public string  Name { get; set; }
 
@@ -17,7 +17,7 @@
 
         public string PasswordHash { get; set; }
 
-        public string Roles { get; set; }
+        public IEnumerable<string> Roles { get; set; }
 
         public DateTime DateAdded { get; set; }
     }

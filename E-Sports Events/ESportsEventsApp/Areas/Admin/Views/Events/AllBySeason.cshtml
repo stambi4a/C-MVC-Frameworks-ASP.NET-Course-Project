@@ -4,30 +4,97 @@
 
 @{
     ViewBag.Title = $"All Events For Season {ViewBag.Season}";
+    ViewBag.SortName = ViewBag.SortValue.Equals("Name") && ViewBag.SortOrder.Equals("Asc") ? "Desc" : "Asc";
+    ViewBag.SortLocation = ViewBag.SortValue.Equals("Location") && ViewBag.SortOrder.Equals("Asc") ? "Desc" : "Asc";
+    ViewBag.SortVenue = ViewBag.SortValue.Equals("Venue") && ViewBag.SortOrder.Equals("Asc") ? "Desc" : "Asc";
+    ViewBag.SortTierType = ViewBag.SortValue.Equals("TierType") && ViewBag.SortOrder.Equals("Asc") ? "Desc" : "Asc";
+    ViewBag.SortPrizePool = ViewBag.SortValue.Equals("PrizePool") && ViewBag.SortOrder.Equals("Asc") ? "Desc" : "Asc";
 }
 
-<h4>@ViewBag.Title</h4>
-
 <div class="responsive">
+    <h4 class="text-center">@ViewBag.Title</h4>
+    <p>
+        @Html.ActionLink("Create New Event", "Create", null, new { @class = "btn btn-primary", @style = "width:150px;" })
+    </p>
     <table class="table-striped">
         <tr>
             <th>
                 @Html.Name("Logo")
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                <a href="@Url.Action("AllBySeason", "Events", new { area = "Admin", sortValue = "Name", sortOrder = ViewBag.SortName })" class="btn btn-info">
+                    Name&nbsp;
+                    @if (ViewBag.SortName.Equals("Desc"))
+                    {
+                        <span class="dropup">
+                            <span class="caret"></span>
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="caret"></span>
+                    }
+                </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Location)
+                <a href="@Url.Action("AllBySeason", "Events", new { area = "Admin", sortValue = "Location", sortOrder = ViewBag.SortLocation })" class="btn btn-info">
+                    Index&nbsp;
+                    @if (ViewBag.SortLocation.Equals("Desc"))
+                    {
+                        <span class="dropup">
+                            <span class="caret"></span>
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="caret"></span>
+                    }
+                </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Venue)
+                <a href="@Url.Action("AllBySeason", "Events", new { area = "Admin", sortValue = "Venue", sortOrder = ViewBag.SortVenue })" class="btn btn-info">
+                    Venue&nbsp;
+                    @if (ViewBag.SortVenue.Equals("Desc"))
+                    {
+                        <span class="dropup">
+                            <span class="caret"></span>
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="caret"></span>
+                    }
+                </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TierType)
+                <a href="@Url.Action("AllBySeason", "Events", new { area = "Admin", sortValue = "TierType", sortOrder = ViewBag.SortTierType })" class="btn btn-info">
+                    TierType&nbsp;
+                    @if (ViewBag.SortTierType.Equals("Desc"))
+                    {
+                        <span class="dropup">
+                            <span class="caret"></span>
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="caret"></span>
+                    }
+                </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PrizePool)
+                <a href="@Url.Action("AllBySeason", "Events", new { area = "Admin", sortValue = "PrizePool", sortOrder = ViewBag.SortPrizePool })" class="btn btn-info">
+                    PrizePool&nbsp;
+                    @if (ViewBag.SortPrizePool.Equals("Desc"))
+                    {
+                        <span class="dropup">
+                            <span class="caret"></span>
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="caret"></span>
+                    }
+                </a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.EventAdmins)
@@ -97,7 +164,8 @@
                     </div>
                 </td>
             </tr>
-                        }
+        }
     </table>
 </div>
-<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+<div class="divider-big">
+</div>

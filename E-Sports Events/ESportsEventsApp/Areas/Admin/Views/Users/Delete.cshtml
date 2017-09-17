@@ -1,4 +1,5 @@
-﻿@using ViewModels
+﻿@using ESportsEventsApp.Extensions
+@using ViewModels
 @model RegisteredUserViewModel
 
 @{
@@ -6,38 +7,50 @@
 }
 
 <div>
-    <h3>Are you sure you want to delete user <strong>@Model.UserName</strong></h3>
-    <hr/>
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.UserName)
-        </dt>
+    <div class="responsive">
+        <h4>Are you sure you want to delete this event?</h4>
+        <table class="table">
+            <tr>
+                <td class="col-lg-4 col-md-4 col-sm-8">
+                    <div class="responsive">
+                        <table class="table-striped">
+                            <tr>
+                                <td class="left-cell col-lg-2 col-md-3 col-sm-4">@Html.DisplayNameFor(model => model.UserName)</td>
+                                <td class="right-cell col-lg-2 col-md-3 col-sm-4">
+                                    @Html.DisplayFor(model => model.UserName)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="left-cell col-lg-2 col-md-3 col-sm-4">@Html.DisplayNameFor(model => model.Name)</td>
+                                <td class="right-cell col-lg-2 col-md-3 col-sm-4">@Html.DisplayFor(model => model.Name)</td>
+                            </tr>
+                            <tr>
+                                <td class="left-cell col-lg-2 col-md-3 col-sm-4">@Html.DisplayNameFor(model => model.Email)</td>
+                                <td class="right-cell col-lg-2 col-md-3 col-sm-4">@Html.DisplayFor(model => model.Email)</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <br />
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
 
-        <dd>
-            @Html.DisplayFor(model => model.UserName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-    </dl>
-
-    @using (Html.BeginForm())
-    {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default"/> |
-            @Html.ActionLink("Back to List", "Index")
-        </div>
-    }
+                        <div class="form-actions no-color col-lg-10 col-md-10 col-sm-10">
+                            @Html.SubmitButton("Delete")
+                        </div>
+                    }
+                </td>
+                <td class="col-lg-2 col-md-2 col-sm-4">
+                    <ul>
+                        <li>@Html.ActionLink("All users", "Index", null, new { @class = "btn btn-primary" })</li>
+                        <li>@Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
+                        <li>@Html.ActionLink("Details", "Details", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
+                        <li>@Html.ActionLink("Associate Role", "AssociateRole", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
+                        <li>@Html.ActionLink("Dissociate Role", "DissociateRole", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
+                    </ul>
+                </td>
+                <td></td>
+            </tr>
+        </table>
+    </div>
 </div>

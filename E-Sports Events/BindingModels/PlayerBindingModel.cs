@@ -47,6 +47,8 @@
 
         public IEnumerable<TeamBindingModel> AvailableTeams { get; set; }
 
+        //public string DateOfBirthToString => this.DateOfBirth.ToString("d");
+
         [Required]
         [DataType(DataType.DateTime, ErrorMessage = "Please enter a valid date in the format dd/mm/yyyy")]
         [DateOfBirth(ErrorMessage = "Player should be between 14 and 70 years old.")]
@@ -58,5 +60,7 @@
         public int CountryId { get; set; }
 
         public int TeamId { get; set; }
+
+        public PlayerImageBindingModel PlayerImage { get; set; }
     }
 }

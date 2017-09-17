@@ -2,79 +2,73 @@
 @using ViewModels
 @model PlayerViewModel
 @{
-    ViewBag.Title = $"Details for {Model.Name}";
+    ViewBag.Title = $"Details for {Model.Alias}";
 }
-
 <div>
-    <h3>@ViewBag.Title</h3>
-    <div class="row">
-        <div class="col-lg-5 col-md-5 col-sm-5">
-            <hr/>
-            <dl class="dl-horizontal">
-                <dt>
-                    @Html.DisplayNameFor(model => model.PlayerImage)
-                </dt>
-
-                <dd>
-                    @if (Model.PlayerImage != null)
-                    {
-                        @Html.Image(Model.PlayerImage.Url, string.Empty, "width:100px; height:auto;")
-                    }
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.Team)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.Team)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.Address)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.Address)
-                </dd>
-                
-                <dt>
-                    @Html.DisplayNameFor(model => model.Location)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.Location)
-                </dd>
-                
-                <dt>
-                    @Html.DisplayNameFor(model => model.DateOfBirth)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.DateOfBirth)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.PrizeMoney)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.PrizeMoney)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.BespaPoints)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.BespaPoints)
-                </dd>
-
-            </dl>
-        </div>
+    <div class="responsive">
+        <h4>@ViewBag.Title</h4>
+        <table class="table">
+            <tr>
+                <td class="col-lg-4 col-md-4 col-sm-8">
+                    <div class="responsive">
+                        <table class="table-striped">
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.Name)</td>
+                                <td>@Html.DisplayFor(model => model.Name)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.PlayerImage)</td>
+                                <td>
+                                    @if (Model.PlayerImage != null)
+                                    {
+                                        @Html.Image(Model.PlayerImage.Url, string.Empty, "width:100px;height:auto;")
+                                    }   
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.DateOfBirth)</td>
+                                <td>@Html.DisplayFor(model => model.DateOfBirthToString)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.Location)</td>
+                                <td>
+                                    @Html.ActionLink(@Model.City.Name, "Details", "Cities", new { area = "LocationAdmin", id = Model.City.Id }, new { @class = "table-link" })
+                                    @Html.Name(", ")
+                                    @Html.ActionLink(@Model.Country.Name, "Details", "Countries", new { area = "LocationAdmin", id = Model.Country.Id }, new { @class = "table-link" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.Address)</td>
+                                <td>@Html.DisplayFor(model => model.Address)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.Team)</td>
+                                <td>
+                                    @Html.ActionLink(Model.Team.Name, "Details", "Teams", new { area = "PLayerAdmin", id = Model.Team.Id }, new { @class = "table-link" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.PrizeMoney)</td>
+                                <td>@Html.DisplayFor(model => model.PrizeMoneyToString)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.DisplayNameFor(model => model.BespaPoints)</td>
+                                <td>@Html.DisplayFor(model => model.BespaPoints)</td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+                <td class="col-lg-2 col-md-2 col-sm-4">
+                    <ul>
+                        <li>@Html.ActionLink("All Players", "Index", null, new { @class = "btn btn-primary" })</li>
+                        <li>@Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
+                        <li>@Html.ActionLink("Delete", "Delete", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
+                        <li>@Html.ActionLink("Edit PlayerImage", "EditPlayerImage", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
+                        <li>@Html.ActionLink("Edit PlayerImage local", "EditPlayerImageLocal", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
+                    </ul>
+                </td>
+                <td></td>
+            </tr>
+        </table>
     </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

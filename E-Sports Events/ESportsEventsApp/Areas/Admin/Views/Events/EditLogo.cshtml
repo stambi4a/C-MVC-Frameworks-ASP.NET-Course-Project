@@ -54,12 +54,15 @@
                 <li>@Html.ActionLink("Back To List", "Index", null, new { @class = "btn btn-primary" })</li>
                 <li>@Html.ActionLink("Edit", "Edit", null, new { @class = "btn btn-primary" })</li>
                 <li>@Html.ActionLink("Details", "Details", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
-                <li>@Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" })</li>
-                <li>@Html.ActionLink("Delete", "Delete", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
-                <li>@Html.ActionLink("Edit Logo Local", "EditLogoLocal", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
-                <li>@Html.ActionLink("Associate Admin", "AssociateAdmin", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
-                <li>@Html.ActionLink("Dissociate Admin", "DissociateAdmin", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
+                @if (ViewBag.StartDate > DateTime.Now)
+                {
+                    <li>@Html.ActionLink("Delete", "Delete", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
+                    <li>@Html.ActionLink("Edit Logo Local", "EditLogoLocal", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
+                    <li>@Html.ActionLink("Associate Admin", "AssociateAdmin", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
+                    <li>@Html.ActionLink("Dissociate Admin", "DissociateAdmin", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
+                }
             </ul>
+
         </div>
     </div>
 

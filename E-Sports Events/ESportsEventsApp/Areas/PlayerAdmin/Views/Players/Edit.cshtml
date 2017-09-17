@@ -1,8 +1,9 @@
 ﻿@using BindingModels
+@using ESportsEventsApp.Extensions
 @model PlayerBindingModel
 
 @{
-    ViewBag.Title = $"Edit {Model.Name}";
+    ViewBag.Title = $"Edit {Model.Alias}";
     var availableCountries = Model.AvailableCountries.Select(aa => new SelectListItem() { Text = aa.Name, Value = aa.Id.ToString() });
     var availableCities = Model.AvailableCities.Select(aa => new SelectListItem() { Text = aa.Name, Value = aa.Id.ToString() });
     var availableTeams = Model.AvailableTeams.Select(aa => new SelectListItem() { Text = aa.Name, Value = aa.Id.ToString() });
@@ -10,118 +11,119 @@
 
 @using (Html.BeginForm())
 {
+    @Html.AntiForgeryToken()
     <div class="row">
-        <div class="col-lg-4 col-md-4 col-sm-8">
-            @Html.AntiForgeryToken()
-
+        <div class="col-lg-4 col-md-5 col-sm-6">
             <div class="form-horizontal">
-                <hr />
+                <h4>@ViewBag.Title</h4>
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 @Html.HiddenFor(model => model.Id)
-                @Html.ValidationSummary("", new { @class = "text-danger" })
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Alias, new { @class = "col-lg-4 col-md-4 col-sm-6 control-label" })
-                    <div class="col-lg-8 col-md-8 col-sm-6">
-                        @Html.EditorFor(m => m.Alias, new { @class = "form-control col-md-4" })
-                        @Html.ValidationMessageFor(model => model.Alias, "", new { @class = "text-danger" })
+                <div class="responsive">
+                    <table class="table-striped">
+                        <tr>
+                        <tr>
+                            <td class="left-cell col-lg-2 col-md-3 col-sm-4">
+                                @Html.LabelFor(model => model.Alias, new { @style = "font-weight: normal;" })
+                            </td>
+                            <td class="right-cell col-lg-2 col-md-3 col-sm-4">
+                                @Html.EditorFor(model => model.Alias, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter alias..." } })
+                                @Html.ValidationMessageFor(model => model.Alias, "", new { @class = "text-danger" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-cell col-lg-2 col-md-3 col-sm-4">
+                                @Html.LabelFor(model => model.Name, new { @style = "font-weight: normal;" })
+                            </td>
+                            <td class="right-cell col-lg-2 col-md-3 col-sm-4">
+                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter Name..." } })
+                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-cell col-lg-2 col-md-3 col-sm-4">
+                                @Html.LabelFor(model => model.Address, new { @style = "font-weight: normal;" })
+                            </td>
+                            <td class="right-cell col-lg-2 col-md-3 col-sm-4">
+                                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter Address..." } })
+                                @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-cell col-lg-2 col-md-3 col-sm-4">
+                                @Html.LabelFor(model => model.BespaPoints, new { @style = "font-weight: normal;" })
+                            </td>
+                            <td class="right-cell col-lg-2 col-md-3 col-sm-4">
+                                @Html.EditorFor(model => model.BespaPoints, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter Bespa points..." } })
+                                @Html.ValidationMessageFor(model => model.BespaPoints, "", new { @class = "text-danger" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-cell col-lg-2 col-md-3 col-sm-4">
+                                @Html.LabelFor(model => model.PrizeMoney, new { @style = "font-weight: normal;" })
+                            </td>
+                            <td class="right-cell col-lg-2 col-md-3 col-sm-4">
+                                @Html.EditorFor(model => model.PrizeMoney, new { htmlAttributes = new { @class = "form-control", placeholder = "--$" } })
+                                @Html.ValidationMessageFor(model => model.PrizeMoney, "", new { @class = "text-danger" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-cell col-lg-2 col-md-3 col-sm-4">
+                                @Html.LabelFor(model => model.DateOfBirth, new { @style = "font-weight: normal;" })
+                            </td>
+                            <td class="right-cell col-lg-2 col-md-3 col-sm-4">
+                                @Html.EditorFor(model => model.DateOfBirth, new { htmlAttributes = new { @class = "form-control", placeholder = "dd/mm/yyyy" } })
+                                @Html.ValidationMessageFor(model => model.DateOfBirth, "", new { @class = "text-danger" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-cell col-lg-2 col-md-3 col-sm-4">
+                                @Html.LabelFor(model => model.Country, new { @style = "font-weight: normal;" })
+                            </td>
+                            <td class="right-cell col-lg-2 col-md-3 col-sm-4">
+                                @Html.DropDownListFor(model => model.CountryId, availableCountries, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-cell col-lg-2 col-md-3 col-sm-4">
+                                @Html.LabelFor(model => model.City, new { @style = "font-weight: normal;" })
+                            </td>
+                            <td class="right-cell col-lg-2 col-md-3 col-sm-4">
+                                @Html.DropDownListFor(model => model.CityId, availableCities, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.CityId, "", new { @class = "text-danger" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-cell col-lg-2 col-md-3 col-sm-4">
+                                @Html.LabelFor(model => model.Team, new { @style = "font-weight: normal;" })
+                            </td>
+                            <td class="right-cell col-lg-2 col-md-3 col-sm-4">
+                                @Html.DropDownListFor(model => model.TeamId, availableTeams, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Team, "", new { @class = "text-danger" })
+                            </td>
+                        </tr>
+                    </table>
+                    <br />
+                    <div class="form-group">
+                        <div class="col-lg-10 col-md-10 col-sm-10">
+                            @Html.SubmitButton("Save")
+                        </div>
                     </div>
+                    <br /><br />
                 </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6" })
-                    <div class="col-lg-8 col-md-8 col-sm-6">
-                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Address, new { @class = "control-label col-lg-4 col-md-4 col-sm-6" })
-                    <div class="col-lg-8 col-md-8 col-sm-6">
-                        @Html.EditorFor(m => m.Address, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.BespaPoints, new { @class = "control-label col-lg-4 col-md-4 col-sm-6" })
-                    <div class="col-lg-8 col-md-8 col-sm-6">
-                        @Html.EditorFor(m => m.BespaPoints, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.BespaPoints, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.PrizeMoney, new { @class = "control-label col-lg-4 col-md-4 col-sm-6" })
-                    <div class="col-lg-8 col-md-8 col-sm-6">
-                        @Html.EditorFor(m => m.PrizeMoney, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.PrizeMoney, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.DateOfBirth, new { @class = "control-label col-lg-4 col-md-4 col-sm-6" })
-                    <div class="col-lg-8 col-md-8 col-sm-6">
-                        @Html.EditorFor(m => m.DateOfBirth, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.DateOfBirth, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6" })
-                    <div class="col-lg-8 col-md-8 col-sm-6">
-                        @Html.EditorFor(model => model.Country.Name, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
-                        @Html.ValidationMessageFor(model => model.City.Name, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.AvailableCountries, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6" })
-                    <div class="col-lg-8 col-md-8 col-sm-6">
-                        @Html.DropDownListFor(model => model.CountryId, availableCountries, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.AvailableCountries, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6" })
-                    <div class="col-lg-8 col-md-8 col-sm-6">
-                        @Html.EditorFor(model => model.City.Name, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
-                        @Html.ValidationMessageFor(model => model.City.Name, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.AvailableCities, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6" })
-                    <div class="col-lg-8 col-md-8 col-sm-6">
-                        @Html.DropDownListFor(model => model.CityId, availableCities, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.AvailableCities, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Team, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6" })
-                    <div class="col-lg-8 col-md-8 col-sm-6">
-                        @Html.EditorFor(model => model.Team.Name, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
-                        @Html.ValidationMessageFor(model => model.Team.Name, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.AvailableTeams, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6" })
-                    <div class="col-lg-8 col-md-8 col-sm-6">
-                        @Html.DropDownListFor(model => model.TeamId, availableTeams, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.AvailableCities, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Save" class="btn btn-default" />
-                    </div>
-                </div>
-                <p>
-                    @Html.ActionLink("Back to List", "Index")
-                </p>
-                <br /><br />
             </div>
         </div>
+        <div class="col-lg-2 col-md-3 col-sm-3" style="padding-top: 40px;">
+            <ul>
+                <li>@Html.ActionLink("All players", "Index", null, new { @class = "btn btn-primary" })</li>
+                <li>@Html.ActionLink("Details", "Details", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
+                <li>@Html.ActionLink("Delete", "Delete", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
+                <li>@Html.ActionLink("Edit PlayerImage", "EditPlayerImage", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
+                <li>@Html.ActionLink("Edit PlayerImage local", "EditPlayerImageLocal", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
+            </ul>
+        </div>
+        <br />
+        <br />
     </div>
 }
 <div class="col-md-4">

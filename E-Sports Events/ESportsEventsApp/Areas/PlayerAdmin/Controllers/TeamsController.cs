@@ -1,11 +1,13 @@
 ﻿namespace ESportsEventsApp.Areas.PlayerAdmin.Controllers
 {
+    using System;
     using System.Collections.Generic;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.IO;
     using System.Linq;
     using System.Net;
+    using System.Web.Helpers;
     using System.Web.Mvc;
 
     using AutoMapper;
@@ -18,6 +20,8 @@
     using global::Models.Images;
 
     using Helpers;
+
+    using Owin.Security.Providers.Imgur.Provider;
 
     using ViewModels;
 
@@ -32,11 +36,40 @@
         [Route("all")]
         [Route("index")]
         [Route("")]
-        public ActionResult Index()
+        public ActionResult Index(string sortValue, string sortOrder)
         {
-            var teams = db.Teams.ToList();
-            var teamsModel = Mapper.Map<IEnumerable<Team>, IEnumerable<TeamViewModel>>(teams);
-            return this.View(teamsModel);
+            var teams = db.Teams.Where(p => p.Name != "No team").ToList();
+            var model = Mapper.Map<IEnumerable<Team>, IEnumerable<TeamViewModel>>(teams);
+            this.ViewBag.SortValue = sortValue;
+            this.ViewBag.SortOrder = sortOrder;
+            switch (sortValue)
+            {
+                case null:
+                    {
+                        model = model.OrderBy(m => m.Name);
+                        this.ViewBag.SortValue = "Name";
+                        this.ViewBag.SortOrder = "Asc";
+                    }
+                    break;
+
+                case "Name":
+                    {
+                        model = sortOrder.Equals("Asc") ? model.OrderBy(m => m.Name) : model.OrderByDescending(m => m.Name);
+                    }
+                    break;
+
+                case "Location":
+                    {
+                        model = sortOrder.Equals("Asc") ? model.OrderBy(m => m.Location) : model.OrderByDescending(m => m.Location);
+                    }
+                    break;
+
+                default:
+                    {
+                        throw new InvalidOperationException("Invalid sort parameters");
+                    }
+            }
+            return this.View(model);
         }
 
         // GET: PlayerAdmin/Teams/Details/5
@@ -55,6 +88,7 @@
             }
 
             var model = Mapper.Map<Team, TeamViewModel>(team);
+
             return View(model);
         }
         
@@ -98,7 +132,19 @@
                 return RedirectToAction("Index");
             }
 
-            return View(bind);
+            var availableCountries = this.db.Countries.ToList();
+            var availableCountriesModel =
+                Mapper.Map<IEnumerable<Country>, IEnumerable<CountryBindingModel>>(availableCountries);
+            var availableCities = this.db.Cities.ToList();
+            var availableCitiesModel =
+                Mapper.Map<IEnumerable<City>, IEnumerable<CityBindingModel>>(availableCities);
+            var model = new TeamBindingModel
+            {
+                AvailableCountries = availableCountriesModel,
+                AvailableCities = availableCitiesModel
+            };
+
+            return View(model);
         }
 
         // GET: PlayerAdmin/Teams/Edit/5
@@ -113,7 +159,7 @@
             var team = db.Teams.Find(id);
             if (team == null)
             {
-                return HttpNotFound();
+                return this.HttpNotFound();
             }
 
             var model = Mapper.Map<Team, TeamBindingModel>(team);
@@ -169,12 +215,16 @@
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Team team = db.Teams.Find(id);
+
+            var team = db.Teams.Find(id);
             if (team == null)
             {
                 return HttpNotFound();
             }
-            return View(team);
+
+            var model = Mapper.Map<Team, TeamBindingModel>(team);
+
+            return View(model);
         }
 
         // POST: PlayerAdmin/Teams/Delete/5
@@ -204,7 +254,9 @@
             }
 
             ViewBag.TeamName = team.Name;
-            return this.View();
+
+            var model = Mapper.Map<TeamLogo, TeamLogoBindingModel>(team.TeamLogo)?? new TeamLogoBindingModel { Id = (int)id };
+            return this.View(model);
         }
 
         [HttpPost]
@@ -256,7 +308,9 @@
             }
 
             this.ViewBag.TeamName = team.Name;
-            return this.View();
+
+            var model = Mapper.Map<TeamLogo, TeamLogoBindingModel>(team.TeamLogo) ?? new TeamLogoBindingModel { Id = (int)id };
+            return this.View(model);
         }
 
         [HttpPost]
@@ -278,16 +332,21 @@
                     this.db.SaveChanges();
                 }
 
-                var photo = Request.Files["Url"];
-                if (photo == null)
+                var image = this.Request.Files["Url"];
+                if (image == null)
                 {
                     return this.View();
+                }
+                var photo = new WebImage(image.InputStream);
+                if (photo.Width > 30)
+                {
+                    photo.Resize(30, 30, false);
                 }
 
                 if (hasUrl)
                 {
                     var directory = $"{Server.MapPath("~")}{Constants.TeamLogosMapPath}";
-                    photo.SaveAs(Path.Combine(directory, photo.FileName));
+                    photo.Save(Path.Combine(directory, photo.FileName));
                     model.Url = Constants.TeamLogosFolderPath + photo.FileName;
                     var teamLogo = Mapper.Map<TeamLogoBindingModel, TeamLogo>(model);
                     team.TeamLogo = teamLogo;

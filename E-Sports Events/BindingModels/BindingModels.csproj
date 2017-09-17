@@ -48,6 +48,7 @@
     <Compile Include="DissociateRoleBindingModel.cs" />
     <Compile Include="EventAdminBindingModel.cs" />
     <Compile Include="EventVideoBindingModel.cs" />
+    <Compile Include="PlayerImageBindingModel.cs" />
     <Compile Include="FlagBindingModel.cs" />
     <Compile Include="RoundBindingModel.cs" />
     <Compile Include="TeamLogoBindingModel.cs" />

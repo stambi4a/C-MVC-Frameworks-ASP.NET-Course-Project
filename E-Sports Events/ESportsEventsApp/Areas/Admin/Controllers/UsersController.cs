@@ -75,10 +75,45 @@
         [Route("all")]
         [Route("index")]
         [Route("")]
-        public ActionResult Index()
+        public ActionResult Index(string sortValue, string sortOrder)
         {
             var users = this.db.Users.Include(u=>u.Roles).ToList();
             var model = Mapper.Map<IEnumerable<RegisteredUser>, IEnumerable<RegisteredUserViewModel>>(users);
+            this.ViewBag.SortValue = sortValue;
+            this.ViewBag.SortOrder = sortOrder;
+            switch (sortValue)
+            {
+                case null:
+                    {
+                        model = model.OrderBy(m => m.Username);
+                        this.ViewBag.SortValue = "Username";
+                        this.ViewBag.SortOrder = "Asc";
+                    }
+                    break;
+
+                case "Username":
+                    {
+                        model = sortOrder.Equals("Asc") ? model.OrderBy(m => m.Username) : model.OrderByDescending(m => m.Username);
+                    }
+                    break;
+
+                case "Email":
+                    {
+                        model = sortOrder.Equals("Asc") ? model.OrderBy(m => m.Email) : model.OrderByDescending(m => m.Email);
+                    }
+                    break;
+
+                case "DateAdded":
+                    {
+                        model = sortOrder.Equals("Asc") ? model.OrderBy(m => m.DateAdded) : model.OrderByDescending(m => m.DateAdded);
+                    }
+                    break;
+
+                default:
+                    {
+                        throw new InvalidOperationException("Invalid sort parameters");
+                    }
+            }
             return View(model);
         }
 
@@ -212,7 +247,7 @@
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [Route("associaterole/{id}")]
         public ActionResult AssociateRole(string id)
         {
@@ -265,7 +300,10 @@
                     return this.View(bind);
                 }
                 var result = userManager.AddToRole(user.Id, bind.AddedRole);
-                await this.SignInAsync(user, true);
+                if (User.Identity.GetUserId() == user.Id)
+                {
+                    await this.SignInAsync(user, true);
+                }
                 //userManager.Update(user);
                 if (result == IdentityResult.Failed())
                 {
@@ -273,8 +311,8 @@
                     var context = new ESportsEventsContext();
                     var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
                     var allRoles = roleManager.Roles.ToList();
-                    var AssociatedRoles = user.Roles.Select(r => allRoles.FirstOrDefault(ar => ar.Id == r.RoleId).Name);
-                    bind.AssociatedRoles = AssociatedRoles;
+                    var associatedRoles = user.Roles.Select(r => allRoles.FirstOrDefault(ar => ar.Id == r.RoleId).Name);
+                    bind.AssociatedRoles = associatedRoles;
                     //bind.Username = user.UserName;
                     return this.View(bind);
                 }
@@ -348,7 +386,10 @@
                     @event.EventAdmins.Remove(user);
                 }
                 this.db.SaveChanges();
-                await this.SignInAsync(user, true);
+                if (User.Identity.GetUserId() == user.Id)
+                {
+                    await this.SignInAsync(user, true);
+                }
                 //userManager.Update(user);
                 if (result == IdentityResult.Failed())
                 {
@@ -368,6 +409,52 @@
             return this.View();
         }
 
+        [Route("allbyrole/{roleName}")]
+        public ActionResult AllByRole(string roleName, string sortOrder, string sortValue)
+        {
+            var role = this.db.Roles.FirstOrDefault(r => r.Name == roleName);
+            var users = this.db.Users.Where(u => u.Roles.Any(r=>r.RoleId == role.Id)).ToList();
+            var model = Mapper.Map<IEnumerable<RegisteredUser>, IEnumerable<RegisteredUserViewModel>>(users);
+            this.ViewBag.SortValue = sortValue;
+            this.ViewBag.SortOrder = sortOrder;
+            switch (sortValue)
+            {
+                case null:
+                    {
+                        model = model.OrderBy(m => m.Username);
+                        this.ViewBag.SortValue = "Username";
+                        this.ViewBag.SortOrder = "Asc";
+                    }
+                    break;
+
+                case "Username":
+                    {
+                        model = sortOrder.Equals("Asc") ? model.OrderBy(m => m.Username) : model.OrderByDescending(m => m.Username);
+                    }
+                    break;
+
+                case "Email":
+                    {
+                        model = sortOrder.Equals("Asc") ? model.OrderBy(m => m.Email) : model.OrderByDescending(m => m.Email);
+                    }
+                    break;
+
+
+                case "DateAdded":
+                    {
+                        model = sortOrder.Equals("Asc") ? model.OrderBy(m => m.DateAdded) : model.OrderByDescending(m => m.DateAdded);
+                    }
+                    break;
+
+                default:
+                    {
+                        throw new InvalidOperationException("Invalid sort parameters");
+                    }
+            }
+            ViewBag.RoleType = roleName;
+
+            return View(model);
+        }
 
         private async Task SignInAsync(RegisteredUser user, bool isPersistent)
         {
