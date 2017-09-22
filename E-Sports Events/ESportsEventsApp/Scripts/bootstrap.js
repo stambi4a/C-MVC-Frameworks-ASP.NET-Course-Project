@@ -726,7 +726,7 @@ if (!jQuery) { throw new Error("Bootstrap requires jQuery") }
     clearMenus()
 
     if (!isActive) {
-      if ('ontouchstart' in document.documentElement && !$parent.closest('.navbar-nav').length) {
+      if ('ontouchstart' in document.documentElement && !$parent.closest('').length) {
         // if mobile we we use a backdrop because click events don't delegate
         $('<div class="dropdown-backdrop"/>').insertAfter($(this)).on('click', clearMenus)
       }

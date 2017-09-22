@@ -363,7 +363,12 @@
                     return this.View();
                 }
                 var photo = new WebImage(image.InputStream);
-                ImageHelper.CropImage(photo);
+                if (model.X > 0)
+                {
+                    ImageHelper.CropCanvasImage(photo, model.X, model.Y, model.Width, model.Height);
+                }
+
+                ImageHelper.CropPlayerImage(photo);
                 if (hasUrl)
                 {
                     var directory = $"{Server.MapPath("~")}{Constants.PlayerImagesMapPath}";
@@ -375,7 +380,7 @@
                     this.db.SaveChanges();
                 }
 
-                ViewBag.Alias = player.Alias;
+                this.ViewBag.Alias = player.Alias;
 
                 return this.RedirectToAction("Index");
             }

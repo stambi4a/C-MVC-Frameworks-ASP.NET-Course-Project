@@ -23,25 +23,25 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav custom_nav">
                     <li class="dropdown">
-                        @Html.ActionLink("Admin Panel", "", null, htmlAttributes: new { @class = "dropdown-toggle", @datatoggle = "toggle", @role = "button", @ariaexpanded = "false", style = "font-weight:bold" })
+                        <a href="@Url.Action("Index","Home",null)" class="dropdown-toggle" datatoggle="toggle" role="button" ariaexpanded="false">Admin Panel&nbsp;<i class="fa fa-users" aria-hidden="true"></i></a>
                         <ul class="dropdown-menu" role="menu">
                             <li>@Html.ActionLink("Users", "Index", "Users", new { Area = "Admin" }, new { style = "font-weight:bold" })</li>
                             <li>@Html.ActionLink("Events", "Index", "Events", new { Area = "Admin" }, new { style = "font-weight:bold" })</li>
                             @if (User.IsInRole("EventAdmin"))
                             {
                                 <li>@Html.ActionLink("My events", "Index", "Events", new { Area = "EventAdmin" }, new { style = "font-weight:bold" })</li>
-                            }  
+                            }
                             @if (User.IsInRole("PlayerAdmin"))
                             {
-                                <li>@Html.ActionLink("Players", "Index", "Players", new { Area = "PlayerAdmin" }, new { style = "font-weight:bold"})</li>
+                                <li>@Html.ActionLink("Players", "Index", "Players", new { Area = "PlayerAdmin" }, new { style = "font-weight:bold" })</li>
                                 <li>@Html.ActionLink("Teams", "Index", "Teams", new { Area = "PlayerAdmin" }, new { style = "font-weight:bold" })</li>
-                            } 
+                            }
                             @if (User.IsInRole("LocationAdmin"))
                             {
                                 <li>@Html.ActionLink("Countries", "Index", "Countries", new { Area = "LocationAdmin" }, new { style = "font-weight:bold" })</li>
                                 <li>@Html.ActionLink("Cities", "Index", "Cities", new { Area = "LocationAdmin" }, new { style = "font-weight:bold" })</li>
                                 <li>@Html.ActionLink("Venues", "Index", "Venues", new { Area = "LocationAdmin" }, new { style = "font-weight:bold" })</li>
-                            }  
+                            }
                         </ul>
                     </li>                                    
                 </ul>

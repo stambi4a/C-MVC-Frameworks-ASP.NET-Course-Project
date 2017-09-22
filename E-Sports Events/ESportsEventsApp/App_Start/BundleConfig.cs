@@ -20,7 +20,7 @@ namespace ESportsEventsApp
             bundles.Add(
                 new ScriptBundle("~/bundles/bootstrap").Include(
                     //"~/Scripts/bootstrap.js",
-                    "~/Content/scripts/bootstrap.min.js",
+                    "~/Content/scripts/bootstrap.js",
                     "~/Content/scripts/custom.js",
                     "~/Content/scripts/html5shiv.min.js",
                     //"~/Scripts/respond.js",
@@ -34,12 +34,15 @@ namespace ESportsEventsApp
                 new StyleBundle("~/Content/css").Include(
                     //"~/Content/bootstrap.css",
                     "~/Content/animate.css",
-                    "~/Content/bootstrap.min.css",
+                    "~/Content/bootstrap_new.css",
                     "~/Content/font-awesome.min.css",
+                    "~/Content/font-awesome.css",
                     "~/Content/slick.css",
                     "~/Content/style.css",
                     "~/Content/theme.css",
-                    "~/Content/custom.css"
+                    "~/Content/custom.css",
+                    "~/Content/jquery.Jcrop.css",
+                    "~/Content/jquery.Jcrop.min.css"
                     /*"~/Content/site.css"*/));
 
             bundles.Add(
@@ -50,6 +53,12 @@ namespace ESportsEventsApp
             bundles.Add(
                 new ScriptBundle("~/bundles/youtube").Include(
                     "~/Content/scripts/youtube.js"));
+
+            bundles.Add(
+                new ScriptBundle("~/bundles/jcrop").Include(
+                    "~/Content/scripts/jquery.Jcrop.js",
+                    "~/Content/scripts/jquery.Jcrop.min.js",
+                    "~/Content/scripts/jcrop-image.js"));
         }
     }
 }

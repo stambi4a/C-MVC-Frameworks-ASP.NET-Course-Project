@@ -77,7 +77,7 @@
                 </td>
                 <td class="col-lg-2 col-md-2 col-sm-4">
                     <ul>
-                        <li>@Html.ActionLink("All events", "Index", null, new { @class = "btn btn-primary" })</li>
+                        <li>@Html.ActionLink("My events", "Index", null, new { @class = "btn btn-primary" })</li>
                         <li>@Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
                         @if (Model.StartDate > DateTime.Now)
                         {
@@ -95,34 +95,34 @@
             </tr>
         </table>
     </div>
-    <div class="row">
-        <div class="col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-lg-10 col-md-10 col-sm-10">
-            <div class="featured_slider">
-                <h2 class="details_featured_title">Event Images</h2>
-                <div class="slick_slider">
-                    @foreach (var image in Model.EventImages)
-                    {
-                        <div class="single_iteam">
-                            @Html.Image(image.Url, string.Empty, "")
-                            <h2><a class="slider_tittle" href="#">@image.Caption</a></h2>
-                        </div>
-                    }
-                </div>
+</div>
+<div class="row">
+    <div class="col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-lg-10 col-md-10 col-sm-10">
+        <div class="featured_slider">
+            <h2 class="details_featured_title">Event Images</h2>
+            <div class="slick_slider">
+                @foreach (var image in Model.EventImages)
+                {
+                    <div class="single_iteam">
+                        @Html.Image(image.Url, string.Empty, "")
+                        <h2><a class="slider_tittle" href="#">@image.Caption</a></h2>
+                    </div>
+                }
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-lg-10 col-md-10 col-sm-10">
-            <div class="featured_slider">
-                <h2 class="details_featured_title">Event Videos</h2>
-                <div class="slick_slider">
-                    @foreach (var video in Model.EventVideos)
-                    {
-                        <div class="single_iteam embed-responsive embed-responsive-16by9">
-                            @Html.VideoHd(video.Url);
-                        </div>
-                    }
-                </div>
+</div>
+<div class="row">
+    <div class="col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-lg-10 col-md-10 col-sm-10">
+        <div class="featured_slider">
+            <h2 class="details_featured_title">Event Videos</h2>
+            <div class="slick_slider">
+                @foreach (var video in Model.EventVideos)
+                {
+                    <div class="single_iteam embed-responsive embed-responsive-16by9">
+                        @Html.VideoHd("https://www.youtube.com/embed/d3gk5wBwD50");
+                    </div>
+                }
             </div>
         </div>
     </div>

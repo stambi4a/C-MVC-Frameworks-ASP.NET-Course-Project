@@ -5,12 +5,13 @@
 
     public static class HtmlHelperExtensions
     {
-        public static MvcHtmlString Image(this HtmlHelper helper, string imageUrl, string alt, string style, string classAttr)
+        public static MvcHtmlString Image(this HtmlHelper helper, string imageUrl, string alt, string style, string classAttr, string idAttr)
         {
             var builder = new TagBuilder("img");
             builder.MergeAttribute("src", imageUrl);
             builder.MergeAttribute("alt", alt);
             builder.MergeAttribute("class",classAttr);
+            builder.MergeAttribute("id", idAttr);
 
             return new MvcHtmlString(builder.ToString(TagRenderMode.SelfClosing));
         }

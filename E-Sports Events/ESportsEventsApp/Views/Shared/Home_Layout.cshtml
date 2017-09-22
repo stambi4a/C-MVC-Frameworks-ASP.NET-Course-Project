@@ -6,37 +6,27 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet"> 
-    @*<link rel="stylesheet" type="text/css" href="../assets/css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="../assets/css/font-awesome.min.css">
-        <link rel="stylesheet" type="text/css" href="../assets/css/animate.css">
-        <link rel="stylesheet" type="text/css" href="../assets/css/slick.css">
-        <link rel="stylesheet" type="text/css" href="../assets/css/theme.css">
-        <link rel="stylesheet" type="text/css" href="../assets/css/style.css">*@
-    <!--[if lt IE 9]>
-    <script src="../assets/js/html5shiv.min.js"></script>
-    <script src="../assets/js/respond.min.js"></script>
-    <![endif]-->
 </head>
 <body>
-    @*<div id="preloader">
-            <div id="status">&nbsp;</div>
-        </div>*@
     <a class="scrollToTop" href="#"><i class="fa fa-angle-up"></i></a>
-<header id="header">
+<header>
     <nav class="navbar navbar-default navbar-static-top" role="navigation">
         <div class="container"> 
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
                 @*@Html.ActionLink("Home", "Index", "Home", null, new {@class="navbar-brand"})*@
-                <a class="navbar-brand" href="../Home/Index"><img src="../../Content/images/BESPA3Copy.png" alt=""></a>
+                @*<a class="navbar-brand" href="../Home/Index"><img src="../../Content/images/BESPA3Copy.png" alt=""></a>*@
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav custom_nav">
                     @*<li class="active">
                 @Html.ActionLink("Home", "Index", "Home")
             </li>*@
+                    <li><a href="@Url.Action("Index","Home")" class="dropdown-toggle" datatoggle="toggle" role="button" ariaexpanded="false">BESPA&nbsp;<span class="fa fa-home" aria-hidden="true"></span></a>
+                        @*<a href="@Url.Action("Index", "Home", new { Area = "Home" })" class="dropdown-toggle" datatoggle="toggle" role="button" ariaexpanded="false"><i class="fa fa-home" aria-hidden="true"></i></a>*@
+                    </li>
                     <li class="dropdown">
-                        @Html.ActionLink("Events", "Index", "Home", routeValues: new { Area = "Events" }, htmlAttributes: new { @class = "dropdown-toggle", @datatoggle = "toggle", @role = "button", @ariaexpanded = "false" })
+                        <a href="@Url.Action("Index","Events", new {Area = "Admin" })" class = "dropdown-toggle" datatoggle = "toggle" role = "button" ariaexpanded = "false">Events&nbsp;<i class="fa fa-trophy" aria-hidden="true"></i></a>
                         <ul class="dropdown-menu" role="menu">
                             <li>@Html.ActionLink("Ongoing Events", "Ongoing", "Home", new { Area = "Events" }, null)</li>
                             <li>@Html.ActionLink("Upcoming Events", "Upcoming", "Home", new { Area = "Events" }, null)</li>
@@ -46,7 +36,7 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        @Html.ActionLink("BESPA", "Index", "Home", routeValues: new { Area = "Events" }, htmlAttributes: new { @class = "dropdown-toggle", @datatoggle = "toggle", @role = "button", @ariaexpanded = "false" })
+                        @*<a href="@Url.Action("Index","Home",new { Area = "Events" })" class="dropdown-toggle" datatoggle="toggle" role="button" ariaexpanded="false">BESPA&nbsp;<i class="fa fa-play-circle-o" aria-hidden="true"></i></a>*@
                         <ul class="dropdown-menu" role="menu">
                             <li>@Html.ActionLink("Rankings", "Index", "Home", new { Area = "Events" }, null)</li>
                             <li>@Html.ActionLink("Players", "Index", "Home", new { Area = "Events" }, null)</li>
@@ -54,17 +44,20 @@
                     </li>
                     @*<li>@Html.ActionLink("BESPA rankings", "Index", "Home", new { Area = "Rankings" }, null)</li>
             <li>@Html.ActionLink("Players", "Index", "Home", new { Area = "Players" }, null)</li>*@
-                    <li>@Html.ActionLink("Store", "Index", "Home", new { Area = "Store" }, null)</li>
-                    <li>@Html.ActionLink("Sponsors", "Index", "Home", new { Area = "Sponsors" }, null)</li>
+                    <li><a href="@Url.Action("Index","Home",new {@Area = "Store"})">Store&nbsp;<span class="glyphicon glyphicon-shopping-cart"></span></a></li>
+                    <li>
+                        <a href="@Url.Action("Index","Home", new {Area = "Sponsors"})">Sponsors&nbsp;<i class="fa fa-superpowers" aria-hidden="true"></i></a>
+                    </li>
                         @if (User.IsInRole("Admin") || User.IsInRole("EventAdmin") || User.IsInRole("PlayerAdmin"))
                         {
 
                             <li class="dropdown">
-                                @Html.ActionLink("Admin Panel", "", null, htmlAttributes: new { @class = "dropdown-toggle", @datatoggle = "toggle", @role = "button", @ariaexpanded = "false" })
+                                <a href="@Url.Action("","",null)" class = "dropdown-toggle" datatoggle = "toggle" role = "button" ariaexpanded = "false">Admin Panel&nbsp;<i class="fa fa-users" aria-hidden="true"></i></a>
                             <ul class="dropdown-menu" role="menu">
                                 @if (User.IsInRole("Admin"))
                                 {
-                                    <li>@Html.ActionLink("Users", "Index", "Users", new { Area = "Admin" }, null)</li>
+                                    <li><a href="@Url.Action("Index","Users",new { Area = "Admin" })">Users</a></li>
+
                                     <li>@Html.ActionLink("Events", "Index", "Events", new { Area = "Admin" }, null)</li>                    
                                 }  
                                 @if (User.IsInRole("EventAdmin"))

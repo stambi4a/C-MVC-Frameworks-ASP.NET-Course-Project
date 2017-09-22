@@ -22,7 +22,7 @@
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav custom_nav">
                         <li class="dropdown">
-                            @Html.ActionLink("Admin Panel", "", null, htmlAttributes: new { @class = "dropdown-toggle", @datatoggle = "toggle", @role = "button", @ariaexpanded = "false", style = "font-weight:bold" })
+                            <a href="@Url.Action("Index","Home",null)" class="dropdown-toggle" datatoggle="toggle" role="button" ariaexpanded="false">Admin Panel&nbsp;<i class="fa fa-users" aria-hidden="true"></i></a>
                             <ul class="dropdown-menu" role="menu">
                                 @if (User.IsInRole("Admin"))
                                 {

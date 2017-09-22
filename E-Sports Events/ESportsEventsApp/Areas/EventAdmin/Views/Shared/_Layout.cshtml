@@ -4,8 +4,6 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
     <header>
@@ -22,7 +20,7 @@
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav custom_nav">   
                         <li class="dropdown">
-                            @Html.ActionLink("Admin Panel", "", null, htmlAttributes: new { @class = "dropdown-toggle", @datatoggle = "toggle", @role = "button", @ariaexpanded = "false", style = "font-weight:bold" })
+                            <a href="@Url.Action("Index","Home",null)" class="dropdown-toggle" datatoggle="toggle" role="button" ariaexpanded="false">Admin Panel&nbsp;<i class="fa fa-users" aria-hidden="true"></i></a>
                             <ul class="dropdown-menu" role="menu">
                                 @if (User.IsInRole("Admin"))
                                 {
@@ -62,8 +60,11 @@
             </div>
         </div>
     </footer>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/youtube")
     @RenderSection("scripts", required: false)
 </body>
 </html>

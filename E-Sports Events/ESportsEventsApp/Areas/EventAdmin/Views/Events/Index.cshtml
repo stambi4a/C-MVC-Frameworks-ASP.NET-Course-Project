@@ -119,11 +119,10 @@
                 <td>
                     @if (item.Logo != null)
                     {
-                        @Html.Image(item.Logo.Url, string.Empty, "width:50px; height:auto;")
+                        @Html.Image(item.Logo.Url, string.Empty, "width:48px; height:36px;")
                     }
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
+                <td>@Html.ActionLink(item.Name, "Details", "Events", new { area = "EventAdmin", id = item.Id }, new { @class = "table-link" })
                 </td>
                 <td>
                     @if (!item.City.Name.Equals("No city"))

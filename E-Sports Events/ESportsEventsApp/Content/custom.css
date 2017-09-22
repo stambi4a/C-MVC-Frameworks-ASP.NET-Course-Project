@@ -244,6 +244,10 @@ h3, h4 {
     display:inline-block; 
  }
 
+.navbar-collapse {
+    border-top: none;
+}
+
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
@@ -253,6 +257,13 @@ input[type="number"] {
     -moz-appearance: textfield;
 }
 
+#user-greeting {
+    color: #00aaff;
+}  
+
+#user-greeting:hover {
+    color: #99ccff;
+}   
 
 @media screen and (max-height: 450px) {
     .sidenav {padding-top: 15px;}

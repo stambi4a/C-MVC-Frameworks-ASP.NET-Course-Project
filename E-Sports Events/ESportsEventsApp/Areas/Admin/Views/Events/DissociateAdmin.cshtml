@@ -55,7 +55,7 @@
         <div class="col-lg-2 col-md-3 col-sm-3" style="padding-top: 40px;">
             <br/>
             <ul>
-                <li>@Html.ActionLink("Back To List", "Index", null, new { @class = "btn btn-primary" })</li>
+                <li>@Html.ActionLink("All events", "Index", null, new { @class = "btn btn-primary" })</li>
                 <li>@Html.ActionLink("Edit", "Edit", null, new { @class = "btn btn-primary" })</li>
                 <li>@Html.ActionLink("Details", "Details", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
                 @if (ViewBag.StartDate > DateTime.Now)

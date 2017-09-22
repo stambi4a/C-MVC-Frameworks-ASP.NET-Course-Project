@@ -9,32 +9,57 @@
 {
     @Html.AntiForgeryToken()
     <div class="row">
-        <div class="col-lg-4 col-md-6 col-sm-6">
+        <div class="col-lg-8 col-md-8 col-sm-10">
             <div class="form-horizontal">
                 <h4>@ViewBag.Title<strong>@ViewBag.Alias</strong></h4>
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.X, new {htmlAttributes = new {id="X"} })
+                @Html.HiddenFor(model => model.Y, new { htmlAttributes = new { id = "Y" } })
+                @Html.HiddenFor(model => model.Height, new { htmlAttributes = new { id = "Height" } })
+                @Html.HiddenFor(model => model.Width, new { htmlAttributes = new { id = "Width" } })
                 <br />
                 <div class="responsive">
                     <table class="table-striped">
                         <tr>
-                            <td class="left-cell col-lg-2 col-md-3 col-sm-4">
-                                @Html.LabelForModel("Player Image", htmlAttributes: new { @style = "font-weight: normal;" })
+                            <td class="left-cell col-lg-4 col-md-4 col-sm-5">
+                                @Html.LabelForModel("Current player image", htmlAttributes: new { @style = "font-weight: normal;" })
                             </td>
-                            <td class="right-cell col-lg-2 col-md-3 col-sm-4">
+                            <td class="right-cell col-lg-4 col-md-4 col-sm-5">
                                 <div>
-                                    @(!string.IsNullOrEmpty(@Model?.Url) ? Html.Image(Model.Url, string.Empty, "width: 100px;") : Html.DisplayText("None"))
+                                    @(!string.IsNullOrEmpty(@Model?.Url) ? Html.Image(Model.Url, string.Empty, "width: 150px;") : Html.DisplayText("None"))
                                 </div>
                             </td>
                         </tr>
                         <tr>
-                            <td class="left-cell col-lg-2 col-md-3 col-sm-4">
+                            <td class="left-cell col-lg-4 col-md-4 col-sm-5">
                                 @Html.LabelForModel("File name", new { @style = "font-weight: normal;margin-top:5px;" })
                             </td>
-                            <td class="left-cell col-lg-2 col-md-3 col-sm-4">
+                            <td class="right-cell text-center col-lg-4 col-md-4 col-sm-5">
                                 <div>
-                                    @Html.EditorFor(model => model.Url, new { htmlAttributes = new { @type = "file", value = "index.png" } })
+                                    @Html.EditorFor(model => model.Url, new { htmlAttributes = new { @type = "file", id= "flPhoto", @name = "upload", value = Model.Url } })
                                     @Html.ValidationMessageFor(model => model.Url, "", new { @class = "text-danger" })
                                 </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-cell col-lg-4 col-md-4 col-sm-5">
+                                Width: <label id="lblWidth">200px</label> &nbsp;
+                                Height: <label id="lblHeight">200px</label> 
+                            </td>
+                            <td class="left-cell col-lg-4 col-md-4 col-sm-5">
+                                @Html.ActionLink("Crop Image", "#", null, new {id= "hlcropImage", @class= "btn btn-primary", style="vertical-align: top;width:100px;"})
+                                @*<a href="#" id="hlcropImage" style="vertical-align: top;">Crop Image</a>*@
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-cell col-lg-4 col-md-4 col-sm-5">
+                                @Html.LabelForModel("Player Image", htmlAttributes: new { @style = "font-weight: normal;" })
+                                <div style="overflow: auto; width: 400px;">
+                                    @Html.Image("#", string.Empty, string.Empty, string.Empty, "imgEmpPhoto") 
+                                </div>
+                            </td>
+                            <td class="left-cell col-lg-4 col-md-6 col-sm-6">
+                                <canvas id="canvas" height="5" width="5" style="vertical-align: top;"></canvas>
                             </td>
                         </tr>
                     </table>
@@ -48,7 +73,7 @@
             </div>
         </div>
         <br />
-        <div class="col-lg-2 col-md-3 col-sm-3" style="padding-top: 40px;">
+        <div class="col-lg-2 col-md-2 col-sm-4" style="padding-top: 40px;">
             <ul>
                 <li>@Html.ActionLink("All players", "Index", null, new { @class = "btn btn-primary" })</li>
                 <li>@Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
@@ -62,4 +87,5 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jcrop")
 }

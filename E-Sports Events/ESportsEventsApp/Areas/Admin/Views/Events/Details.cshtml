@@ -91,7 +91,7 @@
                 </td>
                 <td class="col-lg-2 col-md-2 col-sm-4">
                     <ul>
-                        <li>@Html.ActionLink("Back To List", "Index", null, new {@class= "btn btn-primary"})</li>
+                        <li>@Html.ActionLink("All events", "Index", null, new {@class= "btn btn-primary"})</li>
                         <li>@Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
                         @if (ViewBag.StartDate > DateTime.Now)
                         {

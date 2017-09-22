@@ -14,6 +14,7 @@
         private static void CropImage(WebImage photo, int size)
         {
             var top = 0;
+            var right = 0;
             var left = 0;
             var bottom = 0;
             if (photo.Width > photo.Height)
@@ -28,7 +29,14 @@
                 bottom = photo.Height - size;
             }
 
-            photo.Crop(top, left, bottom, left);
+            right = left;
+
+            photo.Crop(top, left, bottom, right);
+        }
+
+        public static void CropCanvasImage(WebImage photo, int x, int y, int width, int height)
+        {
+            photo.Crop(y, x, photo.Height - y - height, photo.Width - x - width);
         }
     }
 }
